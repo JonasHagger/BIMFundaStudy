@@ -1,6 +1,6 @@
 /* Service Worker — cacht alle Inhalte fuer Offline-Nutzung.
    Bei Inhalts-Updates: VERSION hochzaehlen, dann laden Clients neu. */
-const VERSION = "bim-study-v1";
+const VERSION = "bim-study-v2";
 const ASSETS = [
   "./",
   "./index.html",
@@ -10,7 +10,7 @@ const ASSETS = [
   "./icons/icon-512.png",
   "./icons/apple-touch-icon.png",
   "./StudyGuide/index.html",
-  "./StudyGuide/_styles.css",
+  "./StudyGuide/styles.css",
   "./StudyGuide/Ch00_ExamGuide.html",
   "./StudyGuide/Ch01_Fundamentals.html",
   "./StudyGuide/Ch02_GeometricModeling.html",
