@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 9 — BIM &amp; GIS</title>
+<link rel="stylesheet" href="_styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="nav"><a class="home" href="../index.html">&#8962; App</a>
+    <a class="home" href="index.html">● Overview</a>
+    <a href="Ch01_Fundamentals.html">1 Fundamentals</a>
+    <a href="Ch02_GeometricModeling.html">2 Geometry</a>
+    <a href="Ch03_IFC.html">3 IFC</a>
+    <a href="Ch04_ModelChecking.html">4 Checking</a>
+    <a href="Ch05_ParametricModeling.html">5 Parametric</a>
+    <a href="Ch06_Collaboration.html">6 Collaboration</a>
+    <a href="Ch07_QuantityTakeOff.html">7 QTO</a>
+    <a href="Ch08_Documentation.html">8 Docs</a>
+    <a href="Ch09_GIS.html">9 GIS</a>
+    <a href="Ch10_ProjectExecution.html">10 Execution</a>
+    <a href="Ch11_Sustainability.html">11 Sustain.</a>
+  </div>
+
+  <p class="kicker">BIM.fundamentals · Exam prep</p>
+  <h1>Chapter 9 — BIM &amp; GIS (3D City Models)</h1>
+  <p class="lede">Scaling up from the building to the city. GIS/city models describe urban areas via surfaces (CityGML), which differ fundamentally from IFC's volume model — and use their own 5-level Level of Detail.</p>
+  <p class="lede" style="margin-top:-14px;font-size:13px;">Tags say what a card <i>is</i>. <span style="color:var(--teal-800);font-weight:600;">Green box = the direct exam answer.</span></p>
+
+  <h2 class="section">Concept cards</h2>
+  <div class="cardgrid">
+
+    <!-- Card 1: digital twin / GIS -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">GIS &amp; Digital Twin</p><div class="tagrow"><span class="roletag">Definition</span><span class="tag">Card 1</span></div></div>
+      <p class="unlocks">Foundational — context (digital twin also asked in Ch 1).</p>
+      <div class="sect">
+        <p class="kv"><b>GIS</b> a system that integrates, stores, edits, analyzes, shares &amp; displays <b>geographic information</b> (geodata).</p>
+        <p class="kv"><b>Digital twin</b> live digital counterpart of a real/future object, continuously updated (see Ch 1).</p>
+      </div>
+    </div>
+
+    <!-- Card 2: CityGML vs IFC paradigm -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">CityGML vs IFC — paradigm</p><div class="tagrow"><span class="roletag">Compare</span><span class="roletag exam">Exam</span><span class="tag">Card 2</span></div></div>
+      <p class="unlocks">Exam: DE-Q18 — data-paradigm difference — asked repeatedly</p>
+      <div class="sect">
+        <svg viewBox="0 0 320 110" style="width:100%;height:auto;background:var(--surface-2);border-radius:10px;">
+          <text x="80" y="16" font-size="10" fill="var(--text-2)" text-anchor="middle" font-weight="bold">IFC — volume</text>
+          <path d="M40 90 L40 45 L80 30 L120 45 L120 90 Z" fill="var(--teal-600)"/><path d="M40 45 L80 30 L120 45" fill="none" stroke="#fff" stroke-width="1"/>
+          <text x="80" y="104" font-size="8" fill="var(--text-mut)" text-anchor="middle">solid, element-based</text>
+          <text x="240" y="16" font-size="10" fill="var(--text-2)" text-anchor="middle" font-weight="bold">CityGML — surface</text>
+          <path d="M200 90 L200 45 L240 30 L280 45 L280 90 Z" fill="none" stroke="var(--purple-600)" stroke-width="2"/><path d="M200 45 L240 30 L280 45" fill="none" stroke="var(--purple-600)" stroke-width="2"/>
+          <text x="240" y="104" font-size="8" fill="var(--text-mut)" text-anchor="middle">boundary shells only</text>
+        </svg>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span><b>IFC = element-based volume (solid) model; CityGML = surface model.</b> IFC builds up from constructive elements; CityGML describes observed surfaces.</div>
+      </div>
+    </div>
+
+    <!-- Card 3: 3D city model + CityGML + XPlanung -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">3D city model · CityGML · XPlanung</p><div class="tagrow"><span class="roletag">Definition</span><span class="roletag exam">Exam</span><span class="tag">Card 3</span></div></div>
+      <p class="unlocks">Exam: DE-Q19 — define 3D city model + components; CityGML; XPlanung</p>
+      <div class="sect">
+        <p class="kv"><b>3D city model</b> digital model of urban areas. Components: buildings, vegetation, water bodies, transportation, terrain, city furniture.</p>
+        <p class="kv"><b>CityGML</b> City Geography Markup Language — open standard to store/transfer virtual 3D city models (covers geometry, topology, semantics, appearance).</p>
+        <p class="kv"><b>XPlanung</b> open standard for digital exchange/archiving of land-use, landscape &amp; regional plans (2D semantic).</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>3D city model = digital urban model (buildings, vegetation, water…). CityGML = open 3D-city standard. XPlanung = standard for land-use/regional plans.</div>
+      </div>
+    </div>
+
+    <!-- Card 4: LOD 0-4 -->
+    <div class="card wide">
+      <div class="card-head"><p class="card-title">City-model Level of Detail (LOD 0–4)</p><div class="tagrow"><span class="roletag">Sketch</span><span class="roletag exam">Exam</span><span class="tag">Card 4</span></div></div>
+      <p class="unlocks">Exam: DE-Q21 — list &amp; describe the LODs — asked repeatedly</p>
+      <div class="sect">
+        <p class="label">CityGML 2.0 · 5 levels (CityGML 3.0 removes LOD4)</p>
+        <svg viewBox="0 0 470 120" style="width:100%;height:auto;background:var(--surface-2);border-radius:10px;">
+          <!-- LOD0 terrain -->
+          <line x1="15" y1="80" x2="85" y2="80" stroke="var(--coral-600)" stroke-width="3"/><text x="50" y="100" font-size="9" fill="var(--text-2)" text-anchor="middle">LOD0</text><text x="50" y="112" font-size="7.5" fill="var(--text-mut)" text-anchor="middle">terrain 2.5D</text>
+          <!-- LOD1 block -->
+          <rect x="110" y="45" width="45" height="35" fill="var(--teal-600)"/><text x="132" y="100" font-size="9" fill="var(--text-2)" text-anchor="middle">LOD1</text><text x="132" y="112" font-size="7.5" fill="var(--text-mut)" text-anchor="middle">block, no roof</text>
+          <!-- LOD2 roof -->
+          <rect x="200" y="52" width="45" height="28" fill="var(--teal-600)"/><path d="M200 52 L222 38 L245 52 Z" fill="var(--amber-600)"/><text x="222" y="100" font-size="9" fill="var(--text-2)" text-anchor="middle">LOD2</text><text x="222" y="112" font-size="7.5" fill="var(--text-mut)" text-anchor="middle">+ roof/texture</text>
+          <!-- LOD3 detailed -->
+          <rect x="290" y="52" width="45" height="28" fill="var(--teal-600)"/><path d="M290 52 L312 38 L335 52 Z" fill="var(--amber-600)"/><rect x="300" y="60" width="7" height="10" fill="#fff"/><rect x="318" y="60" width="7" height="10" fill="#fff"/><text x="312" y="100" font-size="9" fill="var(--text-2)" text-anchor="middle">LOD3</text><text x="312" y="112" font-size="7.5" fill="var(--text-mut)" text-anchor="middle">architectural</text>
+          <!-- LOD4 interior -->
+          <rect x="380" y="52" width="45" height="28" fill="none" stroke="var(--teal-600)" stroke-width="2"/><path d="M380 52 L402 38 L425 52 Z" fill="none" stroke="var(--amber-600)" stroke-width="2"/><rect x="388" y="62" width="12" height="18" fill="var(--purple-600)" opacity="0.5"/><text x="402" y="100" font-size="9" fill="var(--text-2)" text-anchor="middle">LOD4</text><text x="402" y="112" font-size="7.5" fill="var(--text-mut)" text-anchor="middle">interior</text>
+        </svg>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span><b>LOD0</b> terrain (2.5D) · <b>LOD1</b> block, no roof · <b>LOD2</b> + roof/texture · <b>LOD3</b> detailed architectural · <b>LOD4</b> walkable interiors.</div>
+        <p class="watch" style="margin-top:8px;"><b>Watch out:</b> this is the CityGML LOD (0–4), NOT the building LOD 100–500 in Ch 10.</p>
+      </div>
+    </div>
+
+    <!-- Card 5: application fields -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Application fields of 3D city models</p><div class="tagrow"><span class="roletag">Definition</span><span class="roletag exam">Exam</span><span class="tag">Card 5</span></div></div>
+      <p class="unlocks">Exam: DE-Q20 — name 3 fields · MP-Q12 (city-model text gaps)</p>
+      <div class="sect">
+        <div class="chain"><div class="chain-row"><span class="pill se">Reachability analysis</span><span class="pill se">Site analysis</span></div><div class="chain-row"><span class="pill se">Risk/disaster simulation</span><span class="pill se">Energy/solar potential</span></div><div class="chain-row"><span class="pill se">City information system</span><span class="pill se">Urban planning</span></div></div>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>Any three: reachability analysis, site analysis, disaster simulation, energy atlas, city information system, cultural-landscape/ski-run management.</div>
+      </div>
+    </div>
+
+    <!-- Card 6: energy formats -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Energy-simulation formats</p><div class="tagrow"><span class="roletag calc">MC</span><span class="roletag exam">Exam</span><span class="tag">Card 6</span></div></div>
+      <p class="unlocks">Exam: DE-Q17 — which formats suit energy simulation?</p>
+      <div class="sect">
+        <table class="ref" style="margin:0;">
+          <tr><th>Format</th><th>Energy-suitable?</th></tr>
+          <tr><td><b>gbXML</b></td><td>✔ purpose-built for energy (BIM→BEM)</td></tr>
+          <tr><td><b>IFC4</b></td><td>✔ carries geometry + semantics</td></tr>
+          <tr><td>IDF</td><td>EnergyPlus-only input, not a general exchange format</td></tr>
+          <tr><td>CPIXML</td><td>✘ geometry-only</td></tr>
+        </table>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span><b>gbXML and IFC4</b> (gbXML is the purpose-built energy format). See Ch 11 for the full sustainability workflow.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <h2 class="section">Quick reference</h2>
+  <table class="ref" style="margin-bottom:2rem;">
+    <tr><th>Concept</th><th>One-liner</th></tr>
+    <tr><td>IFC vs CityGML</td><td>element-based volume model vs surface model</td></tr>
+    <tr><td>3D city model</td><td>digital urban model: buildings, vegetation, water, transport, terrain</td></tr>
+    <tr><td>CityGML</td><td>open 3D-city standard (geometry, topology, semantics, appearance)</td></tr>
+    <tr><td>XPlanung</td><td>standard for land-use / regional plans (2D semantic)</td></tr>
+    <tr><td>LOD 0–4</td><td>terrain · block · +roof · architectural · interior</td></tr>
+    <tr><td>Applications</td><td>reachability, site, risk sim, energy atlas, city info system</td></tr>
+    <tr><td>Energy formats</td><td>gbXML + IFC4 (IDF = EnergyPlus only)</td></tr>
+  </table>
+
+  <div class="checklist">
+    <h2>Exam checklist — Chapter 9</h2>
+    <p class="sub">Every past-exam question in this chapter, mapped to its card.</p>
+    <table class="ref">
+      <tr><th>Topic</th><th>Exam</th><th>Card</th></tr>
+      <tr><td>Energy-simulation formats</td><td>DE-Q17</td><td>Card 6</td></tr>
+      <tr><td>CityGML vs IFC paradigm</td><td>DE-Q18</td><td>Card 2</td></tr>
+      <tr><td>3D city model / CityGML / XPlanung</td><td>DE-Q19</td><td>Card 3</td></tr>
+      <tr><td>Application fields</td><td>DE-Q20 · MP-Q12</td><td>Card 5</td></tr>
+      <tr><td>City-model LOD 0–4</td><td>DE-Q21</td><td>Card 4</td></tr>
+    </table>
+  </div>
+
+  <a class="back" href="index.html">← Back to overview</a>
+</div>
+</body>
+</html>

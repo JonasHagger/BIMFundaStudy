@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 11 — Sustainability</title>
+<link rel="stylesheet" href="_styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="nav"><a class="home" href="../index.html">&#8962; App</a>
+    <a class="home" href="index.html">● Overview</a>
+    <a href="Ch01_Fundamentals.html">1 Fundamentals</a>
+    <a href="Ch02_GeometricModeling.html">2 Geometry</a>
+    <a href="Ch03_IFC.html">3 IFC</a>
+    <a href="Ch04_ModelChecking.html">4 Checking</a>
+    <a href="Ch05_ParametricModeling.html">5 Parametric</a>
+    <a href="Ch06_Collaboration.html">6 Collaboration</a>
+    <a href="Ch07_QuantityTakeOff.html">7 QTO</a>
+    <a href="Ch08_Documentation.html">8 Docs</a>
+    <a href="Ch09_GIS.html">9 GIS</a>
+    <a href="Ch10_ProjectExecution.html">10 Execution</a>
+    <a href="Ch11_Sustainability.html">11 Sustain.</a>
+  </div>
+
+  <p class="kicker">BIM.fundamentals · Exam prep · cross-cutting</p>
+  <h1>Chapter 11 — BIM &amp; Sustainability</h1>
+  <p class="lede">Guest-lecture material that recurs on the exam: BIM as the single source of truth for sustainability assessments — solar, wind, daylight, energy, LCA and circularity — and the data formats that connect BIM to simulation.</p>
+  <p class="lede" style="margin-top:-14px;font-size:13px;">Tags say what a card <i>is</i>. <span style="color:var(--teal-800);font-weight:600;">Green box = the direct exam answer.</span></p>
+
+  <h2 class="section">Concept cards</h2>
+  <div class="cardgrid">
+
+    <!-- Card 1: sustainability use cases -->
+    <div class="card wide">
+      <div class="card-head"><p class="card-title">BIM sustainability use cases (name 4)</p><div class="tagrow"><span class="roletag">Definition</span><span class="roletag exam">Exam</span><span class="tag">Card 1</span></div></div>
+      <p class="unlocks">Exam: DE-Q16 · MP-Q13 — name sustainability use cases — asked repeatedly</p>
+      <div class="sect">
+        <div class="chain"><div class="chain-row"><span class="pill se">Daylighting</span><span class="pill se">Energy analysis</span><span class="pill se">Wind</span></div><div class="chain-row"><span class="pill se">Solar studies</span><span class="pill se">LCA (life-cycle assessment)</span><span class="pill se">Circularity</span></div></div>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>Four of: <b>Daylighting, Energy analysis, Wind, Solar studies, LCA, Circularity assessment.</b></div>
+      </div>
+    </div>
+
+    <!-- Card 2: green BIM -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Green BIM vs sustainability extensions</p><div class="tagrow"><span class="roletag">Concept</span><span class="tag">Card 2</span></div></div>
+      <p class="unlocks">Foundational — how sustainability use cases group.</p>
+      <div class="sect">
+        <p class="kv"><b>Green BIM</b> (design measures) orientation/site, massing, daylight/solar, energy modeling, renewable energy &amp; materials, waste.</p>
+        <p class="kv"><b>Extensions</b> LCA, Life-Cycle Costs, Circularity assessments.</p>
+        <p class="bigpic" style="margin-top:6px;">Relates to <b>6D BIM</b> = sustainability &amp; energy performance.</p>
+      </div>
+    </div>
+
+    <!-- Card 3: energy formats -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Data formats for sustainability</p><div class="tagrow"><span class="roletag">Reference</span><span class="roletag exam">Exam</span><span class="tag">Card 3</span></div></div>
+      <p class="unlocks">Exam: supports DE-Q17 (energy formats — main card in Ch 9)</p>
+      <div class="sect">
+        <table class="ref" style="margin:0;">
+          <tr><th>Format</th><th>Role</th></tr>
+          <tr><td><b>gbXML</b></td><td>purpose-built energy/thermal exchange (BIM→BEM)</td></tr>
+          <tr><td><b>IFC(4)</b></td><td>geometry + semantics + materials; vendor-neutral</td></tr>
+          <tr><td>IDF</td><td>EnergyPlus input only</td></tr>
+        </table>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>Energy-suitable = <b>gbXML + IFC4</b>; data formats are "the critical link" from BIM to simulation.</div>
+      </div>
+    </div>
+
+    <!-- Card 4: LCA + circularity -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">LCA &amp; Circularity</p><div class="tagrow"><span class="roletag">Concept</span><span class="tag">Card 4</span></div></div>
+      <p class="unlocks">Foundational — the "extensions" beyond green design.</p>
+      <div class="sect">
+        <p class="kv"><b>LCA</b> (DIN EN ISO 14040) life-cycle assessment — combine embodied + operational emissions.</p>
+        <p class="kv"><b>MCI</b> Material Circularity Indicator (0–1, Ellen MacArthur).</p>
+        <p class="kv"><b>BCI</b> Building Circularity Indicator = MCI + Disassembly Potential, aggregated product→system→building.</p>
+        <p class="bigpic" style="margin-top:6px;">Enabled by <b>material passports</b> (DPP, DBL, MP, Gebäuderessourcenpass). IFC tools: Madaster, Concular.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <h2 class="section">Quick reference</h2>
+  <table class="ref" style="margin-bottom:2rem;">
+    <tr><th>Concept</th><th>One-liner</th></tr>
+    <tr><td>Sustainability use cases</td><td>daylight, energy, wind, solar, LCA, circularity</td></tr>
+    <tr><td>Green BIM vs extensions</td><td>design measures vs LCA/LCC/circularity</td></tr>
+    <tr><td>Energy formats</td><td>gbXML + IFC4 (IDF = EnergyPlus)</td></tr>
+    <tr><td>6D BIM</td><td>sustainability &amp; energy performance</td></tr>
+    <tr><td>Circularity</td><td>MCI (0–1) + Disassembly Potential → BCI</td></tr>
+  </table>
+
+  <div class="checklist">
+    <h2>Exam checklist — Chapter 11</h2>
+    <p class="sub">Every past-exam question in this chapter, mapped to its card.</p>
+    <table class="ref">
+      <tr><th>Topic</th><th>Exam</th><th>Card</th></tr>
+      <tr><td>Sustainability use cases (name 4)</td><td>DE-Q16 · MP-Q13</td><td>Card 1</td></tr>
+    </table>
+  </div>
+
+  <a class="back" href="index.html">← Back to overview</a>
+</div>
+</body>
+</html>

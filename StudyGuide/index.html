@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BIM.fundamentals — Study Guide</title>
+<link rel="stylesheet" href="_styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <p class="kicker"><a href="../index.html" style="text-decoration:none;color:inherit;">&#8962; App-Start</a> · BIM.fundamentals · Exam prep</p>
+  <h1>BIM.fundamentals — Visual Study Guide</h1>
+  <p class="lede">Concept cards for all 10 lectures + sustainability, each exam-relevant card linked to the past-exam questions it answers (<b>DE</b> = demo/previous exam, <b>MP</b> = SS2025 memory protocol). Exam: 60 min · 60 pts · 6 problems · mostly textual, some sketches, a few single-choice. Start with the "asked every year" list.</p>
+  <p class="lede" style="margin-top:-14px;font-size:13px;">Tags say what a card <i>is</i>. <span style="color:var(--teal-800);font-weight:600;">Green box = the direct exam answer.</span> <span style="color:var(--amber-800);font-weight:600;">Amber = a trap to watch.</span></p>
+
+  <div class="idxgrid">
+    <a class="idxcard" href="Ch00_ExamGuide.html" style="border-color:var(--amber-600);border-width:1.5px;"><span class="n" style="color:var(--amber-800);">★ Exam Guide</span><h3>Format · Must-draw diagrams · CSG</h3><p>Built from the prof's indicative description: format, the diagrams to redraw from memory, and the emphasized CSG drill.</p><p class="meta">Start here for exam strategy</p></a>
+    <a class="idxcard" href="Ch01_Fundamentals.html"><span class="n">Chapter 1</span><h3>Fundamentals &amp; Use Cases</h3><p>What BIM is, its characteristics, advantages, nD dimensions, use cases &amp; software.</p><p class="meta">Exam: BIM def · LOG/LOI · use cases · 2D→7D</p></a>
+    <a class="idxcard" href="Ch02_GeometricModeling.html"><span class="n">Chapter 2 · Core</span><h3>Geometric Modeling</h3><p>B-rep vs CSG, face sets, curves (Bézier/B-Spline/NURBS), explicit vs implicit.</p><p class="meta">Exam: geometry↔topology · sketches likely</p></a>
+    <a class="idxcard" href="Ch03_IFC.html"><span class="n">Chapter 3 · Core</span><h3>Data Exchange &amp; IFC</h3><p>IFC layers, schema/instance, MVD, objectified relationships, EXPRESS, STEP.</p><p class="meta">Exam: the heaviest topic — lock it down</p></a>
+    <a class="idxcard" href="Ch04_ModelChecking.html"><span class="n">Chapter 4</span><h3>Model Checking</h3><p>Model quality, classification, code compliance, black/white box, IDS, BCF.</p><p class="meta">Exam: black-box vs white-box</p></a>
+    <a class="idxcard" href="Ch05_ParametricModeling.html"><span class="n">Chapter 5</span><h3>Parametric Modeling</h3><p>Three approaches, geometric vs dimensional constraints, families.</p><p class="meta">Exam: constraint types</p></a>
+    <a class="idxcard" href="Ch06_Collaboration.html"><span class="n">Chapter 6 · Core</span><h3>Collaboration &amp; Data Mgmt</h3><p>Sync vs async, locking, synchronization, CDE statuses, model federation, BCF.</p><p class="meta">Exam: concurrency · CDE · BCF</p></a>
+    <a class="idxcard" href="Ch07_QuantityTakeOff.html"><span class="n">Chapter 7</span><h3>Quantity Take-Off</h3><p>CAD vs LV quantities (m-to-n), BoQ, GAEB, classification.</p><p class="meta">Exam: CAD vs LV quantities</p></a>
+    <a class="idxcard" href="Ch08_Documentation.html"><span class="n">Chapter 8</span><h3>Documentation &amp; Presentation</h3><p>Rendering, camera, light, animation, VR vs AR.</p><p class="meta">Exam: AR vs VR · animation · rendering</p></a>
+    <a class="idxcard" href="Ch09_GIS.html"><span class="n">Chapter 9</span><h3>BIM &amp; GIS</h3><p>3D city models, CityGML, city-model LOD, IFC-vs-CityGML paradigm, digital twin.</p><p class="meta">Exam: CityGML vs IFC · LOD 0–4</p></a>
+    <a class="idxcard" href="Ch10_ProjectExecution.html"><span class="n">Chapter 10 · Core</span><h3>Project Execution</h3><p>ISO 19650, EIR/BEP, OIR/PIR, LOD 100–500, LOIN, IDM→MVD, classification.</p><p class="meta">Exam: EIR/BEP · OIR/PIR · LOD · IDM</p></a>
+    <a class="idxcard" href="Ch11_Sustainability.html"><span class="n">Chapter 11</span><h3>Sustainability (cross-cutting)</h3><p>Green BIM, sustainability use cases, energy formats (gbXML/IFC4), LCA, circularity.</p><p class="meta">Exam: name 4 sustainability use cases</p></a>
+  </div>
+
+  <div class="checklist">
+    <h2>🔥 Asked almost every year — lock these down first</h2>
+    <p class="sub">Topics recurring across ≥2 independent question sources. Highest expected value.</p>
+    <table class="ref">
+      <tr><th>Topic</th><th>Where to learn it</th><th>Questions</th></tr>
+      <tr><td><b>What is BIM</b> + characteristics + advantages + 2D drawbacks</td><td>Ch 1 · Cards 1–2</td><td>DE-Q1,3,4,5</td></tr>
+      <tr><td><b>BIM use cases</b> + 4 by German Ministry of Transport</td><td>Ch 1 · Card 4</td><td>DE-Q7 · MP-Q17</td></tr>
+      <tr><td><b>LOG vs LOI</b> / LOD</td><td>Ch 1 · Card 3 · Ch 10 · Card 4</td><td>DE-Q11 · MP-Q15</td></tr>
+      <tr><td><b>IFC layers</b> order + IfcRoot inheritance</td><td>Ch 3 · Card 3</td><td>DE-Q32,33 · MP-Q2,3</td></tr>
+      <tr><td><b>MVD</b> + objectified relationships + schema/instance</td><td>Ch 3 · Cards 4–6</td><td>DE-Q31,36,37,65 · MP-Q10,16</td></tr>
+      <tr><td><b>Geometry vs topology</b> · explicit/implicit · Bézier</td><td>Ch 2 · Cards 1,3,5</td><td>DE-Q42,47,49 · MP-Q21</td></tr>
+      <tr><td><b>Concurrency control</b> · locking · model-server benefits</td><td>Ch 6 · Cards 2–4</td><td>DE-Q54,57,53 · MP-Q8,19,20</td></tr>
+      <tr><td><b>Issue tracking / BCF</b> + CDE statuses</td><td>Ch 6 · Cards 5–6</td><td>DE-Q58,59 · MP-Q6</td></tr>
+      <tr><td><b>Sync vs async</b> collaboration</td><td>Ch 6 · Card 1</td><td>DE-Q40 · MP-Q18</td></tr>
+      <tr><td><b>AR vs VR</b></td><td>Ch 8 · Card 4</td><td>DE-Q62 · MP-Q22</td></tr>
+      <tr><td><b>CityGML vs IFC</b> + city-model LOD</td><td>Ch 9 · Cards 2,4,5</td><td>DE-Q18,21</td></tr>
+      <tr><td><b>EIR/BEP</b> + OIR/PIR</td><td>Ch 10 · Cards 1–2</td><td>DE-Q60,61,70,71 · MP-Q7</td></tr>
+      <tr><td><b>CAD vs LV quantities</b></td><td>Ch 7 · Card 1</td><td>DE-Q14</td></tr>
+      <tr><td><b>Sustainability use cases</b> (name 4)</td><td>Ch 11 · Card 1</td><td>DE-Q16 · MP-Q13</td></tr>
+    </table>
+  </div>
+
+  <div class="checklist">
+    <h2>How to use these cards</h2>
+    <table class="ref">
+      <tr><td>1</td><td>Start with the <b>Core</b> chapters (2, 3, 6, 10) — they carry the most exam points. Redraw the sketch diagrams from memory.</td></tr>
+      <tr><td>2</td><td>Work the "asked every year" list — each linked card has a green <b>Exam answer</b> box.</td></tr>
+      <tr><td>3</td><td>The full question list (all 4 sources, sorted by topic, with short answers) is in <b>00_QuestionOverview.md</b>.</td></tr>
+      <tr><td>4</td><td>Every card's <b>unlocks</b> line names the exact past-exam questions it answers, so you can revise question-by-question.</td></tr>
+    </table>
+  </div>
+
+</div>
+</body>
+</html>

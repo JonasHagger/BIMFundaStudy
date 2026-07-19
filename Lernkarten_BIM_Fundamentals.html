@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BIM Fundamentals</title>
+<style>
+  :root {
+    --bg: #f0f2f5;
+    --card-bg: #ffffff;
+    --text: #1c1e21;
+    --muted: #65676b;
+    --accent: #2563eb;
+    --green: #16a34a;
+    --red: #dc2626;
+    --amber: #d97706;
+    --radius: 14px;
+    --shadow: 0 2px 8px rgba(0,0,0,0.10);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+  .app { max-width: 560px; margin: 0 auto; padding: 16px; }
+  header { text-align: center; padding: 12px 0 20px; }
+  header h1 { font-size: 1.4rem; }
+  header p { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
+
+  /* ---------- Box overview ---------- */
+  .boxes { display: flex; flex-direction: column; gap: 10px; }
+  .box {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.15s;
+    width: 100%;
+    text-align: left;
+    font: inherit;
+    color: inherit;
+  }
+  .box:active { border-color: var(--accent); }
+  .box[disabled] { opacity: 0.45; cursor: default; }
+  .box-badge {
+    width: 44px; height: 44px; flex-shrink: 0;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; color: #fff; font-size: 1.05rem;
+  }
+  .box-info { flex: 1; }
+  .box-info .name { font-weight: 600; }
+  .box-info .desc { color: var(--muted); font-size: 0.8rem; margin-top: 2px; }
+  .box-count { font-weight: 700; font-size: 1.1rem; color: var(--muted); }
+
+  .train-all {
+    margin-top: 16px;
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: var(--radius);
+    background: var(--accent);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+  }
+  .train-all:active { opacity: 0.85; }
+  .train-all[disabled] { background: #9db4dd; cursor: default; }
+
+  .reset {
+    margin-top: 10px;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--muted);
+    font-size: 0.8rem;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  /* ---------- Training ---------- */
+  .training { display: none; }
+  .training.active { display: block; }
+  .overview.hidden { display: none; }
+
+  .progressbar {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 12px; font-size: 0.85rem; color: var(--muted);
+  }
+  .back-btn {
+    border: none; background: none; color: var(--accent);
+    font-size: 0.9rem; cursor: pointer; padding: 6px 0; font-weight: 600;
+  }
+
+  .flip-scene { perspective: 1200px; }
+  .flip-card {
+    display: grid;
+    width: 100%;
+    min-height: 260px;
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+    cursor: pointer;
+  }
+  .flip-card.flipped { transform: rotateY(180deg); }
+  .face {
+    grid-area: 1 / 1;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  .face.back { transform: rotateY(180deg); }
+  .face-label {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
+  }
+  .q-text { font-size: 0.95rem; line-height: 1.45; margin-bottom: 12px; }
+  .q-text ul, .q-text ol { margin: 6px 0 0 18px; }
+  .options { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .options li {
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 0.88rem;
+    line-height: 1.35;
+  }
+  .options li.correct {
+    background: #dcfce7;
+    border: 1.5px solid var(--green);
+    font-weight: 400;
+  }
+  .options li.correct b { font-weight: 700; }
+  .options li.correct ul, .options li.correct ol { margin: 6px 0 6px 18px; }
+  .options li.correct table {
+    border-collapse: collapse; margin: 8px 0; width: 100%; font-size: 0.82rem;
+  }
+  .options li.correct th, .options li.correct td {
+    border: 1px solid #b8e0c5; padding: 4px 6px; text-align: left; vertical-align: top;
+  }
+  .options li.correct th { background: #c9f0d6; }
+  .qfig { margin-top: 10px; }
+  .qfig svg { width: 100%; height: auto; background: #fff; border: 1px solid #e4e6eb; border-radius: 8px; }
+  .options li.correct .qfig svg { border-color: #b8e0c5; }
+  .tap-hint {
+    margin-top: auto; padding-top: 14px;
+    text-align: center; color: var(--muted); font-size: 0.8rem;
+  }
+  .explanation {
+    margin-top: 12px; font-size: 0.85rem; color: var(--muted);
+    line-height: 1.4; border-top: 1px solid var(--bg); padding-top: 10px;
+  }
+  .verify-note {
+    margin-top: 8px; font-size: 0.75rem; color: var(--amber); font-style: italic;
+  }
+
+  .judge {
+    display: none;
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .judge.visible { display: flex; }
+  .judge button {
+    flex: 1; padding: 14px; border: none; border-radius: var(--radius);
+    font-size: 0.95rem; font-weight: 600; color: #fff; cursor: pointer;
+    box-shadow: var(--shadow);
+  }
+  .judge .no { background: var(--red); }
+  .judge .yes { background: var(--green); }
+  .judge button:active { opacity: 0.85; }
+
+  .card-meta {
+    text-align: center; margin-top: 12px;
+    font-size: 0.78rem; color: var(--muted);
+  }
+
+  /* ---------- Done screen ---------- */
+  .done {
+    display: none;
+    background: var(--card-bg); border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 32px 20px; text-align: center;
+  }
+  .done.visible { display: block; }
+  .done h2 { margin-bottom: 8px; }
+  .done p { color: var(--muted); margin-bottom: 18px; }
+  .done button {
+    padding: 12px 24px; border: none; border-radius: var(--radius);
+    background: var(--accent); color: #fff; font-weight: 600; cursor: pointer;
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ================= OVERVIEW ================= -->
+  <div id="overview" class="overview">
+    <header><p style="text-align:left;margin-bottom:4px;"><a href="index.html" style="color:#2563eb;text-decoration:none;font-weight:600;font-size:0.85rem;">&larr; Start</a></p>
+      <h1>&#127891; BIM Fundamentals</h1>
+      <p>Leitner-System &middot; offene Fragen wie in der Klausur &middot; Karte antippen zum Umdrehen</p>
+    </header>
+    <div class="boxes" id="boxList"></div>
+    <button class="train-all" id="trainAllBtn">Alle Karten trainieren</button>
+    <button class="reset" id="resetBtn">Fortschritt zur&uuml;cksetzen</button>
+  </div>
+
+  <!-- ================= TRAINING ================= -->
+  <div id="training" class="training">
+    <div class="progressbar">
+      <button class="back-btn" id="backBtn">&larr; &Uuml;bersicht</button>
+      <span id="progressText"></span>
+    </div>
+
+    <div class="flip-scene">
+      <div class="flip-card" id="flipCard">
+        <div class="face front">
+          <div class="face-label" id="labelFront">Frage</div>
+          <div class="q-text" id="qFront"></div>
+          <ul class="options" id="optsFront"></ul>
+          <div class="tap-hint">&#128070; Tippen f&uuml;r die L&ouml;sung</div>
+        </div>
+        <div class="face back">
+          <div class="face-label" id="labelBack">L&ouml;sung</div>
+          <div class="q-text" id="qBack"></div>
+          <ul class="options" id="optsBack"></ul>
+          <div class="explanation" id="explanation"></div>
+          <div class="verify-note" id="verifyNote"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="judge" id="judgeBtns">
+      <button class="no" id="btnNo">&#10060; Nicht gewusst</button>
+      <button class="yes" id="btnYes">&#9989; Gewusst</button>
+    </div>
+    <div class="card-meta" id="cardMeta"></div>
+
+    <div class="done" id="doneScreen">
+      <h2>&#127881; Fertig!</h2>
+      <p id="doneStats"></p>
+      <button id="doneBackBtn">Zur &Uuml;bersicht</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* =====================================================================
+   KARTEN-DATEN (offene Fragen, wie in der Klausur — keine Multiple Choice)
+   Felder je Karte:
+   - id:        eindeutige Nummer (nicht wiederverwenden!)
+   - topic:     Kapitel/Thema (wird als Label angezeigt)
+   - question:  Fragetext (HTML erlaubt)
+   - qSvg:      optionale Abbildung zur Frage (SVG-String)
+   - answer:    Loesungstext (HTML erlaubt)
+   - aSvg:      optionale Abbildung zur Loesung (SVG-String)
+   - explanation: optionaler Pruefungstipp / Merkhilfe
+   ===================================================================== */
+const CARDS = [
+/* ---------- Kapitel 0/1: Grundlagen ---------- */
+{
+  id: 1, topic: "Grundlagen",
+  question: "What is BIM? (Definition)",
+  answer: "A BIM is a <b>digital representation of physical and functional characteristics</b> of a facility. It serves as a <b>shared knowledge resource</b> and a <b>reliable basis for decisions</b> during the facility's whole <b>lifecycle</b>. <i>(NBIMS definition)</i>",
+  explanation: "Merke die 3 Bausteine: digital repr. + shared knowledge + lifecycle."
+},
+{
+  id: 2, topic: "Grundlagen",
+  question: "What are the most important characteristics of a BIM model?",
+  answer: "<ul><li><b>Three-dimensional geometry</b></li><li><b>Semantics</b>: model consists of construction objects (walls, doors, slabs, columns) &rarr; enables drawings, QTO, simulations</li><li><b>Additional linked information</b>: material properties, relationships (e.g. element&harr;space)</li></ul>",
+  explanation: "3 Stichworte reichen: Geometrie + Semantik + Zusatzinformationen."
+},
+{
+  id: 3, topic: "Grundlagen",
+  question: "What are the advantages of BIM (the BIM method)? Name four.",
+  answer: "<ul><li><b>Reduction of planning errors</b> (transparency, coordination of disciplines, Single Source of Truth, clash detection)</li><li><b>Reduction of errors in tendering</b> (model-based quantity take-off)</li><li><b>Increased transparency in project execution</b> (model-based progress monitoring)</li><li><b>Improved communication with the public</b></li></ul>Also: lifecycle management, faster delivery, budget reliability, direct use for simulations.",
+  explanation: "Die ersten 4 sind die 'offiziellen' Vorlesungs-Antworten — gleiche Liste wie bei den Model-Server-Vorteilen!"
+},
+{
+  id: 4, topic: "Grundlagen",
+  question: "What are the drawbacks of conventional 2D drawings?",
+  answer: "<ul><li>Line drawings are <b>not machine-interpretable</b> (no semantics)</li><li>Information flow based on drawings is <b>error-prone</b></li><li><b>Design changes</b> must be tracked manually across all plans &rarr; inconsistencies, often discovered only on site</li><li><b>No direct downstream use</b> (simulation, analysis, FM) &rarr; manual re-entry = extra effort, cost, errors</li></ul>"
+},
+{
+  id: 5, topic: "Grundlagen",
+  question: "Which software products are used in a BIM project? Name categories and examples.",
+  answer: "A BIM project needs a <b>software landscape</b>:<ul><li><b>Authoring tools</b>: Revit, ArchiCAD, Allplan, Tekla Structures, Vectorworks</li><li><b>Model viewers</b>: Solibri Anywhere, Trimble Connect</li><li><b>Model checkers</b>: Solibri, Navisworks</li><li><b>CDE</b> (Common Data Environment): Autodesk Forma/Construction Cloud, thinkproject</li><li>+ use-case dependent tools (rendering, AVA/tendering, FM)</li></ul>",
+  explanation: "Kategorien = Core (Authoring, Viewer, Checker, CDE) + Use-Case-abh&auml;ngige Tools."
+},
+{
+  id: 6, topic: "Grundlagen",
+  question: "BIM use cases: Provide a definition of the term. Name 4 different BIM use cases defined by the German Ministry of Transport (BMVI).",
+  answer: "<b>Definition:</b> BIM use cases define <b>for which purpose BIM is used</b> and thus <b>determine the content of the model</b> (required LOG, LOI, software, exchange scenarios). Defined by the <b>client at project start</b>; can be combined for synergies.<br><br><b>4 BMVI use cases (any 4 of 20):</b><ul><li>Visualization</li><li>Coordination of disciplines (clash detection)</li><li>Quantity & cost estimation</li><li>Progress monitoring</li></ul>(also: derivation of drawings, tendering/BoQ, scheduling, billing, as-built documentation &hellip;)"
+},
+{
+  id: 7, topic: "Grundlagen",
+  question: "What is a geometry kernel? Name two examples.",
+  answer: "A <b>software component</b> that provides elementary <b>data structures and operations</b> for representing and processing <b>3D geometry</b> in CAD/BIM software.<br><br><b>Examples:</b> <b>ACIS</b> (Spatial) and <b>Parasolid</b> (Siemens)."
+},
+{
+  id: 8, topic: "Grundlagen",
+  question: "What is meant by 2D, 3D, 4D, 5D, 6D and 7D models?",
+  answer: "<ul><li><b>2D</b> = drawings (CAD)</li><li><b>3D</b> = three-dimensional geometry</li><li><b>4D</b> = 3D + <b>time</b> (schedule)</li><li><b>5D</b> = 4D + <b>cost</b></li><li><b>6D</b> = 5D + <b>energy / sustainability</b></li><li><b>7D</b> = 6D + <b>facility management</b> (operation)</li></ul>",
+  explanation: "Merkreihenfolge: Zeit &rarr; Kosten &rarr; Energie &rarr; Betrieb."
+},
+{
+  id: 9, topic: "Grundlagen",
+  question: "Explain the terms little BIM, BIG BIM, closed BIM and open BIM.",
+  answer: "<ul><li><b>little BIM</b>: BIM used as an island solution by <b>one discipline/planner</b> only</li><li><b>BIG BIM</b>: consistent model-based collaboration <b>across disciplines and the whole lifecycle</b></li><li><b>closed BIM</b>: tool chain of <b>one software vendor</b> (proprietary formats)</li><li><b>open BIM</b>: <b>vendor-neutral</b> data exchange via open standards (<b>IFC</b>)</li></ul>",
+  aSvg: "<svg viewBox='0 0 340 190' xmlns='http://www.w3.org/2000/svg'><text x='95' y='16' font-size='11' text-anchor='middle' fill='#65676b'>closed BIM</text><text x='245' y='16' font-size='11' text-anchor='middle' fill='#65676b'>open BIM</text><text x='16' y='60' font-size='11' fill='#65676b' transform='rotate(-90 16 60)' text-anchor='end'>little</text><text x='16' y='145' font-size='11' fill='#65676b' transform='rotate(-90 16 145)' text-anchor='end'>BIG</text><rect x='28' y='24' width='140' height='72' rx='8' fill='#fee2e2'/><rect x='176' y='24' width='140' height='72' rx='8' fill='#fef3c7'/><rect x='28' y='104' width='140' height='72' rx='8' fill='#dbeafe'/><rect x='176' y='104' width='140' height='72' rx='8' fill='#dcfce7'/><text x='98' y='55' font-size='10' text-anchor='middle'>1 Disziplin,</text><text x='98' y='69' font-size='10' text-anchor='middle'>1 Hersteller</text><text x='246' y='55' font-size='10' text-anchor='middle'>1 Disziplin,</text><text x='246' y='69' font-size='10' text-anchor='middle'>offene Formate (IFC)</text><text x='98' y='135' font-size='10' text-anchor='middle'>alle Disziplinen,</text><text x='98' y='149' font-size='10' text-anchor='middle'>1 Hersteller-Kette</text><text x='246' y='135' font-size='10' text-anchor='middle'>alle Disziplinen,</text><text x='246' y='149' font-size='10' text-anchor='middle'>IFC = Ziel: BIG open BIM</text></svg>",
+  explanation: "BIM-Book S.12 — Diagramm auch zeichnen k&ouml;nnen (2&times;2-Matrix: little/BIG &times; closed/open)."
+},
+{
+  id: 10, topic: "Grundlagen",
+  question: "Explain the difference between LOG and LOI.",
+  answer: "<ul><li><b>LOG — Level of Geometry</b>: defines which <b>geometric maturity/detail</b> objects must have in the different project phases</li><li><b>LOI — Level of Information</b>: defines which <b>semantic information (properties/attributes)</b> the object types must possess</li></ul><b>LOD = LOG + LOI</b> (Level of Development = maturity of the model).",
+  explanation: "LOG = Geometrie, LOI = Information/Attribute — beides zusammen ergibt LOD."
+},
+{
+  id: 11, topic: "Grundlagen",
+  question: "What is LOD (Level of Development) in building models? List the BIMforum levels briefly.",
+  answer: "LOD describes the <b>maturity of model elements</b> (geometry + information) — analogous to drawing scales; basis for EIR/BEP. Defined by <b>US BIMforum</b>:<ul><li><b>LOD 100</b> — symbol / generic representation</li><li><b>LOD 200</b> — generic object, <b>approximate</b> size/shape/location</li><li><b>LOD 300</b> — <b>specific</b> object, defined size/shape/location</li><li><b>LOD 350</b> — + <b>interfaces/connections</b> with other systems</li><li><b>LOD 400</b> — + fabrication, assembly, installation detail</li><li><b>LOD 500</b> — <b>field-verified as-built</b></li></ul>",
+  explanation: "Nicht mit CityGML-LOD 0&ndash;4 verwechseln! Ein Modell hat immer Elemente in verschiedenen LODs (&rarr; Model Maturity Matrix)."
+},
+{
+  id: 12, topic: "Grundlagen",
+  question: "What is the difference between LOIN and LOD? What are the three components of LOIN according to ISO?",
+  answer: "<b>LOIN — Level of Information Need</b> (ISO 7817) is the modern umbrella concept replacing the LOD framing: it specifies the information need <b>per use case and exchange point</b>.<br><br><b>3 components:</b><ul><li><b>LOG</b> — geometric information</li><li><b>LOI</b> — alphanumeric information</li><li><b>Documentation</b></li></ul>"
+},
+{
+  id: 13, topic: "Grundlagen",
+  question: "Define the term digital twin.",
+  answer: "A digital twin is a <b>digital representation of a physical or immaterial object or process from the real world</b> in the digital world. The counterpart may already exist or only exist in the future; the twin is <b>linked to it and continuously updated</b> with data from multiple sources."
+},
+{
+  id: 14, topic: "Grundlagen",
+  question: "Name two classification systems. What is a classification system used for?",
+  answer: "<b>OmniClass</b> (US/Canada) and <b>Uniclass</b> (UK). Also: DIN 276 (cost groups), StLB-Bau.<br><br>A classification system is a <b>standardized hierarchical taxonomy</b>: each object gets a <b>numeric identification code</b> &rarr; unambiguous denomination of components across projects; used for <b>QTO, model checking, filtering</b>; often a minimum requirement of every LOI."
+},
+{
+  id: 15, topic: "Grundlagen",
+  question: "Draw the chart: <b>planning effort over time</b> for the conventional vs. the BIM-based planning process, including the curves 'impact on design and costs' and 'cost of changes'. Explain the message.",
+  answer: "<b>Message (MacLeamy curve):</b> BIM shifts the planning effort into <b>early phases</b>, where the <b>ability to impact design/cost is high</b> and the <b>cost of changes is low</b>. Conventionally the effort peaks in late detailed design/construction, where changes are expensive and influence is limited &rarr; BIM saves cost and time.",
+  aSvg: "<svg viewBox='0 0 360 210' xmlns='http://www.w3.org/2000/svg'><line x1='35' y1='170' x2='340' y2='170' stroke='#1c1e21' stroke-width='1.5'/><line x1='35' y1='170' x2='35' y2='15' stroke='#1c1e21' stroke-width='1.5'/><text x='340' y='185' font-size='10' text-anchor='end' fill='#65676b'>Zeit (Projektphasen)</text><text x='14' y='90' font-size='10' fill='#65676b' transform='rotate(-90 14 90)' text-anchor='middle'>Aufwand / Wirkung</text><path d='M 40 165 C 90 40, 140 40, 200 160 L 330 165' fill='none' stroke='#2563eb' stroke-width='2.5'/><text x='95' y='35' font-size='10' fill='#2563eb'>BIM-Prozess (Aufwand fr&uuml;h)</text><path d='M 40 165 C 130 150, 190 60, 240 55 C 280 52, 310 120, 330 160' fill='none' stroke='#dc2626' stroke-width='2.5'/><text x='215' y='45' font-size='10' fill='#dc2626'>konventionell (Aufwand sp&auml;t)</text><path d='M 40 30 C 120 40, 220 120, 330 160' fill='none' stroke='#16a34a' stroke-width='2' stroke-dasharray='5 3'/><text x='42' y='24' font-size='9' fill='#16a34a'>Einfluss auf Design/Kosten &#8600;</text><path d='M 40 160 C 140 150, 250 90, 330 25' fill='none' stroke='#d97706' stroke-width='2' stroke-dasharray='5 3'/><text x='215' y='20' font-size='9' fill='#d97706'>&#8599; Kosten von &Auml;nderungen</text></svg>",
+  explanation: "Klassische Zeichenaufgabe (Prof: 'redraw from memory'): 2 Glockenkurven + 2 gegenl&auml;ufige Linien."
+},
+{
+  id: 16, topic: "Grundlagen",
+  question: "Name advantages of 3D (BIM) modeling compared to conventional 2D-drawing-based design.",
+  answer: "<ul><li><b>Consistency</b>: all drawings derived from one 3D model &rarr; no contradictions between plan/section</li><li><b>Design coordination</b>: 3D clash detection</li><li><b>Quantity take-off</b>: precise volumes/areas &rarr; BoQ, cost calculation</li><li><b>Simulation basis</b>: geometry for energy/structural analysis</li><li><b>Rendering</b>: photorealistic presentation/communication</li></ul>"
+},
+/* ---------- Kapitel 2: Geometrische Modellierung ---------- */
+{
+  id: 17, topic: "Geometrie",
+  question: "Put the following layers that structure a commercial CAD system in a meaningful order — the <b>most general element at the bottom</b>:<ul><li>Domain-specific CAD/BIM system</li><li>Low-level graphics routines</li><li>General-purpose CAD system</li><li>Geometry kernel</li><li>Hardware</li></ul>",
+  answer: "From top (most specific) to bottom (most general):",
+  aSvg: "<svg viewBox='0 0 340 180' xmlns='http://www.w3.org/2000/svg'><rect x='40' y='10' width='260' height='28' rx='6' fill='#2563eb'/><text x='170' y='28' font-size='11' fill='#fff' text-anchor='middle'>Domain-specific CAD/BIM system (Revit)</text><rect x='40' y='42' width='260' height='28' rx='6' fill='#3b82f6'/><text x='170' y='60' font-size='11' fill='#fff' text-anchor='middle'>General-purpose CAD system</text><rect x='40' y='74' width='260' height='28' rx='6' fill='#60a5fa'/><text x='170' y='92' font-size='11' fill='#fff' text-anchor='middle'>Geometry kernel (ACIS, Parasolid)</text><rect x='40' y='106' width='260' height='28' rx='6' fill='#93c5fd'/><text x='170' y='124' font-size='11' fill='#1c1e21' text-anchor='middle'>Low-level graphics routines</text><rect x='40' y='138' width='260' height='28' rx='6' fill='#cbd5e1'/><text x='170' y='156' font-size='11' fill='#1c1e21' text-anchor='middle'>Hardware</text></svg>",
+  explanation: "Zeichenaufgabe! Hardware ganz unten, dar&uuml;ber immer spezifischer."
+},
+{
+  id: 18, topic: "Geometrie",
+  question: "What is the difference between geometry and topology?",
+  answer: "<ul><li><b>Geometry</b> = concrete shape information: location/coordinates of vertices, curvature, inclination, formulas of curved surfaces and edges</li><li><b>Topology</b> = the <b>relationships/interconnections</b> between vertices, edges and faces (independent of exact position)</li></ul>",
+  explanation: "Geometrie = WO/WIE geformt; Topologie = WAS h&auml;ngt WOMIT zusammen."
+},
+{
+  id: 19, topic: "Geometrie",
+  question: "Explain the general difference between the <b>explicit</b> and the <b>implicit</b> approach in solid modeling. Naming four advantages or disadvantages of one method is sufficient.",
+  answer: "<b>Explicit approach = Boundary Representation (B-rep)</b>: describes a solid by its <b>boundary</b> (faces, edges, vertices).<br><b>Implicit approach = procedural representation (e.g. CSG)</b>: describes a solid by its <b>construction history</b> (operations).<br><table><tr><th></th><th>Implicit (CSG)</th><th>Explicit (B-rep)</th></tr><tr><td>Traceability</td><td>operations traceable</td><td>generation unknown</td></tr><tr><td>Modification</td><td>easy (edit history)</td><td>hard</td></tr><tr><td>File size</td><td>small</td><td>large</td></tr><tr><td>Interpretation</td><td>receiver must re-evaluate</td><td>directly interpretable</td></tr></table>"
+},
+{
+  id: 20, topic: "Geometrie",
+  question: "Describe the Boundary Representation (B-rep): what is its hierarchical structure, and what is a vef graph?",
+  answer: "B-rep describes a solid by its boundary:<br><b>Solid &rarr; bounded by Faces &rarr; bounded by Edges &rarr; bounded by Vertices.</b><br>It combines <b>topology</b> (interconnections) + <b>geometry</b> (vertex coordinates, surface formulas).<br><br>A <b>vertex-edge-face (vef) graph</b> describes the <b>topology</b> of a solid: which faces are bounded by which edges, and which edges by which vertices."
+},
+{
+  id: 21, topic: "Geometrie",
+  question: "Draw/complete the <b>vef graph for a tetrahedron</b>: connect vertices&harr;edges and edges&harr;faces. (A tetrahedron has 4 triangular faces.)",
+  answer: "A tetrahedron has <b>4 vertices, 6 edges, 4 faces</b>.<br>Rules: each <b>edge</b> is bounded by exactly <b>2 vertices</b>; each (triangular) <b>face</b> is bounded by exactly <b>3 edges</b>; each edge belongs to exactly <b>2 faces</b>.<br>With vertices A,B,C,D: edges = AB, AC, AD, BC, BD, CD; faces = ABC, ABD, ACD, BCD.",
+  aSvg: "<svg viewBox='0 0 360 200' xmlns='http://www.w3.org/2000/svg'><polygon points='60,160 160,160 110,40' fill='none' stroke='#1c1e21' stroke-width='1.5'/><line x1='60' y1='160' x2='113' y2='120' stroke='#65676b' stroke-width='1.2' stroke-dasharray='4 3'/><line x1='160' y1='160' x2='113' y2='120' stroke='#65676b' stroke-width='1.2'/><line x1='110' y1='40' x2='113' y2='120' stroke='#65676b' stroke-width='1.2'/><text x='52' y='174' font-size='11'>B</text><text x='164' y='174' font-size='11'>C</text><text x='106' y='32' font-size='11'>A</text><text x='118' y='118' font-size='11'>D</text><text x='250' y='30' font-size='11' font-weight='bold'>4 Vertices</text><text x='250' y='48' font-size='10' fill='#65676b'>A, B, C, D</text><text x='250' y='78' font-size='11' font-weight='bold'>6 Edges</text><text x='250' y='96' font-size='10' fill='#65676b'>AB AC AD BC BD CD</text><text x='250' y='114' font-size='9' fill='#65676b'>(je 2 Vertices)</text><text x='250' y='144' font-size='11' font-weight='bold'>4 Faces</text><text x='250' y='162' font-size='10' fill='#65676b'>ABC ABD ACD BCD</text><text x='250' y='180' font-size='9' fill='#65676b'>(je 3 Edges)</text></svg>",
+  explanation: "Zeichenaufgabe aus dem Ged&auml;chtnisprotokoll SS2025."
+},
+{
+  id: 22, topic: "Geometrie",
+  question: "What are the problems with the triangulated surface approach (Triangulated Face Set)?",
+  answer: "<ul><li>Only suitable for <b>planar faces</b> — curved surfaces need <b>many triangles</b> (approximation)</li><li><b>Vertices are stored multiple times</b> &rarr; redundancy</li><li><b>Neighbourhood relationships are not stored</b> &rarr; gaps and overlaps are hard to detect</li></ul>",
+  explanation: "Formate: STL, OBJ, PLY, X3D &mdash; einfach, aber 'dumm'."
+},
+{
+  id: 23, topic: "Geometrie",
+  question: "Are Indexed Face Sets or Triangulated Face Sets more memory-efficient? Why?",
+  answer: "<b>Indexed Face Sets</b> are more memory-efficient: vertex coordinates are stored <b>only once</b> and each vertex gets an <b>index (ID)</b>; faces only reference these indices.<br>In a Triangulated Face Set, shared vertices are stored <b>repeatedly</b> for every triangle &rarr; redundancy."
+},
+{
+  id: 24, topic: "Geometrie",
+  question: "Name operations (at least two) to create 3D geometry from 2D shapes.",
+  answer: "<ul><li><b>Extrusion</b> — translate a 2D profile along a straight direction</li><li><b>Rotation (revolve)</b> — rotate a profile around an axis</li><li><b>Sweeping</b> — move a profile along an arbitrary path</li><li><b>Lofting</b> — interpolate between several cross-sections</li></ul>",
+  aSvg: "<svg viewBox='0 0 340 130' xmlns='http://www.w3.org/2000/svg'><rect x='25' y='75' width='50' height='30' fill='#93c5fd' stroke='#2563eb'/><polygon points='25,75 45,55 95,55 75,75' fill='#dbeafe' stroke='#2563eb'/><polygon points='75,75 95,55 95,85 75,105' fill='#60a5fa' stroke='#2563eb'/><text x='60' y='122' font-size='10' text-anchor='middle' fill='#65676b'>Extrusion</text><line x1='250' y1='20' x2='250' y2='105' stroke='#65676b' stroke-dasharray='4 3'/><path d='M 250 40 L 285 45 L 278 75 L 250 70 Z' fill='#93c5fd' stroke='#2563eb'/><ellipse cx='250' cy='42' rx='34' ry='7' fill='none' stroke='#2563eb' stroke-dasharray='3 2'/><ellipse cx='250' cy='73' rx='28' ry='6' fill='none' stroke='#2563eb' stroke-dasharray='3 2'/><text x='250' y='122' font-size='10' text-anchor='middle' fill='#65676b'>Rotation</text></svg>"
+},
+{
+  id: 25, topic: "Geometrie",
+  question: "What is Constructive Solid Geometry (CSG)? Which Boolean operations exist?",
+  answer: "CSG belongs to the <b>implicit (procedural)</b> approach: a solid is built from <b>primitives</b> (box, cylinder, sphere, cone &hellip;) combined by <b>Boolean operations</b>, stored as a <b>binary tree</b> (operators at inner nodes, primitives at leaves).<br><br><b>Boolean operations:</b> <b>Union (&#8746;)</b>, <b>Intersection (&#8745;)</b>, <b>Difference (&minus;)</b>.",
+  explanation: "Vom Prof betont! Baum bottom-up auswerten k&ouml;nnen."
+},
+{
+  id: 26, topic: "Geometrie",
+  question: "Complete the CSG operation for each figure: which Boolean operation (union, intersection or difference) produced the shaded result from squares A and B?",
+  qSvg: "<svg viewBox='0 0 360 130' xmlns='http://www.w3.org/2000/svg'><rect x='20' y='20' width='45' height='45' fill='#93c5fd' stroke='#2563eb'/><rect x='45' y='40' width='45' height='45' fill='#93c5fd' stroke='#2563eb'/><rect x='45' y='40' width='20' height='25' fill='#93c5fd' stroke='none'/><text x='55' y='105' font-size='12' text-anchor='middle'>&#9312; ?</text><rect x='150' y='20' width='45' height='45' fill='none' stroke='#65676b' stroke-dasharray='4 2'/><rect x='175' y='40' width='45' height='45' fill='none' stroke='#65676b' stroke-dasharray='4 2'/><rect x='175' y='40' width='20' height='25' fill='#93c5fd' stroke='#2563eb'/><text x='185' y='105' font-size='12' text-anchor='middle'>&#9313; ?</text><rect x='280' y='20' width='45' height='45' fill='#93c5fd' stroke='#2563eb'/><rect x='305' y='40' width='20' height='25' fill='#fff' stroke='#65676b' stroke-dasharray='4 2'/><rect x='305' y='40' width='45' height='45' fill='none' stroke='#65676b' stroke-dasharray='4 2'/><text x='305' y='105' font-size='12' text-anchor='middle'>&#9314; ?</text><text x='30' y='18' font-size='9' fill='#65676b'>A</text><text x='82' y='38' font-size='9' fill='#65676b'>B</text></svg>",
+  answer: "<b>&#9312; Union A &#8746; B</b> — both areas merged into one solid.<br><b>&#9313; Intersection A &#8745; B</b> — only the overlapping area remains.<br><b>&#9314; Difference A &minus; B</b> — A with the overlap of B removed.",
+  explanation: "Lesehilfe: alles gef&uuml;llt = Union; nur &Uuml;berlappung = Intersection; A mit 'Biss' = Difference."
+},
+{
+  id: 27, topic: "Geometrie",
+  question: "Fill in the missing Boolean operators (&#8746;, &#8745;, &minus;) in the CSG tree so that it produces the shown result: an L-shaped solid with a circular hole. Leaves: big box, small box (top right), cylinder.",
+  qSvg: "<svg viewBox='0 0 360 170' xmlns='http://www.w3.org/2000/svg'><circle cx='110' cy='30' r='15' fill='#f0f2f5' stroke='#1c1e21'/><text x='110' y='35' font-size='13' text-anchor='middle'>?</text><line x1='98' y1='40' x2='60' y2='68' stroke='#65676b'/><line x1='122' y1='40' x2='170' y2='68' stroke='#65676b'/><circle cx='55' cy='82' r='15' fill='#f0f2f5' stroke='#1c1e21'/><text x='55' y='87' font-size='13' text-anchor='middle'>?</text><line x1='45' y1='93' x2='28' y2='118' stroke='#65676b'/><line x1='65' y1='93' x2='85' y2='118' stroke='#65676b'/><rect x='10' y='120' width='36' height='26' fill='#93c5fd' stroke='#2563eb'/><text x='28' y='162' font-size='9' text-anchor='middle' fill='#65676b'>big box</text><rect x='72' y='122' width='24' height='18' fill='#93c5fd' stroke='#2563eb'/><text x='84' y='162' font-size='9' text-anchor='middle' fill='#65676b'>small box</text><circle cx='170' cy='90' r='11' fill='#fca5a5' stroke='#dc2626'/><text x='170' y='118' font-size='9' text-anchor='middle' fill='#65676b'>cylinder</text><text x='262' y='20' font-size='10' fill='#65676b' text-anchor='middle'>Ergebnis:</text><path d='M 230 40 L 230 120 L 320 120 L 320 90 L 275 90 L 275 40 Z' fill='#93c5fd' stroke='#2563eb'/><circle cx='253' cy='105' r='9' fill='#fff' stroke='#2563eb'/></svg>",
+  answer: "<ul><li><b>Lower node = Union (&#8746;)</b>: big box &#8746; small box &rarr; L-shaped solid</li><li><b>Root = Difference (&minus;)</b>: (L-shape) &minus; cylinder &rarr; L-shape with circular hole</li></ul>Rule: internal nodes = Boolean operators, leaves = primitives, evaluate <b>bottom-up</b>.",
+  explanation: "Genau dieses Format kam in der Klausur (BIM-Book S.33: Baum ohne Operatoren, ausf&uuml;llen)."
+},
+{
+  id: 28, topic: "Geometrie",
+  question: "What are the different curve types used in surface/freeform modeling?",
+  answer: "<ul><li><b>B&eacute;zier curves</b> — polynomial approximation of control points; degree = n&minus;1</li><li><b>B-Splines</b> — joined curve segments; degree independent of number of control points; local control</li><li><b>NURBS</b> (Non-Uniform Rational B-Splines) — B-Splines + <b>weights</b> per control point &rarr; exact circles/conic sections</li></ul>",
+  explanation: "Steigerung: B&eacute;zier &rarr; B-Spline &rarr; NURBS (jeweils ein Problem gel&ouml;st)."
+},
+{
+  id: 29, topic: "Geometrie",
+  question: "Explain B&eacute;zier curves (properties) — or draw an example with 4 control points.",
+  answer: "<ul><li>Curve <b>approximates</b> the control polygon; passes <b>only through the first and last</b> control point</li><li><b>Tangential</b> to the first and last polygon segment</li><li><b>Degree of polynomial = number of control points &minus; 1</b> (basis: Bernstein polynomials)</li><li>Problems: many control points &rarr; high degree &rarr; oscillations; moving one control point has a <b>global</b> effect on the whole curve</li></ul>",
+  aSvg: "<svg viewBox='0 0 340 150' xmlns='http://www.w3.org/2000/svg'><polyline points='30,120 90,25 230,25 310,110' fill='none' stroke='#65676b' stroke-width='1' stroke-dasharray='5 3'/><path d='M 30 120 C 90 25, 230 25, 310 110' fill='none' stroke='#2563eb' stroke-width='2.5'/><circle cx='30' cy='120' r='5' fill='#dc2626'/><circle cx='90' cy='25' r='5' fill='#dc2626'/><circle cx='230' cy='25' r='5' fill='#dc2626'/><circle cx='310' cy='110' r='5' fill='#dc2626'/><text x='22' y='138' font-size='10'>P0</text><text x='84' y='18' font-size='10'>P1</text><text x='226' y='18' font-size='10'>P2</text><text x='306' y='128' font-size='10'>P3</text><text x='150' y='105' font-size='9' fill='#2563eb'>Kurve (Grad 3 = 4&minus;1)</text><text x='120' y='40' font-size='9' fill='#65676b'>Kontrollpolygon</text></svg>",
+  explanation: "Erfinder: B&eacute;zier (Renault) &amp; de Casteljau (Citro&euml;n)."
+},
+{
+  id: 30, topic: "Geometrie",
+  question: "B-Splines vs. B&eacute;zier curves: what do they have in common, what is different?",
+  answer: "<b>Common:</b><ul><li>Arbitrary number of control points</li><li>Pass through first and last control point</li><li>Tangential to first/last segment of the control polygon</li></ul><b>Different (B-Spline advantages):</b><ul><li>Control point has only <b>local</b> impact on the curve</li><li><b>Degree independent of the number of control points</b> (smooth low degree p&asymp;3 with many points)</li></ul>"
+},
+{
+  id: 31, topic: "Geometrie",
+  question: "Why were NURBS introduced? What problem of B-Splines do they solve, and how?",
+  answer: "B-Splines <b>cannot exactly represent circles, ellipses and other conic sections</b>.<br><br><b>NURBS</b> (Non-Uniform Rational B-Splines) give every control point a <b>weight</b> (homogeneous coordinate: P=(x,y,z) &rarr; Ph=(hx,hy,hz,h)) &rarr; additional influence on the curve &rarr; <b>exact conic sections</b> possible. NURBS surfaces (parameters u,v) are the basis of freeform modelers like <b>Rhino</b>."
+},
+{
+  id: 32, topic: "Geometrie",
+  question: "Name and explain the three different types of continuity for joining curves.",
+  answer: "<ul><li><b>C0 — positional continuity</b>: curves share the end point (kink allowed)</li><li><b>C1 — tangential continuity</b>: same tangent/first derivative at the joint (smooth direction)</li><li><b>C2 — curvature continuity</b>: same curvature/second derivative (visually perfectly smooth)</li></ul>",
+  aSvg: "<svg viewBox='0 0 360 110' xmlns='http://www.w3.org/2000/svg'><path d='M 15 80 Q 45 30 70 55 L 105 20' fill='none' stroke='#2563eb' stroke-width='2'/><circle cx='70' cy='55' r='4' fill='#dc2626'/><text x='60' y='100' font-size='10' text-anchor='middle' fill='#65676b'>C0 (Knick)</text><path d='M 135 80 Q 165 30 195 50 Q 225 70 235 30' fill='none' stroke='#2563eb' stroke-width='2'/><circle cx='195' cy='50' r='4' fill='#d97706'/><text x='190' y='100' font-size='10' text-anchor='middle' fill='#65676b'>C1 (Tangente)</text><path d='M 260 80 C 290 30 320 30 350 80' fill='none' stroke='#2563eb' stroke-width='2'/><circle cx='305' cy='42' r='4' fill='#16a34a'/><text x='305' y='100' font-size='10' text-anchor='middle' fill='#65676b'>C2 (Kr&uuml;mmung)</text></svg>"
+},
+/* ---------- Kapitel 3: IFC & Datenaustausch ---------- */
+{
+  id: 33, topic: "IFC",
+  question: "Why do we need vendor-neutral exchange formats?",
+  answer: "<ul><li>Avoid <b>vendor lock-in</b>; fair competition &rarr; better products and prices</li><li><b>Public authorities</b> must not demand one specific vendor</li><li>Enable <b>coordination across disciplines/tools</b> and <b>long-term archiving</b></li><li>Huge losses without them: <b>NIST study (2004): $15.8 billion/year</b> lost due to incompatibilities and data loss</li></ul>Success stories: HTML, XML, SQL, USB, paper formats."
+},
+{
+  id: 34, topic: "IFC",
+  question: "What is the purpose of data exchange in BIM projects?",
+  answer: "<ul><li><b>Handover to the client</b> (also for operation/FM, neutral format for archiving)</li><li><b>Coordination between different disciplines</b> working on the project</li><li><b>Model handover to the next design phase</b> (as reference or modifiable model) &rarr; keep the model consistent</li></ul>"
+},
+{
+  id: 35, topic: "IFC",
+  question: "What is the IFC model?",
+  answer: "<b>IFC (Industry Foundation Classes)</b> is <b>the standardized, vendor-neutral data model for exchanging Building Information Models</b> — both <b>geometry AND semantics</b>.<ul><li>Developed &amp; maintained by <b>buildingSMART</b> (non-profit)</li><li>IFC itself = <b>ISO 16739</b>; based on <b>STEP (ISO 10303)</b></li><li>Mandatory for public projects in many countries; supported by all BIM tools</li></ul>"
+},
+{
+  id: 36, topic: "IFC",
+  question: "IFC is based on an ISO standard. State the number or the name.",
+  answer: "IFC is based on <b>STEP — STandard for the Exchange of Product model data — ISO 10303</b>.<br>From STEP, IFC inherits the modeling language <b>EXPRESS</b>, the file formats (<b>STEP Physical File P21</b> = .ifc, STEP-XML P28) and geometric modeling.<br><br><i>(IFC itself is standardized as ISO 16739.)</i>",
+  explanation: "Erwartete Antwort: STEP / ISO 10303. Bonuswissen: IFC = ISO 16739."
+},
+{
+  id: 37, topic: "IFC",
+  question: "Which data modeling language is used to define the IFC schema?",
+  answer: "<b>EXPRESS</b> (from STEP, ISO 10303-11).<br>Its graphical notation is <b>EXPRESS-G</b>."
+},
+{
+  id: 38, topic: "IFC",
+  question: "What are geometry-only exchange formats? Name examples and their limitation.",
+  answer: "Formats that transport <b>only geometry, no semantics</b>: <b>STL, VRML, OBJ, 3DS</b>.<br><br><b>Limitation:</b> without semantic information (what is a wall/door?), <b>no downstream applications</b> (QTO, simulation, FM) are possible.",
+  explanation: "STL = nur Dreiecke + Orientierung; keine Dicke, keine Bauteileigenschaften."
+},
+{
+  id: 39, topic: "IFC",
+  question: "Which of the following facts about IFC is <b>wrong</b>?<ul><li>Geometry and semantics are strictly separated.</li><li>Property Sets can only be used to store information that is part of the standardized IFC schema.</li><li>IFC can be used for infrastructure projects.</li><li>IFC allows different geometric representations for one semantic object.</li></ul>",
+  answer: "<b>Wrong: &bdquo;Property Sets can only be used to store information that is part of the standardized IFC schema.&ldquo;</b><br><br>Property Sets exist precisely to store information <b>beyond</b> the standardized schema (flexible name-value pairs, no schema extension needed). All other statements are true.",
+  explanation: "Klassische Single-Choice-Falle — auch im Exam-Guide-Checklist."
+},
+{
+  id: 40, topic: "IFC",
+  question: "State two unique features of IFC that distinguish it from formats such as STL, DWG, DXF or OBJ.",
+  answer: "<ul><li>IFC exchanges <b>both semantics and geometry</b> (product model, not just shapes/drawings)</li><li>IFC allows <b>several different geometric representations for one semantic object</b> (strict separation of semantics and geometry)</li></ul>"
+},
+{
+  id: 41, topic: "IFC",
+  question: "Define the terms <b>schema</b> and <b>instance</b> in the context of IFC and object-oriented modeling. How is this implemented in Autodesk Revit or ArchiCAD?",
+  answer: "<ul><li><b>Schema</b> = the data model: class hierarchy, classes and their properties/attributes (IFC schema defined in EXPRESS)</li><li><b>Instance</b> = an actual object implementing a class of the schema &rarr; the concrete building model (the .ifc file)</li></ul><b>In Revit/ArchiCAD:</b> implemented as a <b>catalogue of parametric object types</b> (walls, columns, doors, windows) with geometric + semantic attributes; each placed element is an instance of its type.",
+  explanation: "OOP-Analogie: Klasse = Schema, Objekt = Instanz."
+},
+{
+  id: 42, topic: "IFC",
+  question: "Order the four IFC model layers from the <b>most general to the most specific</b>: Domain layer / Core layer / Interoperability layer / Resource layer. Which layer does <b>not</b> inherit from IfcRoot?",
+  answer: "<b>Resource &rarr; Core &rarr; Interoperability &rarr; Domain</b> (most general &rarr; most specific).<br><br>The <b>Resource layer</b> does NOT inherit from IfcRoot &rarr; its classes have <b>no GUID, no identity, no ownership history</b>. <b>IfcRoot lives in the Core layer</b> — most IFC entities derive (directly or indirectly) from it.",
+  aSvg: "<svg viewBox='0 0 340 175' xmlns='http://www.w3.org/2000/svg'><rect x='40' y='8' width='260' height='30' rx='6' fill='#2563eb'/><text x='170' y='27' font-size='11' fill='#fff' text-anchor='middle'>Domain layer (HVAC, Structural &hellip;)</text><rect x='40' y='42' width='260' height='30' rx='6' fill='#3b82f6'/><text x='170' y='61' font-size='11' fill='#fff' text-anchor='middle'>Interoperability layer (IfcWall, IfcSlab &hellip;)</text><rect x='40' y='76' width='260' height='30' rx='6' fill='#60a5fa'/><text x='170' y='89' font-size='11' fill='#fff' text-anchor='middle'>Core layer (IfcKernel: IfcRoot,</text><text x='170' y='101' font-size='10' fill='#fff' text-anchor='middle'>IfcObject, IfcProduct, IfcRelationship)</text><rect x='40' y='110' width='260' height='30' rx='6' fill='#93c5fd'/><text x='170' y='129' font-size='11' text-anchor='middle'>Resource layer (Geometrie, Material, Kosten)</text><text x='170' y='158' font-size='9' fill='#dc2626' text-anchor='middle'>Resource layer: KEIN IfcRoot &rarr; keine GUID/Identit&auml;t</text><text x='318' y='27' font-size='9' fill='#65676b'>spezifisch</text><text x='318' y='129' font-size='9' fill='#65676b'>generell</text></svg>",
+  explanation: "Zeichenaufgabe + Single Choice ('Most entities derive from IfcRoot in the ... Core layer')."
+},
+{
+  id: 43, topic: "IFC",
+  question: "What is IfcBuildingElementProxy used for? Explain in general and give one specific example.",
+  answer: "A <b>proxy element</b> with the same functionality as any subtype of IfcBuiltElement, but <b>without a predefined meaning</b> of the specific element type. Used for elements that are <b>not (yet) defined in the IFC schema</b> — common in infrastructure.<br><br><b>Example: a bridge bearing.</b>",
+  explanation: "Praxis-Problem: Revit exportiert unbekannte Familien als BuildingElementProxy (Fix: IfcExportAs)."
+},
+{
+  id: 44, topic: "IFC",
+  question: "Name three different geometry representations in IFC.",
+  answer: "<ul><li><b>B-rep</b> (Boundary Representation)</li><li><b>Tessellated B-rep</b> (triangulated)</li><li><b>Swept Solid</b> (extrusion/rotation of a profile)</li><li><b>CSG / primitives</b> (Boolean operations)</li></ul>(any three)<br>Possible because IFC <b>strictly separates semantics and geometry</b>.",
+  explanation: "Im SS2025 sollte man 2 aus einer Abbildung erkennen (B-rep, Tessellated B-rep)."
+},
+{
+  id: 45, topic: "IFC",
+  question: "Explain the term Model View Definition (MVD). Give one example of a standardized MVD.",
+  answer: "An MVD is a <b>subset of the full IFC schema</b> that defines which <b>objects and attributes are mandatory or optional</b> for a specific exchange scenario/use case. Basis for <b>software certification</b>; machine-readable via <b>mvdXML</b>.<br><br><b>Examples:</b> IFC4 <b>Reference View</b>, IFC4 Design Transfer View, IFC2x3 <b>Coordination View</b>, Structural Analysis View, FM Handover View."
+},
+{
+  id: 46, topic: "IFC",
+  question: "What is mvdXML? (Typical true/false topic)",
+  answer: "<b>mvdXML</b> is the <b>machine-readable XML format for specifying a Model View Definition</b>: it defines precisely which IFC entities/attributes the sending and receiving application must support for one exchange scenario, and can be used to <b>validate</b> IFC files against the MVD.",
+  explanation: "Kurz: mvdXML = technisches Format F&Uuml;R MVDs (nicht selbst eine View)."
+},
+{
+  id: 47, topic: "IFC",
+  question: "Explain the concept of <b>objectified relationships</b> in IFC using a wall, a window and an opening element as an example.",
+  answer: "In IFC, relationships are <b>own objects</b> (reified), not mere attributes &rarr; they can carry attributes themselves and link n elements.<br><br><b>Example:</b> the wall does not reference the window directly:<ul><li><b>IfcRelVoidsElement</b> connects <b>Wall &rarr; Opening</b> (IfcOpeningElement voids the wall)</li><li><b>IfcRelFillsElement</b> connects <b>Opening &rarr; Window</b> (window fills the opening)</li></ul>",
+  aSvg: "<svg viewBox='0 0 360 110' xmlns='http://www.w3.org/2000/svg'><rect x='10' y='38' width='70' height='34' rx='6' fill='#2563eb'/><text x='45' y='59' font-size='11' fill='#fff' text-anchor='middle'>IfcWall</text><rect x='130' y='38' width='100' height='34' rx='6' fill='#60a5fa'/><text x='180' y='53' font-size='10' fill='#fff' text-anchor='middle'>IfcOpening-</text><text x='180' y='65' font-size='10' fill='#fff' text-anchor='middle'>Element</text><rect x='285' y='38' width='68' height='34' rx='6' fill='#2563eb'/><text x='319' y='59' font-size='11' fill='#fff' text-anchor='middle'>IfcWindow</text><line x1='80' y1='55' x2='130' y2='55' stroke='#dc2626' stroke-width='2' marker-end='url(#ar)'/><text x='105' y='30' font-size='9' fill='#dc2626' text-anchor='middle'>IfcRelVoids-</text><text x='105' y='40' font-size='9' fill='#dc2626' text-anchor='middle'>Element</text><line x1='230' y1='55' x2='285' y2='55' stroke='#16a34a' stroke-width='2' marker-end='url(#ar2)'/><text x='257' y='30' font-size='9' fill='#16a34a' text-anchor='middle'>IfcRelFills-</text><text x='257' y='40' font-size='9' fill='#16a34a' text-anchor='middle'>Element</text><defs><marker id='ar' markerWidth='8' markerHeight='8' refX='7' refY='3' orient='auto'><path d='M0,0 L7,3 L0,6 Z' fill='#dc2626'/></marker><marker id='ar2' markerWidth='8' markerHeight='8' refX='7' refY='3' orient='auto'><path d='M0,0 L7,3 L0,6 Z' fill='#16a34a'/></marker></defs><text x='180' y='100' font-size='9' fill='#65676b' text-anchor='middle'>Wand hat &Ouml;ffnung (voids) &middot; Fenster f&uuml;llt &Ouml;ffnung (fills)</text></svg>",
+  explanation: "Klassische Zeichenaufgabe: Wall &rarr;RelVoids&rarr; Opening &rarr;RelFills&rarr; Window."
+},
+{
+  id: 48, topic: "IFC",
+  question: "What are Property Sets (Psets) in IFC used for?",
+  answer: "Property Sets store information that is <b>NOT part of the standardized IFC schema</b> — as flexible <b>name-value pairs</b>, without having to extend the schema.<br><br>Layering: <b>international</b> (IFC schema Psets) &rarr; <b>national</b> &rarr; <b>client</b> &rarr; <b>project</b> properties."
+},
+{
+  id: 49, topic: "IFC",
+  question: "How is the spatial structure of a building modeled in IFC? Which relationship classes are used?",
+  answer: "Spatial hierarchy via <b>IfcRelAggregates</b>:<br><b>IfcProject &rarr; IfcSite &rarr; IfcBuilding &rarr; IfcBuildingStorey</b>.<br><br>Building elements (walls, slabs &hellip;) are assigned to a storey via <b>IfcRelContainedInSpatialStructure</b>. (<b>IfcRelSpaceBoundary</b> links spaces to their bounding elements &rarr; important for QTO and energy analysis.)"
+},
+{
+  id: 50, topic: "IFC",
+  question: "What do the abbreviations UML and BPMN stand for? (single choice in the exam)",
+  answer: "<ul><li><b>UML = Unified Modeling Language</b> — used for the IFC object model / OO modeling</li><li><b>BPMN = Business Process Model and Notation</b> — used for process maps in the IDM</li></ul>"
+},
+/* ---------- Kapitel 4: Model Checking ---------- */
+{
+  id: 51, topic: "Model Checking",
+  question: "Explain the difference between the <b>Black-Box</b> and the <b>White-Box</b> method in code compliance checking. Name the major advantages and disadvantages of both.",
+  answer: "<table><tr><th></th><th>Black-Box</th><th>White-Box</th></tr><tr><td>Sichtbar</td><td>only <b>input &amp; output</b>; checking procedure hidden</td><td>internal processing steps <b>transparent/modifiable</b></td></tr><tr><td>+</td><td><b>low error rate</b> / reliable results</td><td>flexible, customizable, comprehensible</td></tr><tr><td>&minus;</td><td>extensions/modifications <b>only via the software vendor</b></td><td><b>high development effort</b>; risk of unintentional rule changes &rarr; wrong results; needs expert users</td></tr></table>"
+},
+{
+  id: 52, topic: "Model Checking",
+  question: "Why is a semi-automated checking approach used instead of a fully automated one?",
+  answer: "Building regulations contain <b>ambiguous, natural-language rules</b> that require <b>human interpretation and judgment</b> — full automation is not (yet) reliable. Only a fraction of codes exists in computable form; expert tolerances vary; trust and legal responsibility require a <b>human in the loop</b>."
+},
+{
+  id: 53, topic: "Model Checking",
+  question: "Name software products for code compliance checking / model checking.",
+  answer: "<ul><li><b>Solibri Model Checker / Solibri Office</b> (rule-based checking, clash detection, BCF reporting)</li><li><b>Autodesk Navisworks</b> (clash detection)</li></ul>(Guest lecture also: CORENET (Singapore), ACABIM (NZ).)"
+},
+{
+  id: 54, topic: "Model Checking",
+  question: "Describe the standard workflow (stages) of automated code compliance checking.",
+  answer: "<ol><li><b>Rule interpretation</b> — translate codes/regulations into machine-readable rule sets</li><li><b>Building model preparation</b> — ensure required information is in the model (semantic enrichment)</li><li><b>Rule execution</b> — run the checks</li><li><b>Reporting</b> — evaluate and communicate results (e.g. via BCF)</li></ol><i>(Eastman et al. 2009)</i>"
+},
+{
+  id: 55, topic: "Model Checking",
+  question: "What are the four rule complexity classes in code compliance checking (Solihin & Eastman)?",
+  answer: "<ul><li><b>Class 1</b> — checks on <b>explicit data</b> (e.g. fire rating attribute of a wall)</li><li><b>Class 2</b> — checks on <b>derived attribute values</b> / implicit relationships</li><li><b>Class 3</b> — checks needing <b>complex geometry processing</b> not explicit in the model (clash detection, clearances)</li><li><b>Class 4</b> — checks requiring <b>temporary insertion of additional data</b> into the model</li></ul>"
+},
+/* ---------- Kapitel 5: Parametrische Modellierung ---------- */
+{
+  id: 56, topic: "Parametrik",
+  question: "What are the three main types of parametric modeling? Name example software for each.",
+  answer: "<ul><li><b>Object-based parametric modeling</b> — catalogue of predefined parametric object types (ArchiCAD, Allplan, AutoCAD Architecture)</li><li><b>Geometry-based parametric modeling</b> — sketch-based (Inventor, Siemens NX, CATIA) and graph-based / visual programming (Grasshopper, Generative Components)</li><li><b>Parametric BIM modeling</b> — combines both: object types + parametric geometry, families, reference planes (Revit, ArchiCAD, Tekla)</li></ul>",
+  explanation: "Semantik gibt es nur bei object-based und BIM-Ansatz — graph-based ist reine Geometrie."
+},
+{
+  id: 57, topic: "Parametrik",
+  question: "What is the difference between geometric and dimensional constraints in parametric modeling?",
+  answer: "<ul><li><b>Dimensional constraints</b> define the <b>span/extension</b> of an object: lengths, distances, radii, angles</li><li><b>Geometric constraints</b> define the <b>relation of an element to other elements</b> (no sizes)</li></ul>",
+  explanation: "Ma&szlig; = dimensional; Beziehung = geometric."
+},
+{
+  id: 58, topic: "Parametrik",
+  question: "Name three geometric constraints used in parametric modeling.",
+  answer: "Any three of: <b>parallel, perpendicular, tangent, coincident, collinear, concentric, symmetric, equal</b>."
+},
+/* ---------- Kapitel 6: Kollaboration & Datenmanagement ---------- */
+{
+  id: 59, topic: "Kollaboration",
+  question: "Define synchronous and asynchronous collaboration and compare them with respect to (at least) three aspects.",
+  answer: "<b>Synchronous</b> = simultaneous work on the same model. <b>Asynchronous</b> = temporally separated work with later coordination/merging (the major mode in AEC).<br><table><tr><th>Aspekt</th><th>Synchron</th><th>Asynchron</th></tr><tr><td>Modell</td><td>one-model approach</td><td>federated discipline models</td></tr><tr><td>Konsistenz</td><td>(almost) always consistent</td><td>phase-wise inconsistency accepted</td></tr><tr><td>Merging</td><td>none (locks instead)</td><td>merging at coordination points</td></tr><tr><td>Ownership</td><td>shared</td><td>clear per discipline</td></tr><tr><td>Einsatz</td><td>within one company</td><td>across companies</td></tr></table>"
+},
+{
+  id: 60, topic: "Kollaboration",
+  question: "Name four benefits of a model server in comparison to conventional file-based collaboration.",
+  answer: "<ul><li><b>Models, not files</b> are managed &rarr; <b>object-level access &amp; fine-grained concurrency control</b> (parallel editing)</li><li><b>Prevention of inconsistencies</b></li><li><b>Change tracking / transparency</b></li><li><b>Reduction of planning errors</b> and errors in tendering; improved communication</li></ul>",
+  explanation: "Buch-Variante: weniger Planungsfehler, weniger Ausschreibungsfehler, mehr Transparenz, bessere Kommunikation mit der &Ouml;ffentlichkeit."
+},
+{
+  id: 61, topic: "Kollaboration",
+  question: "What is concurrency control and why is it necessary in synchronous model-based collaboration?",
+  answer: "Concurrency control = <b>locking an object while it is being modified</b> by a user (cycle: <b>retrieve lock &rarr; modify &rarr; release lock</b>).<br><br><b>Necessary because:</b> it prevents two or more users from <b>simultaneously modifying the same object</b>, which would lead to conflicts/inconsistencies in the model.<br><br>Key design questions: <b>granularity</b> (atomic object, lock duration) and <b>handling of dependent objects</b>."
+},
+{
+  id: 62, topic: "Kollaboration",
+  question: "Name and explain the two primary approaches for concurrency control. What is the difference between implicit and explicit locking?",
+  answer: "<ul><li><b>Implicit locking</b> — the <b>system</b> locks and releases objects <b>automatically</b> when a user starts editing</li><li><b>Explicit locking</b> — the <b>user</b> actively requests (reserves) and releases the lock</li></ul>"
+},
+{
+  id: 63, topic: "Kollaboration",
+  question: "Explain the difference between implicit and explicit synchronization in model-based collaboration.",
+  answer: "<ul><li><b>Explicit synchronization</b> — local copy and central model are synchronized <b>on user request</b> (e.g. 'Send &amp; Receive', 'Synchronize with Central')</li><li><b>Implicit synchronization</b> — synchronization happens <b>automatically in the background</b></li></ul>"
+},
+{
+  id: 64, topic: "Kollaboration",
+  question: "Which type of synchronization and locking is used in Autodesk Revit (worksharing)? Explain.",
+  answer: "Revit central-file worksharing uses:<ul><li><b>Explicit synchronization</b> — 'Synchronize with Central' / 'Reload Latest' on user request</li><li><b>Implicit locking</b> — elements are borrowed/locked automatically when edited; <b>explicit unlocking</b> ('relinquish')</li><li><b>Worksets</b> — element collections owned by one team member; others see but cannot modify, can request to <b>borrow</b></li></ul>"
+},
+{
+  id: 65, topic: "Kollaboration",
+  question: "What is model federation in a collaborative BIM process? In which standard is it defined?",
+  answer: "Each discipline creates and maintains <b>its own model</b> (clear responsibility, authorship, IPR). The discipline models are <b>merged at regular intervals into a federated/coordination model</b>, which is checked for clashes and inconsistencies. Issues go back to the responsible author (via BCF) — <b>changes are made exclusively by the model author</b>.<br><br>Defined in <b>ISO EN DIN 19650</b>."
+},
+{
+  id: 66, topic: "Kollaboration",
+  question: "What are the 4 main statuses of a model/information container in a CDE?",
+  answer: "<b>Work in Progress (WIP) &rarr; Shared &rarr; Published &rarr; Archived</b><ul><li><b>WIP</b>: unapproved information of one organization</li><li><b>Shared</b>: approved for sharing as reference for other disciplines (after approval gate)</li><li><b>Published</b>: authorized design output for permission/tender/construction</li><li><b>Archived</b>: audit trail of all milestones/transactions (disputes)</li></ul>",
+  aSvg: "<svg viewBox='0 0 360 80' xmlns='http://www.w3.org/2000/svg'><rect x='5' y='22' width='72' height='34' rx='8' fill='#dc2626'/><text x='41' y='43' font-size='11' fill='#fff' text-anchor='middle'>WIP</text><rect x='99' y='22' width='72' height='34' rx='8' fill='#d97706'/><text x='135' y='43' font-size='11' fill='#fff' text-anchor='middle'>Shared</text><rect x='193' y='22' width='72' height='34' rx='8' fill='#16a34a'/><text x='229' y='43' font-size='11' fill='#fff' text-anchor='middle'>Published</text><rect x='287' y='22' width='68' height='34' rx='8' fill='#65676b'/><text x='321' y='43' font-size='11' fill='#fff' text-anchor='middle'>Archived</text><line x1='77' y1='39' x2='99' y2='39' stroke='#1c1e21' stroke-width='2'/><line x1='171' y1='39' x2='193' y2='39' stroke='#1c1e21' stroke-width='2'/><line x1='265' y1='39' x2='287' y2='39' stroke='#1c1e21' stroke-width='2'/><text x='88' y='16' font-size='8' fill='#65676b' text-anchor='middle'>Approval</text><text x='182' y='16' font-size='8' fill='#65676b' text-anchor='middle'>Authorize</text><text x='88' y='72' font-size='8' fill='#65676b' text-anchor='middle'>Gate 1</text><text x='182' y='72' font-size='8' fill='#65676b' text-anchor='middle'>Gate 2</text></svg>",
+  explanation: "Zeichenaufgabe: 4 Boxen + Gates (&Uuml;berg&auml;nge nur mit Freigabe)."
+},
+{
+  id: 67, topic: "Kollaboration",
+  question: "What is issue tracking in a model-based collaboration process? Name the suitable (file) format.",
+  answer: "Issue tracking = process to <b>track, manage and resolve issues/problems</b> related to the BIM models on which several teams collaborate (e.g. clashes found by the BIM coordinator, assigned to the responsible author, status-tracked until resolved).<br><br>The suitable format is <b>BCF — BIM Collaboration Format</b>."
+},
+{
+  id: 68, topic: "Kollaboration",
+  question: "Explain BCF and name at least one technical detail.",
+  answer: "<b>BCF (BIM Collaboration Format)</b> — open buildingSMART standard that <b>transports issues, not models</b> (RFI/RFC).<br><br><b>Technical details (one suffices):</b><ul><li><b>XML-based</b>; a .bcf file is a <b>ZIP</b> containing markup.bcf + viewpoint (.bcfv) + <b>screenshot (PNG)</b></li><li>Elements referenced via their <b>IFC GUIDs</b>; stores <b>camera position/viewpoint</b></li><li>Exchange via file or <b>BCF-API</b> (server-based)</li></ul>"
+},
+{
+  id: 69, topic: "Kollaboration",
+  question: "What are the issues with data management in the past, present, and what is the future direction?",
+  answer: "<ul><li><b>Past</b> — file exchange via <b>email</b>: parallel copies &rarr; inconsistencies, manual merging, only sequential editing</li><li><b>Present</b> — <b>project platforms / document management</b>: central server, access rights, versioning — but smallest unit = <b>a file</b> &rarr; whole model is one block, no simultaneous modification, changes hard to track</li><li><b>Future</b> — <b>model servers / cloud</b>: manage <b>models, not files</b>; object-level concurrency control; consistency, transparency, change tracking (BIMcloud, Revit Cloud Worksharing, BIMserver.org)</li></ul>"
+},
+/* ---------- Kapitel 7: Quantity Take-Off ---------- */
+{
+  id: 70, topic: "QTO",
+  question: "Explain the difference between CAD quantities (quantities in a BIM authoring tool) and LV/BoQ quantities (Leistungsverzeichnis).",
+  answer: "<ul><li><b>CAD quantities are component-oriented</b>: one component relates to <b>several tasks</b> (a wall needs concrete, formwork, insulation &hellip;)</li><li><b>LV/BoQ quantities are task-oriented</b>: one task relates to <b>several components</b> (concreting covers walls, slabs &hellip;)</li></ul>&rarr; there is an <b>m-to-n relationship</b> between components and tasks — the core challenge of BIM-based tendering.",
+  aSvg: "<svg viewBox='0 0 360 140' xmlns='http://www.w3.org/2000/svg'><text x='60' y='18' font-size='11' font-weight='bold' text-anchor='middle'>Bauteile (CAD)</text><text x='295' y='18' font-size='11' font-weight='bold' text-anchor='middle'>Aufgaben (LV)</text><rect x='15' y='30' width='90' height='26' rx='6' fill='#2563eb'/><text x='60' y='47' font-size='10' fill='#fff' text-anchor='middle'>Wand</text><rect x='15' y='66' width='90' height='26' rx='6' fill='#2563eb'/><text x='60' y='83' font-size='10' fill='#fff' text-anchor='middle'>Decke</text><rect x='15' y='102' width='90' height='26' rx='6' fill='#2563eb'/><text x='60' y='119' font-size='10' fill='#fff' text-anchor='middle'>St&uuml;tze</text><rect x='250' y='30' width='95' height='26' rx='6' fill='#16a34a'/><text x='297' y='47' font-size='10' fill='#fff' text-anchor='middle'>Betonieren</text><rect x='250' y='66' width='95' height='26' rx='6' fill='#16a34a'/><text x='297' y='83' font-size='10' fill='#fff' text-anchor='middle'>Schalung</text><rect x='250' y='102' width='95' height='26' rx='6' fill='#16a34a'/><text x='297' y='119' font-size='10' fill='#fff' text-anchor='middle'>D&auml;mmung</text><line x1='105' y1='43' x2='250' y2='43' stroke='#65676b'/><line x1='105' y1='43' x2='250' y2='79' stroke='#65676b'/><line x1='105' y1='43' x2='250' y2='115' stroke='#65676b'/><line x1='105' y1='79' x2='250' y2='43' stroke='#65676b'/><line x1='105' y1='79' x2='250' y2='79' stroke='#65676b'/><line x1='105' y1='115' x2='250' y2='43' stroke='#65676b'/><line x1='105' y1='115' x2='250' y2='79' stroke='#65676b'/><text x='178' y='135' font-size='9' fill='#dc2626' text-anchor='middle'>m : n</text></svg>",
+  explanation: "Bauteil-orientiert vs. Aufgaben-orientiert + m:n — das ist die volle Punktzahl."
+},
+{
+  id: 71, topic: "QTO",
+  question: "What does GAEB stand for? Define it.",
+  answer: "<b>GAEB = &bdquo;Gemeinsamer Ausschuss Elektronik im Bauwesen&ldquo;</b> (joint committee for electronics in construction, since 1985).<br><br>GAEB (DA-XML) is the German <b>XML-based standard for the digital exchange of BoQ/tendering, bidding and invoicing data</b> (sub-schemata e.g. X83/X86/X89). It is <b>independent of BIM</b>.",
+  explanation: "DIN 18290: Multi-Model-Container = IFC-Modell + GAEB-LV + Link-Modell."
+},
+{
+  id: 72, topic: "QTO",
+  question: "What is a Bill of Quantities (BoQ / Leistungsverzeichnis) and what role does it play in tendering?",
+  answer: "A BoQ is a structured <b>list of work activities (positions) with associated quantities</b> — the <b>most important part of the tendering documents</b> (description of the work to be performed). BIM-based QTO derives the quantities (volumes, areas, counts) <b>directly from the model</b> &rarr; higher accuracy, fewer change orders. Predefined task texts: <b>StLB-Bau</b>; software category: <b>AVA</b> (Ausschreibung, Vergabe, Abrechnung)."
+},
+/* ---------- Kapitel 8: Visualisierung / Dokumentation ---------- */
+{
+  id: 73, topic: "Visualisierung",
+  question: "Describe the difference between the concepts of AR and VR. Name two respective systems/products each.",
+  answer: "<ul><li><b>VR (Virtual Reality)</b> — a <b>fully virtual environment</b> that mimics/replaces the real world (immersive)</li><li><b>AR (Augmented Reality)</b> — <b>virtual objects are added onto/overlaid on the real world</b></li></ul><b>VR systems:</b> CAVE, HMD (head-mounted display, e.g. VR Powerwall).<br><b>AR systems:</b> Microsoft HoloLens, DEPLANAR / Dalux TwinBIM (also Google Maps Live View).",
+  explanation: "Ein Satz reicht: VR ersetzt die Realit&auml;t, AR erg&auml;nzt sie."
+},
+{
+  id: 74, topic: "Visualisierung",
+  question: "What is rendering?",
+  answer: "Rendering is the process of <b>generating a (photorealistic or non-photorealistic) 2D image from a 3D model/scene</b>, taking into account <b>lighting effects, surface/material characteristics and camera/visualization parameters</b>.<br><br>Pipeline: 3D model + <b>scene description</b> (materials, textures, lights, camera) + rendering technique (Phong, raytracing, global illumination) &rarr; pixel image. Families: <b>offline</b> (still/animation) vs. <b>realtime</b> (game engine, VR/AR)."
+},
+{
+  id: 75, topic: "Visualisierung",
+  question: "What is animation?",
+  answer: "Animation is <b>any technique that generates movement from single (predefined/static) images</b> — a <b>precalculated sequence of frames played as a film</b> (flip-book principle). The viewer is limited to a predefined path.<br><br>Key technique: <b>keyframe animation</b> — start/end keyframes + <b>interpolation</b> of the frames in between ('tweening')."
+},
+{
+  id: 76, topic: "Visualisierung",
+  question: "What are the advantages and disadvantages of using external software for rendering and animation?",
+  answer: "<b>+ Advantages:</b> specialized, higher quality; full functionality (effects, image sequences, sound/music).<br><br><b>&minus; Disadvantages:</b> interoperability effort (export via plug-ins/geometry formats, possible data loss); <b>no automatic update when the BIM model changes</b> (live link lost); extra cost and time."
+},
+{
+  id: 77, topic: "Visualisierung",
+  question: "How are 2D plans/drawings produced in a BIM process, and why are they consistent?",
+  answer: "Plans (floor plans, sections, views) are <b>derived from the one 3D model</b> (model space &rarr; paper space/layouts, governed by DIN/ISO drawing standards). Because all drawings come from the <b>same model</b>, they are <b>consistent with each other</b> — a change in the model updates all derived plans. Details finer than ~1:10 are typically added manually in 2D.",
+  explanation: "Typischer True/False-Stoff: 'Pl&auml;ne sind 2D-Ableitungen des Modells' = wahr."
+},
+/* ---------- Kapitel 9: BIM & GIS / 3D-Stadtmodelle ---------- */
+{
+  id: 78, topic: "GIS",
+  question: "What are the differences between CityGML and IFC in terms of data/modeling paradigm?",
+  answer: "<ul><li><b>IFC = element-based VOLUME (solid) model</b> — constructive, bottom-up from building components (BIM domain)</li><li><b>CityGML = SURFACE model</b> — observation-based, models the visible surfaces/boundaries of objects (GIS domain)</li></ul>",
+  explanation: "Merksatz: IFC baut (Volumen), CityGML beobachtet (Oberfl&auml;chen)."
+},
+{
+  id: 79, topic: "GIS",
+  question: "Define the term 3D city model and name at least two components.",
+  answer: "A 3D city model is a <b>digital model of urban (and rural) areas</b> representing terrain, sites, buildings and related objects in 3D (geo-referenced).<br><br><b>Components (any two):</b> buildings, terrain/site, <b>vegetation</b>, <b>water bodies</b>, transportation/infrastructure, city furniture."
+},
+{
+  id: 80, topic: "GIS",
+  question: "Define CityGML.",
+  answer: "<b>CityGML = City Geography Markup Language</b> — an <b>open standard for storing and transferring virtual 3D city and regional models</b>. Covers <b>geometry, topology, semantics and appearance</b>; organized in thematic modules (buildings, bridges, vegetation, water, street furniture); defined by SIG 3D / OGC."
+},
+{
+  id: 81, topic: "GIS",
+  question: "Define XPlanung.",
+  answer: "<b>XPlanung</b> is an <b>open (German) standard for the digital exchange and archiving of land-use plans, landscape plans and regional plans</b> — a formalization of the legal planning regulations; enables automatic validation and standardized web services. (A <b>2D semantic</b> model.)"
+},
+{
+  id: 82, topic: "GIS",
+  question: "Name 3 fields of application of 3D city models.",
+  answer: "Any three of:<ul><li><b>Reachability / site analysis</b></li><li><b>Simulation of natural risks</b> (disaster management)</li><li><b>City information system</b></li><li>Solar potential / energy atlases</li><li>Management of cultural landscape / ski runs</li><li>Urban &amp; regional planning</li></ul>"
+},
+{
+  id: 83, topic: "GIS",
+  question: "What does the abbreviation LOD stand for in the context of 3D city modeling? List and describe the LODs briefly.",
+  answer: "<b>LOD = Level of Detail</b> (CityGML 2.0 defines five):<ul><li><b>LOD 0</b> — regional model: <b>2.5D digital terrain model</b></li><li><b>LOD 1</b> — city model: <b>block model without roof structures</b></li><li><b>LOD 2</b> — city model: <b>roof structures + optional textures</b></li><li><b>LOD 3</b> — site model: <b>detailed architectural model</b> (fa&ccedil;ade detail)</li><li><b>LOD 4</b> — interior model: <b>walkable interior spaces</b></li></ul>",
+  aSvg: "<svg viewBox='0 0 360 110' xmlns='http://www.w3.org/2000/svg'><path d='M 8 80 Q 30 70 55 80' fill='none' stroke='#65676b' stroke-width='2'/><text x='32' y='100' font-size='9' text-anchor='middle' fill='#65676b'>LOD0 Terrain</text><rect x='80' y='45' width='36' height='35' fill='#93c5fd' stroke='#2563eb'/><text x='98' y='100' font-size='9' text-anchor='middle' fill='#65676b'>LOD1 Block</text><rect x='150' y='55' width='36' height='25' fill='#93c5fd' stroke='#2563eb'/><polygon points='150,55 168,38 186,55' fill='#60a5fa' stroke='#2563eb'/><text x='168' y='100' font-size='9' text-anchor='middle' fill='#65676b'>LOD2 Dach</text><rect x='222' y='55' width='36' height='25' fill='#93c5fd' stroke='#2563eb'/><polygon points='222,55 240,38 258,55' fill='#60a5fa' stroke='#2563eb'/><rect x='228' y='62' width='7' height='9' fill='#fff' stroke='#2563eb'/><rect x='243' y='62' width='7' height='9' fill='#fff' stroke='#2563eb'/><rect x='236' y='70' width='8' height='10' fill='#2563eb'/><text x='240' y='100' font-size='9' text-anchor='middle' fill='#65676b'>LOD3 Fassade</text><rect x='294' y='55' width='36' height='25' fill='none' stroke='#2563eb'/><polygon points='294,55 312,38 330,55' fill='none' stroke='#2563eb'/><line x1='312' y1='55' x2='312' y2='80' stroke='#dc2626'/><line x1='294' y1='68' x2='330' y2='68' stroke='#dc2626'/><text x='312' y='100' font-size='9' text-anchor='middle' fill='#65676b'>LOD4 Innenraum</text></svg>",
+  explanation: "Nicht mit Geb&auml;ude-LOD 100&ndash;500 verwechseln! (CityGML 3.0: LOD4 abgeschafft.)"
+},
+{
+  id: 84, topic: "GIS",
+  question: "Which of the following BIM exchange formats are more suitable for energy simulations? <b>CPIXML, IDF, gbXML, IFC4</b>",
+  answer: "<b>gbXML</b> and <b>IFC4</b>.<ul><li><b>gbXML</b> — purpose-built XML format for energy/thermal simulation (BIM&rarr;BEM)</li><li><b>IFC4</b> — carries geometry + semantics + materials (IfcRelSpaceBoundary)</li><li><i>IDF</i> = input format of EnergyPlus only; <i>CPIXML</i> = geometry-oriented &rarr; not suitable</li></ul>"
+},
+/* ---------- Kapitel 10: BIM-Projektabwicklung ---------- */
+{
+  id: 85, topic: "Projektabwicklung",
+  question: "What is the international standard ISO EN DIN 19650?",
+  answer: "The <b>international standard for information management over the whole asset lifecycle using BIM</b>. It defines model-based collaboration: BIM procurement (pre-/post-award), information requirements (OIR/PIR/EIR/AIR), the <b>CDE with its statuses</b>, and <b>model federation</b>. Based on the British <b>PAS 1192-2</b>; worldwide basis for BIM contracts."
+},
+{
+  id: 86, topic: "Projektabwicklung",
+  question: "EIR and BEP are highly important in BIM project execution. State what the abbreviations mean, explain both terms and put them in context to each other.",
+  answer: "<ul><li><b>EIR = Employer's Information Requirements</b> (ISO: Exchange Information Requirements) — document by the <b>client</b>: defines <b>goals</b>, use cases, model content (LOD/LOI, coordinate system), formats, roles, delivery milestones. Part of the <b>tender documents</b>.</li><li><b>BEP = BIM Execution Plan</b> — document by the <b>bidder/contractor in RESPONSE to the EIR</b>: defines in detail <b>how</b> the requirements will be met (software, workflows, responsibilities, LODs, formats).</li></ul><b>Context: EIR = client asks (what) &rarr; BEP = bidder answers (how).</b>",
+  aSvg: "<svg viewBox='0 0 360 90' xmlns='http://www.w3.org/2000/svg'><rect x='5' y='25' width='75' height='36' rx='8' fill='#2563eb'/><text x='42' y='41' font-size='10' fill='#fff' text-anchor='middle'>EIR</text><text x='42' y='54' font-size='8' fill='#fff' text-anchor='middle'>(Client)</text><rect x='105' y='25' width='70' height='36' rx='8' fill='#93c5fd'/><text x='140' y='47' font-size='10' text-anchor='middle'>Tendering</text><rect x='200' y='25' width='75' height='36' rx='8' fill='#16a34a'/><text x='237' y='41' font-size='10' fill='#fff' text-anchor='middle'>BEP</text><text x='237' y='54' font-size='8' fill='#fff' text-anchor='middle'>(Bidder)</text><rect x='300' y='25' width='55' height='36' rx='8' fill='#65676b'/><text x='327' y='41' font-size='9' fill='#fff' text-anchor='middle'>Award &rarr;</text><text x='327' y='53' font-size='9' fill='#fff' text-anchor='middle'>Models</text><line x1='80' y1='43' x2='105' y2='43' stroke='#1c1e21' stroke-width='2'/><line x1='175' y1='43' x2='200' y2='43' stroke='#1c1e21' stroke-width='2'/><line x1='275' y1='43' x2='300' y2='43' stroke='#1c1e21' stroke-width='2'/></svg>",
+  explanation: "Zeichenbar als Zyklus: EIR(Client) &rarr; Tender &rarr; BEP(Bieter) &rarr; Zuschlag &rarr; BEP(AN) &rarr; Modelle."
+},
+{
+  id: 87, topic: "Projektabwicklung",
+  question: "What do the terms OIR and PIR mean in the context of BIM project execution? Explain both terms and put them into context to each other.",
+  answer: "<ul><li><b>OIR = Organisational Information Requirements</b> — information needed at the <b>organization/asset-owner level</b> (relevant when a client runs many projects/assets); sits <b>above</b> individual projects</li><li><b>PIR = Project Information Requirements</b> — information required for <b>one specific project</b></li></ul><b>Context: OIR &rarr; PIR</b> — the PIR is derived from the OIR as its project-level specialization (and feeds the EIR/AIR).",
+  explanation: "Hierarchie: OIR (Organisation) &rarr; PIR (Projekt) &rarr; EIR/AIR."
+},
+{
+  id: 88, topic: "Projektabwicklung",
+  question: "What is the Information Delivery Manual (IDM) used for? What does it contain, and what is its relationship to the MVD?",
+  answer: "The IDM (<b>ISO 29481</b>) <b>captures and specifies the processes and information flows</b> of a BIM project: <b>when</b> must <b>which</b> information be delivered by <b>whom</b>? Basis for contracts and software certification.<br><br><b>Contains:</b> a <b>process map (in BPMN)</b> + <b>Exchange Requirements</b> (+ functional parts).<br><br><b>Relationship:</b> the IDM describes process + requirements (project-independent); the <b>MVD is the technical implementation</b> — the IFC schema subset realizing that exchange scenario (specified in mvdXML)."
+},
+{
+  id: 89, topic: "Projektabwicklung",
+  question: "What is IDS (Information Delivery Specification)?",
+  answer: "A new <b>buildingSMART</b> standard: a <b>computer-interpretable, XML-based format for defining Exchange Requirements</b> — which object types must carry which classifications, properties, values and units. Interlinked with IFC; used in <b>model authoring and model checking</b> software (machine-checkable specification of the LOI)."
+},
+{
+  id: 90, topic: "Projektabwicklung",
+  question: "Assign the correct LOD (Level of Development) to the pictures &#9312;&ndash;&#9315;.",
+  qSvg: "<svg viewBox='0 0 360 120' xmlns='http://www.w3.org/2000/svg'><rect x='20' y='30' width='50' height='50' fill='none' stroke='#65676b' stroke-width='1.5' stroke-dasharray='5 3'/><text x='45' y='62' font-size='9' text-anchor='middle' fill='#65676b'>Symbol</text><text x='45' y='105' font-size='11' text-anchor='middle'>&#9312;</text><rect x='110' y='35' width='50' height='45' fill='#cbd5e1' stroke='#65676b'/><text x='135' y='105' font-size='11' text-anchor='middle'>&#9313;</text><rect x='200' y='32' width='50' height='48' fill='#93c5fd' stroke='#2563eb'/><rect x='208' y='42' width='12' height='14' fill='#fff' stroke='#2563eb'/><rect x='230' y='42' width='12' height='14' fill='#fff' stroke='#2563eb'/><rect x='218' y='60' width='14' height='20' fill='#2563eb'/><text x='225' y='105' font-size='11' text-anchor='middle'>&#9314;</text><rect x='290' y='32' width='50' height='48' fill='#93c5fd' stroke='#2563eb'/><rect x='298' y='42' width='12' height='14' fill='#fff' stroke='#2563eb'/><rect x='320' y='42' width='12' height='14' fill='#fff' stroke='#2563eb'/><rect x='308' y='60' width='14' height='20' fill='#2563eb'/><line x1='290' y1='48' x2='278' y2='48' stroke='#dc2626' stroke-width='2'/><line x1='340' y1='48' x2='352' y2='48' stroke='#dc2626' stroke-width='2'/><line x1='315' y1='32' x2='315' y2='20' stroke='#dc2626' stroke-width='2'/><text x='315' y='105' font-size='11' text-anchor='middle'>&#9315;</text></svg>",
+  answer: "<ul><li><b>&#9312; LOD 100</b> — symbol / generic representation (no real geometry)</li><li><b>&#9313; LOD 200</b> — generic element, approximate size/shape/location</li><li><b>&#9314; LOD 300</b> — specific element with defined size, shape, location (openings modeled)</li><li><b>&#9315; LOD 350/400</b> — + interfaces/connections to other systems, fabrication detail</li></ul>Criterion: <b>the more precise geometry + connections, the higher the LOD</b> (LOD 500 = field-verified as-built).",
+  explanation: "In der Klausur: Bilder mit steigendem Detailgrad den LODs zuordnen."
+},
+/* ---------- Nachhaltigkeit (Querschnitt / Gastvortrag) ---------- */
+{
+  id: 91, topic: "Nachhaltigkeit",
+  question: "A BIM model can be used for evaluating sustainability aspects. Name 4 examples/use cases.",
+  answer: "Any four of:<ul><li><b>Daylighting</b> analysis</li><li><b>Energy</b> analysis / whole-building simulation</li><li><b>Solar studies</b> (site/massing)</li><li><b>Wind</b> studies</li><li><b>LCA</b> — Life Cycle Assessment</li><li>Circularity assessment</li></ul>",
+  explanation: "Kontext: 6D BIM = Energie/Nachhaltigkeit. AEC &asymp; 40% der CO&#8322;-Emissionen."
+},
+{
+  id: 92, topic: "Nachhaltigkeit",
+  question: "What is meant by circular engineering in the BIM context? Name key concepts/instruments.",
+  answer: "Designing buildings for <b>material reuse and closed loops</b>:<ul><li><b>Design for disassembly</b>, reuse, urban mining</li><li><b>Material passports</b> / Digital Product Passport (DPP), Gebäuderessourcenpass</li><li><b>LCA</b> (DIN EN ISO 14040) — embodied + operational emissions</li><li>Indicators: <b>MCI</b> (Material Circularity Indicator, 0&ndash;1), Disassembly Potential, <b>BCI</b> (Building Circularity Indicator)</li></ul>Tools: Madaster, One Click LCA, Tally."
+},
+{
+  id: 93, topic: "Grundlagen",
+  question: "Who are the typical stakeholders in planning and construction that BIM needs to coordinate?",
+  answer: "<b>Client</b> (employer), <b>Architect</b>, <b>Structural engineer</b>, <b>MEP/HVAC engineer</b>, Electrical engineer, Surveying, <b>Construction company</b>, <b>Facility management</b>.<br><br>Traditionally these work in <b>silos</b> &rarr; coordination problems and information loss at each handover — exactly what BIM (single source of truth, federated models) addresses.",
+  explanation: "Zeichenbar als Stern/Kreis um das zentrale Modell."
+},
+{
+  id: 94, topic: "IFC",
+  question: "What is buildingSMART and which standards does it maintain?",
+  answer: "<b>buildingSMART</b> is the international <b>non-profit organization</b> (founded 1995; formerly IAI — International Alliance for Interoperability) that develops and maintains the open BIM standards:<ul><li><b>IFC</b> — data model (ISO 16739)</li><li><b>BCF</b> — issue exchange</li><li><b>IDM</b> — processes (ISO 29481)</li><li><b>MVD/mvdXML</b>, <b>IDS</b>, <b>bSDD/IFD</b> (data dictionary)</li></ul>"
+},
+/* ==CARDS-END== */
+];
+
+/* Antworten von Claude bestimmt – bitte einmal fachlich prüfen. */
+const ANSWERS_NEED_VERIFICATION = true;
+
+/* ===================== Leitner-Logik ===================== */
+const NUM_BOXES = 5;
+const BOX_META = [
+  { name: "Box 1", desc: "Nicht gelernt", color: "#dc2626" },
+  { name: "Box 2", desc: "Kaum gelernt", color: "#ea580c" },
+  { name: "Box 3", desc: "Teilweise gelernt", color: "#d97706" },
+  { name: "Box 4", desc: "Gut gelernt", color: "#65a30d" },
+  { name: "Box 5", desc: "Gemeistert", color: "#16a34a" }
+];
+const STORAGE_KEY = "lernkarten-bim-fundamentals-v1";
+
+let progress = loadProgress();
+
+function loadProgress() {
+  let saved = {};
+  try {
+    saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+  } catch (e) { saved = {}; }
+  const p = {};
+  for (const c of CARDS) {
+    const box = saved[c.id];
+    p[c.id] = (Number.isInteger(box) && box >= 1 && box <= NUM_BOXES) ? box : 1;
+  }
+  return p;
+}
+function saveProgress() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); } catch (e) {}
+}
+function cardsInBox(n) { return CARDS.filter(c => progress[c.id] === n); }
+function promote(card) { progress[card.id] = Math.min(NUM_BOXES, progress[card.id] + 1); saveProgress(); }
+function demote(card)  { progress[card.id] = 1; saveProgress(); }
+
+/* ===================== DOM refs ===================== */
+const $ = id => document.getElementById(id);
+const overviewEl = $("overview"), trainingEl = $("training");
+const flipCard = $("flipCard"), judgeBtns = $("judgeBtns"), doneScreen = $("doneScreen");
+
+/* ===================== Overview ===================== */
+function renderOverview() {
+  const list = $("boxList");
+  list.innerHTML = "";
+  for (let i = 1; i <= NUM_BOXES; i++) {
+    const cards = cardsInBox(i);
+    const meta = BOX_META[i - 1];
+    const btn = document.createElement("button");
+    btn.className = "box";
+    btn.disabled = cards.length === 0;
+    btn.innerHTML =
+      '<div class="box-badge" style="background:' + meta.color + '">' + i + '</div>' +
+      '<div class="box-info"><div class="name">' + meta.name + '</div>' +
+      '<div class="desc">' + meta.desc + '</div></div>' +
+      '<div class="box-count">' + cards.length + '</div>';
+    btn.addEventListener("click", () => startTraining(cards, meta.name));
+    list.appendChild(btn);
+  }
+  $("trainAllBtn").disabled = CARDS.length === 0;
+}
+
+/* ===================== Training ===================== */
+let queue = [], current = null, sessionLabel = "", stats = { yes: 0, no: 0 };
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function startTraining(cards, label) {
+  if (!cards.length) return;
+  queue = shuffle(cards);
+  sessionLabel = label;
+  stats = { yes: 0, no: 0 };
+  overviewEl.classList.add("hidden");
+  trainingEl.classList.add("active");
+  doneScreen.classList.remove("visible");
+  nextCard();
+}
+
+function nextCard() {
+  if (!queue.length) { finishSession(); return; }
+  current = queue.shift();
+  flipCard.classList.remove("flipped");
+  judgeBtns.classList.remove("visible");
+  flipCard.style.display = "";
+  renderCard(current);
+  updateProgressText();
+}
+
+function renderCard(card) {
+  const topic = card.topic ? " &middot; " + card.topic : "";
+  $("labelFront").innerHTML = "Frage" + topic;
+  $("labelBack").innerHTML = "L&ouml;sung" + topic;
+
+  $("qFront").innerHTML = card.question +
+    (card.qSvg ? '<div class="qfig">' + card.qSvg + '</div>' : '');
+  $("qBack").innerHTML = card.question;
+
+  const front = $("optsFront"), back = $("optsBack");
+  front.innerHTML = ""; back.innerHTML = "";
+
+  const liB = document.createElement("li");
+  liB.classList.add("correct");
+  liB.innerHTML = card.answer +
+    (card.aSvg ? '<div class="qfig">' + card.aSvg + '</div>' : '');
+  back.appendChild(liB);
+
+  $("explanation").innerHTML = card.explanation || "";
+  $("explanation").style.display = card.explanation ? "" : "none";
+  $("verifyNote").textContent = ANSWERS_NEED_VERIFICATION
+    ? "Hinweis: Lösung von Claude bestimmt – bitte einmal verifizieren." : "";
+  $("cardMeta").textContent = "Karte #" + card.id + " · aktuell in Box " + progress[card.id];
+}
+
+function updateProgressText() {
+  const total = stats.yes + stats.no + queue.length + 1;
+  const pos = stats.yes + stats.no + 1;
+  $("progressText").textContent = sessionLabel + " · Karte " + pos + " / " + total;
+}
+
+flipCard.addEventListener("click", () => {
+  if (!flipCard.classList.contains("flipped")) {
+    flipCard.classList.add("flipped");
+    judgeBtns.classList.add("visible");
+  }
+});
+
+$("btnYes").addEventListener("click", () => { stats.yes++; promote(current); nextCard(); });
+$("btnNo").addEventListener("click", () => { stats.no++; demote(current); nextCard(); });
+
+function finishSession() {
+  flipCard.style.display = "none";
+  judgeBtns.classList.remove("visible");
+  $("progressText").textContent = sessionLabel;
+  $("cardMeta").textContent = "";
+  $("doneStats").textContent =
+    stats.yes + " gewusst · " + stats.no + " nicht gewusst";
+  doneScreen.classList.add("visible");
+}
+
+function backToOverview() {
+  trainingEl.classList.remove("active");
+  overviewEl.classList.remove("hidden");
+  doneScreen.classList.remove("visible");
+  flipCard.style.display = "";
+  renderOverview();
+}
+$("backBtn").addEventListener("click", backToOverview);
+$("doneBackBtn").addEventListener("click", backToOverview);
+
+$("trainAllBtn").addEventListener("click", () => startTraining(CARDS, "Alle Karten"));
+
+$("resetBtn").addEventListener("click", () => {
+  if (confirm("Gesamten Lernfortschritt zurücksetzen?")) {
+    for (const c of CARDS) progress[c.id] = 1;
+    saveProgress();
+    renderOverview();
+  }
+});
+
+renderOverview();
+</script>
+</body>
+</html>

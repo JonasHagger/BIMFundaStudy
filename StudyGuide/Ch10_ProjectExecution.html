@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 10 — BIM Project Execution</title>
+<link rel="stylesheet" href="_styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="nav"><a class="home" href="../index.html">&#8962; App</a>
+    <a class="home" href="index.html">● Overview</a>
+    <a href="Ch01_Fundamentals.html">1 Fundamentals</a>
+    <a href="Ch02_GeometricModeling.html">2 Geometry</a>
+    <a href="Ch03_IFC.html">3 IFC</a>
+    <a href="Ch04_ModelChecking.html">4 Checking</a>
+    <a href="Ch05_ParametricModeling.html">5 Parametric</a>
+    <a href="Ch06_Collaboration.html">6 Collaboration</a>
+    <a href="Ch07_QuantityTakeOff.html">7 QTO</a>
+    <a href="Ch08_Documentation.html">8 Docs</a>
+    <a href="Ch09_GIS.html">9 GIS</a>
+    <a href="Ch10_ProjectExecution.html">10 Execution</a>
+    <a href="Ch11_Sustainability.html">11 Sustain.</a>
+  </div>
+
+  <p class="kicker">BIM.fundamentals · Exam prep · CORE</p>
+  <h1>Chapter 10 — BIM Project Execution</h1>
+  <p class="lede">The contractual &amp; procedural spine (ISO 19650): the client's requirements (OIR→PIR→EIR) and the bidder's answer (BEP), how model maturity is specified (LOD = LOG + LOI, LOIN), and how information exchange is engineered (IDM → MVD).</p>
+  <p class="lede" style="margin-top:-14px;font-size:13px;">Tags say what a card <i>is</i>. <span style="color:var(--teal-800);font-weight:600;">Green box = the direct exam answer.</span></p>
+
+  <h2 class="section">Concept cards</h2>
+  <div class="cardgrid">
+
+    <!-- Card 1: EIR / BEP -->
+    <div class="card wide">
+      <div class="card-head"><p class="card-title">EIR &amp; BEP</p><div class="tagrow"><span class="roletag">Process</span><span class="roletag exam">Exam</span><span class="tag">Card 1</span></div></div>
+      <p class="unlocks">Exam: DE-Q60, DE-Q70 (EIR), DE-Q71 (BEP) — meaning + relationship</p>
+      <div class="sect">
+        <p class="label">The request → response cycle (per phase)</p>
+        <svg viewBox="0 0 470 90" style="width:100%;height:auto;background:var(--surface-2);border-radius:10px;">
+          <rect x="15" y="30" width="95" height="34" rx="5" fill="var(--purple-600)"/><text x="62" y="47" font-size="10" fill="#fff" text-anchor="middle">EIR</text><text x="62" y="59" font-size="7.5" fill="#fff" text-anchor="middle">client asks</text>
+          <rect x="150" y="30" width="95" height="34" rx="5" fill="var(--teal-600)"/><text x="197" y="47" font-size="10" fill="#fff" text-anchor="middle">BEP</text><text x="197" y="59" font-size="7.5" fill="#fff" text-anchor="middle">bidder answers</text>
+          <rect x="285" y="30" width="95" height="34" rx="5" fill="var(--amber-600)"/><text x="332" y="47" font-size="10" fill="#fff" text-anchor="middle">Award → BEP</text><text x="332" y="59" font-size="7.5" fill="#fff" text-anchor="middle">contractor</text>
+          <rect x="405" y="30" width="55" height="34" rx="5" fill="var(--coral-600)"/><text x="432" y="51" font-size="9" fill="#fff" text-anchor="middle">Models</text>
+          <line x1="110" y1="47" x2="150" y2="47" stroke="var(--text-mut)" stroke-width="2" marker-end="url(#a10)"/><text x="130" y="24" font-size="7.5" fill="var(--text-mut)" text-anchor="middle">tender</text>
+          <line x1="245" y1="47" x2="285" y2="47" stroke="var(--text-mut)" stroke-width="2" marker-end="url(#a10)"/><text x="265" y="24" font-size="7.5" fill="var(--text-mut)" text-anchor="middle">bid</text>
+          <line x1="380" y1="47" x2="405" y2="47" stroke="var(--text-mut)" stroke-width="2" marker-end="url(#a10)"/>
+          <defs><marker id="a10" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="var(--text-mut)"/></marker></defs>
+        </svg>
+      </div>
+      <div class="sect">
+        <p class="kv"><b>EIR</b> Employer's / Exchange Information Requirements — the <b>client</b> defines goals + content/purpose of models (technical, management, contractual).</p>
+        <p class="kv"><b>BEP</b> BIM Execution Plan — the <b>bidder/contractor</b> answers <i>how</i> they will meet the EIR.</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span><b>EIR = client's requirements (goals/expectations); BEP = the bidder's response defining how to meet them.</b> EIR goes into the tender; the BEP is the reply.</div>
+      </div>
+    </div>
+
+    <!-- Card 2: OIR / PIR -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">OIR &amp; PIR</p><div class="tagrow"><span class="roletag">Concept</span><span class="roletag exam">Exam</span><span class="tag">Card 2</span></div></div>
+      <p class="unlocks">Exam: DE-Q61 · MP-Q7 — meaning + relationship</p>
+      <div class="sect">
+        <div class="chain"><div class="chain-row"><span class="pill hl">OIR (organisation)</span><span class="arrow">→</span><span class="pill se">PIR (one project)</span><span class="arrow">→</span><span class="pill ju">EIR (exchange)</span></div></div>
+        <p class="kv" style="margin-top:6px;"><b>OIR</b> Organisational Information Requirements — the asset owner's org-level needs (many projects).</p>
+        <p class="kv"><b>PIR</b> Project Information Requirements — for one specific project (derived from OIR).</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span><b>OIR = organisation-level requirements; PIR = one project's requirements, derived from the OIR.</b> OIR → PIR → EIR.</div>
+      </div>
+    </div>
+
+    <!-- Card 3: ISO 19650 -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">ISO 19650</p><div class="tagrow"><span class="roletag">Definition</span><span class="roletag exam">Exam</span><span class="tag">Card 3</span></div></div>
+      <p class="unlocks">Exam: DE-Q69 — what is ISO EN DIN 19650?</p>
+      <div class="sect">
+        <p class="bigpic">The <b>international standard for managing information over the asset lifecycle using BIM</b>. Defines procurement, requirements, data management, the <b>CDE + its statuses</b> (Ch 6) and <b>model federation</b>. Based on British <b>PAS 1192-2</b>. Basis for BIM contracts worldwide.</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>ISO 19650 = international BIM information-management standard (from PAS 1192-2); defines CDE, statuses, roles.</div>
+      </div>
+    </div>
+
+    <!-- Card 4: LOD 100-500 + LOIN -->
+    <div class="card wide">
+      <div class="card-head"><p class="card-title">LOD (= LOG + LOI) · 100–500 · LOIN</p><div class="tagrow"><span class="roletag">Model</span><span class="roletag exam">Exam</span><span class="tag">Card 4</span></div></div>
+      <p class="unlocks">Exam: DE-Q41 (assign LOD to pictures) · MP-Q15 (LOIN vs LOD, 3 ISO components)</p>
+      <div class="sect">
+        <p class="label">Building maturity (BIMforum) — increasing detail</p>
+        <svg viewBox="0 0 470 92" style="width:100%;height:auto;background:var(--surface-2);border-radius:10px;">
+          <g text-anchor="middle">
+            <rect x="20" y="30" width="60" height="30" rx="4" fill="var(--border-strong)"/><text x="50" y="49" font-size="9" fill="#1c1b18">100</text><text x="50" y="76" font-size="7.5" fill="var(--text-mut)">symbol</text>
+            <rect x="105" y="30" width="60" height="30" rx="4" fill="#9fb0b8"/><text x="135" y="49" font-size="9" fill="#fff">200</text><text x="135" y="76" font-size="7.5" fill="var(--text-mut)">generic/approx</text>
+            <rect x="190" y="30" width="60" height="30" rx="4" fill="var(--teal-600)"/><text x="220" y="49" font-size="9" fill="#fff">300</text><text x="220" y="76" font-size="7.5" fill="var(--text-mut)">specific</text>
+            <rect x="275" y="30" width="60" height="30" rx="4" fill="var(--amber-600)"/><text x="305" y="49" font-size="9" fill="#fff">350</text><text x="305" y="76" font-size="7.5" fill="var(--text-mut)">+interfaces</text>
+            <rect x="360" y="30" width="45" height="30" rx="4" fill="var(--coral-600)"/><text x="382" y="49" font-size="9" fill="#fff">400</text><text x="382" y="76" font-size="7.5" fill="var(--text-mut)">fabrication</text>
+            <rect x="412" y="30" width="45" height="30" rx="4" fill="var(--purple-600)"/><text x="434" y="49" font-size="9" fill="#fff">500</text><text x="434" y="76" font-size="7.5" fill="var(--text-mut)">as-built</text>
+          </g>
+        </svg>
+      </div>
+      <div class="sect">
+        <p class="kv"><b>LOD = LOG (geometry) + LOI (information).</b> 100 symbol → 200 approximate → 300 specific → 350 + interfaces → 400 fabrication → 500 field-verified.</p>
+        <p class="kv"><b>LOIN</b> (ISO 7817) = LOG + LOI + <b>documentation</b>.</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>LOD splits into <b>LOG + LOI</b>; the 3 ISO LOIN components are <b>LOG, LOI, documentation</b>. Assign pictures by geometric maturity (100 generic … 500 as-built).</div>
+        <p class="watch" style="margin-top:8px;"><b>Watch out:</b> building LOD 100–500 ≠ CityGML LOD 0–4 (Ch 9).</p>
+      </div>
+    </div>
+
+    <!-- Card 5: IDM -> MVD -->
+    <div class="card wide">
+      <div class="card-head"><p class="card-title">IDM → MVD (information delivery)</p><div class="tagrow"><span class="roletag">Process</span><span class="roletag exam">Exam</span><span class="tag">Card 5</span></div></div>
+      <p class="unlocks">Exam: DE-Q72 — what is the IDM used for?</p>
+      <div class="sect">
+        <div class="chain"><div class="chain-row"><span class="pill hl">IDM (process + exchange req.)</span><span class="arrow">→</span><span class="pill se">MVD (IFC subset)</span><span class="arrow">→</span><span class="pill ju">mvdXML</span></div></div>
+        <p class="bigpic" style="margin-top:8px;"><b>IDM</b> (ISO 29481) describes <b>processes and information flows</b> — <i>when</i> must <i>which</i> data be exchanged. Contains a <b>Process Map (BPMN)</b> + <b>Exchange Requirements</b>. It is <b>project-independent</b> and forms the basis for the <b>MVD</b> (the technical IFC-subset implementation).</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>IDM = specifies the process + information-exchange requirements (process map in BPMN + exchange requirements); it forms the basis for the MVD.</div>
+      </div>
+    </div>
+
+    <!-- Card 6: classification -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Classification systems (detail)</p><div class="tagrow"><span class="roletag">Reference</span><span class="tag">Card 6</span></div></div>
+      <p class="unlocks">Foundational — part of every LOI (also Ch 1, Ch 7).</p>
+      <div class="sect">
+        <p class="bigpic">A <b>taxonomy</b> giving each object a numeric code (e.g. <code>A 10 20 15 = Bored Piles</code>).</p>
+        <p class="kv"><b>OmniClass</b> (US) tables 21 Elements / 22 Work Results / 23 Products</p>
+        <p class="kv"><b>Uniclass</b> (UK) Complexes, Entities, Systems, Products…</p>
+        <p class="kv"><b>DIN 276</b> (DE) cost groups</p>
+      </div>
+    </div>
+
+    <!-- Card 7: UML / BPMN -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Notation abbreviations (UML · BPMN)</p><div class="tagrow"><span class="roletag calc">MC</span><span class="roletag exam">Exam</span><span class="tag">Card 7</span></div></div>
+      <p class="unlocks">Exam: MP-Q11 — pick the correct abbreviation</p>
+      <div class="sect">
+        <p class="kv"><b>UML</b> Unified Modeling Language — models the IFC object model (Ch 3).</p>
+        <p class="kv"><b>BPMN</b> Business Process Model and Notation — the IDM process map.</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span><b>UML = Unified Modeling Language; BPMN = Business Process Model and Notation.</b></div>
+      </div>
+    </div>
+
+  </div>
+
+  <h2 class="section">Quick reference</h2>
+  <table class="ref" style="margin-bottom:2rem;">
+    <tr><th>Concept</th><th>One-liner</th></tr>
+    <tr><td>ISO 19650</td><td>international BIM info-management standard (from PAS 1192-2)</td></tr>
+    <tr><td>EIR / BEP</td><td>client requirements / bidder's response (how)</td></tr>
+    <tr><td>OIR → PIR → EIR</td><td>organisation → project → exchange requirements</td></tr>
+    <tr><td>LOD</td><td>= LOG + LOI; BIMforum 100→500</td></tr>
+    <tr><td>LOIN (ISO 7817)</td><td>LOG + LOI + documentation</td></tr>
+    <tr><td>IDM (ISO 29481)</td><td>process map (BPMN) + exchange requirements → basis for MVD</td></tr>
+    <tr><td>MVD</td><td>IFC-schema subset for an exchange scenario</td></tr>
+    <tr><td>UML / BPMN</td><td>Unified Modeling Language / Business Process Model &amp; Notation</td></tr>
+  </table>
+
+  <div class="checklist">
+    <h2>Exam checklist — Chapter 10</h2>
+    <p class="sub">Every past-exam question in this chapter, mapped to its card.</p>
+    <table class="ref">
+      <tr><th>Topic</th><th>Exam</th><th>Card</th></tr>
+      <tr><td>Assign LOD to pictures</td><td>DE-Q41</td><td>Card 4</td></tr>
+      <tr><td>EIR &amp; BEP</td><td>DE-Q60,70,71</td><td>Card 1</td></tr>
+      <tr><td>OIR &amp; PIR</td><td>DE-Q61 · MP-Q7</td><td>Card 2</td></tr>
+      <tr><td>ISO 19650</td><td>DE-Q69</td><td>Card 3</td></tr>
+      <tr><td>IDM</td><td>DE-Q72</td><td>Card 5</td></tr>
+      <tr><td>LOIN vs LOD (3 ISO components)</td><td>MP-Q15</td><td>Card 4</td></tr>
+      <tr><td>UML / BPMN abbreviations</td><td>MP-Q11</td><td>Card 7</td></tr>
+    </table>
+  </div>
+
+  <a class="back" href="index.html">← Back to overview</a>
+</div>
+</body>
+</html>

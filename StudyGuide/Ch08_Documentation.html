@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 8 — Documentation &amp; Presentation</title>
+<link rel="stylesheet" href="_styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="nav"><a class="home" href="../index.html">&#8962; App</a>
+    <a class="home" href="index.html">● Overview</a>
+    <a href="Ch01_Fundamentals.html">1 Fundamentals</a>
+    <a href="Ch02_GeometricModeling.html">2 Geometry</a>
+    <a href="Ch03_IFC.html">3 IFC</a>
+    <a href="Ch04_ModelChecking.html">4 Checking</a>
+    <a href="Ch05_ParametricModeling.html">5 Parametric</a>
+    <a href="Ch06_Collaboration.html">6 Collaboration</a>
+    <a href="Ch07_QuantityTakeOff.html">7 QTO</a>
+    <a href="Ch08_Documentation.html">8 Docs</a>
+    <a href="Ch09_GIS.html">9 GIS</a>
+    <a href="Ch10_ProjectExecution.html">10 Execution</a>
+    <a href="Ch11_Sustainability.html">11 Sustain.</a>
+  </div>
+
+  <p class="kicker">BIM.fundamentals · Exam prep</p>
+  <h1>Chapter 8 — Documentation &amp; Presentation</h1>
+  <p class="lede">Designing = communicating. How images come out of the model (rendering, camera, light), how motion is made (animation), and how the model is experienced immersively (VR vs AR — the headline exam item).</p>
+  <p class="lede" style="margin-top:-14px;font-size:13px;">Tags say what a card <i>is</i>. <span style="color:var(--teal-800);font-weight:600;">Green box = the direct exam answer.</span></p>
+
+  <h2 class="section">Concept cards</h2>
+  <div class="cardgrid">
+
+    <!-- Card 1: AR vs VR -->
+    <div class="card wide">
+      <div class="card-head"><p class="card-title">VR vs AR (+ 2 systems each)</p><div class="tagrow"><span class="roletag">Compare</span><span class="roletag exam">Exam</span><span class="tag">Card 1</span></div></div>
+      <p class="unlocks">Exam: DE-Q62 — difference + 2 systems each · MP-Q22 (T/F plans &amp; VR/AR)</p>
+      <div class="sect">
+        <svg viewBox="0 0 460 120" style="width:100%;height:auto;background:var(--surface-2);border-radius:10px;">
+          <!-- VR -->
+          <text x="115" y="18" font-size="11" fill="var(--text-2)" text-anchor="middle" font-weight="bold">VR — replaces reality</text>
+          <rect x="55" y="30" width="120" height="60" rx="6" fill="var(--purple-600)"/>
+          <text x="115" y="58" font-size="10" fill="#fff" text-anchor="middle">fully virtual</text><text x="115" y="72" font-size="8.5" fill="#fff" text-anchor="middle">world</text>
+          <text x="115" y="106" font-size="8.5" fill="var(--purple-800)" text-anchor="middle">CAVE · HMD · Powerwall</text>
+          <!-- AR -->
+          <text x="345" y="18" font-size="11" fill="var(--text-2)" text-anchor="middle" font-weight="bold">AR — augments reality</text>
+          <rect x="285" y="30" width="120" height="60" rx="6" fill="none" stroke="var(--teal-600)" stroke-width="2"/>
+          <rect x="330" y="45" width="30" height="30" rx="3" fill="var(--teal-600)" opacity="0.85"/>
+          <text x="345" y="106" font-size="8.5" fill="var(--teal-800)" text-anchor="middle">DEPLANAR · HoloLens · TwinBIM</text>
+        </svg>
+      </div>
+      <div class="sect">
+        <p class="kv"><b>VR</b> a fully virtual environment that <b>replaces/mimics</b> the real world. Systems: <b>CAVE, HMD</b> (Powerwall).</p>
+        <p class="kv"><b>AR</b> virtual objects <b>added onto</b> the real world (overlay). Systems: <b>DEPLANAR, HoloLens/TwinBIM</b> (Google Maps Live View).</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span><b>VR replaces reality (immersive virtual world — CAVE, HMD); AR overlays virtual objects on the real world (DEPLANAR, HoloLens).</b></div>
+      </div>
+    </div>
+
+    <!-- Card 2: rendering -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Rendering</p><div class="tagrow"><span class="roletag">Definition</span><span class="roletag exam">Exam</span><span class="tag">Card 2</span></div></div>
+      <p class="unlocks">Exam: DE-Q64 — what is rendering?</p>
+      <div class="sect">
+        <p class="bigpic">Generating a <b>photorealistic or non-photorealistic image from a geometric model</b>, accounting for lighting, surfaces, and visualization parameters. The IFC model has geometry but little visualization info → needs a <b>scene description</b> + rendering technique.</p>
+        <p class="kv" style="margin-top:6px;"><b>Techniques</b> Phong shading · Raytracing · Global Illumination · Radiosity</p>
+        <p class="kv"><b>Modes</b> offline (still/animation) vs realtime (game engine, VR/AR)</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>Rendering = producing a 2D image from a 3D scene (lighting, materials, camera).</div>
+      </div>
+    </div>
+
+    <!-- Card 3: animation -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Animation</p><div class="tagrow"><span class="roletag">Definition</span><span class="roletag exam">Exam</span><span class="tag">Card 3</span></div></div>
+      <p class="unlocks">Exam: DE-Q64 — what is animation?</p>
+      <div class="sect">
+        <p class="bigpic">(Lat. <i>animare</i>, "to give life to.") Any technique that <b>generates movement from single static images</b>; the viewer follows a <b>predefined, pre-calculated path</b> (flip-book principle).</p>
+        <p class="kv" style="margin-top:6px;"><b>Keyframe</b> transition defined by start/end frames</p>
+        <p class="kv"><b>Interpolation</b> the in-between frames ("tweening")</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>Animation = movement generated from static frames along a pre-calculated path (keyframes + interpolation). Tool: Revit Walkthrough.</div>
+      </div>
+    </div>
+
+    <!-- Card 4: external software -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">External rendering/animation software</p><div class="tagrow"><span class="roletag">Compare</span><span class="roletag exam">Exam</span><span class="tag">Card 4</span></div></div>
+      <p class="unlocks">Exam: DE-Q64 (DE-Q62-64) — advantages/disadvantages of external software</p>
+      <div class="sect">
+        <table class="ref" style="margin:0;">
+          <tr><th>+ Advantages</th><th>− Disadvantages</th></tr>
+          <tr><td>full functionality, more effects, sound/music</td><td>export via plug-ins / geometry formats</td></tr>
+          <tr><td>specialized, higher quality</td><td><b>no live update</b> when the model changes; extra time/cost</td></tr>
+        </table>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>External tools give more power/quality but <b>break the live link to the model</b> (no auto-update) and add interoperability effort.</div>
+      </div>
+    </div>
+
+    <!-- Card 5: camera + light -->
+    <div class="card wide">
+      <div class="card-head"><p class="card-title">Camera angles &amp; light sources</p><div class="tagrow"><span class="roletag">Reference</span><span class="tag">Card 5</span></div></div>
+      <p class="unlocks">Foundational — the vocabulary of the rendering scene.</p>
+      <div class="sect">
+        <p class="label">Camera angles</p>
+        <div class="chain"><div class="chain-row"><span class="pill hl">Eye-level (Normalsicht)</span><span class="pill ju">Worm's-eye (from below → dominant)</span><span class="pill se">Bird's-eye (from above → context)</span></div></div>
+      </div>
+      <div class="sect">
+        <p class="label">Light sources</p>
+        <table class="ref" style="margin:0;">
+          <tr><th>Type</th><th>Behaviour</th></tr>
+          <tr><td>Ambient</td><td>indirect, uniform everywhere, position irrelevant, no falloff</td></tr>
+          <tr><td>Point / omni</td><td>single point, all directions (bulb), inverse-square falloff, shadows</td></tr>
+          <tr><td>Spot</td><td>cone (point + direction + angle), falloff</td></tr>
+          <tr><td>Directional / sun</td><td>infinitely far, one direction, position irrelevant</td></tr>
+          <tr><td>Area</td><td>rectangle/disc, emits from one side</td></tr>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <h2 class="section">Quick reference</h2>
+  <table class="ref" style="margin-bottom:2rem;">
+    <tr><th>Concept</th><th>One-liner</th></tr>
+    <tr><td>VR</td><td>fully virtual world (CAVE, HMD)</td></tr>
+    <tr><td>AR</td><td>virtual overlaid on real (DEPLANAR, HoloLens)</td></tr>
+    <tr><td>Rendering</td><td>image from geometric model (Phong, raytracing, GI, radiosity)</td></tr>
+    <tr><td>Animation</td><td>movement from static frames; keyframe + interpolation</td></tr>
+    <tr><td>External software</td><td>+ power/quality, − no live update, plug-in export</td></tr>
+    <tr><td>Camera angles</td><td>eye-level · worm's-eye · bird's-eye</td></tr>
+    <tr><td>Lights</td><td>ambient, point, spot, directional/sun, area</td></tr>
+  </table>
+
+  <div class="checklist">
+    <h2>Exam checklist — Chapter 8</h2>
+    <p class="sub">Every past-exam question in this chapter, mapped to its card.</p>
+    <table class="ref">
+      <tr><th>Topic</th><th>Exam</th><th>Card</th></tr>
+      <tr><td>AR vs VR + systems</td><td>DE-Q62 · MP-Q22</td><td>Card 1</td></tr>
+      <tr><td>Animation / rendering / external SW</td><td>DE-Q62-64</td><td>Cards 2–4</td></tr>
+    </table>
+  </div>
+
+  <a class="back" href="index.html">← Back to overview</a>
+</div>
+</body>
+</html>

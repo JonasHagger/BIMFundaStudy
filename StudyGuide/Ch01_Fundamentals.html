@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 1 — Fundamentals &amp; Use Cases</title>
+<link rel="stylesheet" href="_styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="nav"><a class="home" href="../index.html">&#8962; App</a>
+    <a class="home" href="index.html">● Overview</a>
+    <a href="Ch01_Fundamentals.html">1 Fundamentals</a>
+    <a href="Ch02_GeometricModeling.html">2 Geometry</a>
+    <a href="Ch03_IFC.html">3 IFC</a>
+    <a href="Ch04_ModelChecking.html">4 Checking</a>
+    <a href="Ch05_ParametricModeling.html">5 Parametric</a>
+    <a href="Ch06_Collaboration.html">6 Collaboration</a>
+    <a href="Ch07_QuantityTakeOff.html">7 QTO</a>
+    <a href="Ch08_Documentation.html">8 Docs</a>
+    <a href="Ch09_GIS.html">9 GIS</a>
+    <a href="Ch10_ProjectExecution.html">10 Execution</a>
+    <a href="Ch11_Sustainability.html">11 Sustain.</a>
+  </div>
+
+  <p class="kicker">BIM.fundamentals · Exam prep</p>
+  <h1>Chapter 1 — Fundamentals &amp; Use Cases</h1>
+  <p class="lede">The "what and why" of BIM: a semantic 3D model as a single source of truth, the advantages it unlocks over 2D drawings, how maturity is measured (LOD = LOG + LOI), and the use cases that define what a model must contain.</p>
+  <p class="lede" style="margin-top:-14px;font-size:13px;">Tags say what a card <i>is</i>. <span style="color:var(--teal-800);font-weight:600;">Green box = the direct exam answer.</span></p>
+
+  <h2 class="section">Concept cards</h2>
+  <div class="cardgrid">
+
+    <!-- Card 1: What is BIM -->
+    <div class="card wide">
+      <div class="card-head"><p class="card-title">What is BIM? + its characteristics</p><div class="tagrow"><span class="roletag">Definition</span><span class="roletag exam">Exam</span><span class="tag">Card 1</span></div></div>
+      <p class="unlocks">Exam: DE-Q1-3 (BIM definition + characteristics) · MP-Q1 context</p>
+      <div class="sect">
+        <p class="label">Definition (NBIMS, US)</p>
+        <p class="bigpic">A BIM is a <b>digital representation of the physical and functional characteristics of a facility</b>, serving as a <b>shared knowledge resource</b> and a <b>reliable basis for decisions across its whole lifecycle</b>.</p>
+      </div>
+      <div class="sect">
+        <p class="label">3 most important characteristics</p>
+        <div class="chain"><div class="chain-row"><span class="pill hl">① 3D geometry</span><span class="pill se">② Semantics (walls, doors, slabs…)</span><span class="pill ju">③ + Additional info (material, relations)</span></div></div>
+        <p class="bigpic" style="margin-top:8px;">Semantics is what lets you <b>derive drawings, do quantity take-off, and run simulations</b> — a dumb 3D shape cannot.</p>
+      </div>
+      <div class="sect">
+        <p class="label">Descriptive power ladder</p>
+        <svg viewBox="0 0 520 130" style="width:100%;height:auto;background:var(--surface-2);border-radius:10px;">
+          <rect x="20" y="70" width="120" height="44" rx="6" fill="var(--border-strong)"/><text x="80" y="90" font-size="12" fill="#fff" text-anchor="middle">2D Drawing</text><text x="80" y="105" font-size="9" fill="#fff" text-anchor="middle">lines only</text>
+          <rect x="170" y="55" width="120" height="59" rx="6" fill="var(--amber-600)"/><text x="230" y="80" font-size="12" fill="#fff" text-anchor="middle">3D Geometry</text><text x="230" y="98" font-size="9" fill="#fff" text-anchor="middle">shape, no meaning</text>
+          <rect x="320" y="28" width="180" height="86" rx="6" fill="var(--teal-600)"/><text x="410" y="60" font-size="13" fill="#fff" text-anchor="middle" font-weight="bold">BIM</text><text x="410" y="80" font-size="9" fill="#fff" text-anchor="middle">3D + semantic data</text><text x="410" y="94" font-size="9" fill="#fff" text-anchor="middle">+ relationships</text>
+          <text x="20" y="18" font-size="11" fill="var(--text-2)">Descriptive power  →</text>
+          <path d="M145 92 L168 82" stroke="var(--text-mut)" stroke-width="2" marker-end="url(#ar1)"/>
+          <path d="M295 80 L318 70" stroke="var(--text-mut)" stroke-width="2" marker-end="url(#ar1)"/>
+          <defs><marker id="ar1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="var(--text-mut)"/></marker></defs>
+        </svg>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span><b>BIM = digital representation of physical + functional characteristics of a facility, a shared, reliable source across the lifecycle.</b> Characteristics: (1) 3D geometry, (2) semantics, (3) linked additional information.</div>
+      </div>
+    </div>
+
+    <!-- Card 2: Advantages + 2D drawbacks -->
+    <div class="card wide">
+      <div class="card-head"><p class="card-title">Advantages of BIM · Drawbacks of 2D drawings</p><div class="tagrow"><span class="roletag">Compare</span><span class="roletag exam">Exam</span><span class="tag">Card 2</span></div></div>
+      <p class="unlocks">Exam: DE-Q4 (advantages) · DE-Q5 (2D drawbacks) · DE-Q38 (advantages of 3D)</p>
+      <div class="sect">
+        <table class="ref" style="margin:0;">
+          <tr><th>+ Advantages of BIM</th><th>− Drawbacks of conventional 2D</th></tr>
+          <tr><td>Fewer planning errors — transparency, inter-discipline coordination, <b>single source of truth</b></td><td>Line drawings are <b>not machine-understandable</b></td></tr>
+          <tr><td>Fewer tendering errors — model-based <b>quantity take-off</b>, fewer change orders</td><td>Info flow on drawings alone is error-prone</td></tr>
+          <tr><td>Transparency in execution — model-based progress monitoring</td><td>Design changes hard to track → <b>inconsistencies</b> found late</td></tr>
+          <tr><td>Early <b>clash detection</b>; better lifecycle &amp; FM data; faster delivery</td><td>No direct downstream use (simulation, analysis) → manual re-entry</td></tr>
+        </table>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>Name 3–4 each. Core advantage = <b>fewer errors + single source of truth + downstream reuse</b>. Core 2D drawback = <b>not computer-interpretable, so changes cause hidden inconsistencies</b>.</div>
+      </div>
+    </div>
+
+    <!-- Card 3: LOD = LOG + LOI -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">LOD = LOG + LOI</p><div class="tagrow"><span class="roletag">Concept</span><span class="roletag exam">Exam</span><span class="tag">Card 3</span></div></div>
+      <p class="unlocks">Exam: DE-Q9 (LOD) · DE-Q11 (LOG vs LOI) — asked repeatedly</p>
+      <div class="sect">
+        <p class="label">The split</p>
+        <div class="chain"><div class="chain-row"><span class="pill hl">LOD</span><span class="arrow">=</span><span class="pill se">LOG (geometry)</span><span class="arrow">+</span><span class="pill ju">LOI (information)</span></div></div>
+      </div>
+      <div class="sect">
+        <p class="kv"><b>LOG</b> Level of Geometry — how detailed the geometry must be per phase.</p>
+        <p class="kv"><b>LOI</b> Level of Information — which properties/semantics an object must carry.</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span><b>LOG = geometric maturity; LOI = required semantic properties.</b> Together they form the Level of Development (details of the 100–500 scale live in Ch 10).</div>
+        <p class="watch" style="margin-top:8px;"><b>Watch out:</b> this "LOD" (building maturity) is NOT the same as CityGML LOD 0–4 (Ch 9). Don't mix them.</p>
+      </div>
+    </div>
+
+    <!-- Card 4: BIM use cases -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">BIM use cases + 4 by the Ministry</p><div class="tagrow"><span class="roletag">Definition</span><span class="roletag exam">Exam</span><span class="tag">Card 4</span></div></div>
+      <p class="unlocks">Exam: DE-Q7 · MP-Q17 — define + name 4 (German Ministry of Transport / BMVI)</p>
+      <div class="sect">
+        <p class="label">Definition</p>
+        <p class="bigpic">A BIM use case defines <b>why (for which purpose)</b> BIM is used — and therefore <b>what the model must contain</b>. Defined by the <b>employer</b>, at project start.</p>
+      </div>
+      <div class="sect">
+        <p class="label">4 you can name (of BMVI's 20)</p>
+        <div class="chain"><div class="chain-row"><span class="pill se">Visualization</span><span class="pill se">Coordination / clash</span></div><div class="chain-row"><span class="pill se">Quantity &amp; cost estimation</span><span class="pill se">Progress monitoring</span></div></div>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>Use cases <b>determine the content of the model</b>. Any 4 of: Visualization, Coordination, Bill-of-quantities/Tendering, 4D scheduling, Progress monitoring, As-built documentation…</div>
+      </div>
+    </div>
+
+    <!-- Card 5: nD dimensions -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">nD dimensions (2D → 7D)</p><div class="tagrow"><span class="roletag">Model</span><span class="roletag exam">Exam</span><span class="tag">Card 5</span></div></div>
+      <p class="unlocks">Exam: DE-Q23 — what 2D/3D/4D/5D/6D/7D mean</p>
+      <div class="sect">
+        <p class="label">Each dimension adds one layer</p>
+        <svg viewBox="0 0 460 200" style="width:100%;height:auto;background:var(--surface-2);border-radius:10px;">
+          <g font-size="11" fill="#fff" text-anchor="start">
+            <rect x="20" y="14" width="120" height="22" rx="4" fill="var(--border-strong)"/><text x="28" y="29" fill="#1c1b18">2D · drawings</text>
+            <rect x="20" y="40" width="170" height="22" rx="4" fill="#7a8a99"/><text x="28" y="55">3D · + geometry</text>
+            <rect x="20" y="66" width="215" height="22" rx="4" fill="var(--teal-600)"/><text x="28" y="81">4D · + time / schedule</text>
+            <rect x="20" y="92" width="260" height="22" rx="4" fill="var(--amber-600)"/><text x="28" y="107">5D · + cost</text>
+            <rect x="20" y="118" width="310" height="22" rx="4" fill="var(--coral-600)"/><text x="28" y="133">6D · + energy / sustainability</text>
+            <rect x="20" y="144" width="380" height="22" rx="4" fill="var(--purple-600)"/><text x="28" y="159">7D · + facility management</text>
+          </g>
+        </svg>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span><b>2D</b> drawings · <b>3D</b> geometry · <b>4D</b> +time · <b>5D</b> +cost · <b>6D</b> +energy/sustainability · <b>7D</b> +facility management.</div>
+      </div>
+    </div>
+
+    <!-- Card 6: MacLeamy curve -->
+    <div class="card wide">
+      <div class="card-head"><p class="card-title">Planning-effort curve (MacLeamy)</p><div class="tagrow"><span class="roletag">Sketch</span><span class="roletag exam">Exam</span><span class="tag">Card 6</span></div></div>
+      <p class="unlocks">Exam: DE-Q22 — draw/label conventional vs BIM effort, impact, and cost-of-change over time</p>
+      <div class="sect">
+        <p class="label">Draw this from memory: BIM shifts effort earlier, where influence is high and change is cheap</p>
+        <svg viewBox="0 0 470 265" style="width:100%;height:auto;background:var(--surface-2);border-radius:10px;">
+          <!-- axes -->
+          <line x1="60" y1="210" x2="440" y2="210" stroke="var(--border-strong)" stroke-width="1.5"/>
+          <line x1="60" y1="30" x2="60" y2="210" stroke="var(--border-strong)" stroke-width="1.5"/>
+          <text x="250" y="240" font-size="11" fill="var(--text-2)" text-anchor="middle">Time  (Preliminary → Detailed design → Construction)</text>
+          <text x="18" y="120" font-size="11" fill="var(--text-2)" transform="rotate(-90 18 120)" text-anchor="middle">Effort / Impact</text>
+          <!-- impact descending -->
+          <line x1="60" y1="55" x2="430" y2="200" stroke="var(--teal-600)" stroke-width="2" stroke-dasharray="5 3"/>
+          <text x="66" y="50" font-size="9.5" fill="var(--teal-800)">Ability to impact cost/function (↓)</text>
+          <!-- cost of change ascending -->
+          <line x1="60" y1="200" x2="430" y2="55" stroke="var(--coral-600)" stroke-width="2" stroke-dasharray="5 3"/>
+          <text x="300" y="52" font-size="9.5" fill="var(--coral-800)">Cost of design changes (↑)</text>
+          <!-- traditional effort bell (peak right) -->
+          <polyline fill="none" stroke="var(--text-mut)" stroke-width="2.5" points="60.0,210.0 88.5,209.9 116.9,209.5 145.4,207.4 173.8,200.0 202.3,180.8 230.8,144.4 259.2,96.6 287.7,59.3 301.9,52.6 316.2,56.1 344.6,89.2 373.1,137.1 401.5,176.2 430.0,197.9"/>
+          <text x="330" y="80" font-size="9.5" fill="var(--text-mut)">Traditional effort</text>
+          <!-- BIM effort bell (peak left) -->
+          <polyline fill="none" stroke="var(--purple-600)" stroke-width="2.5" points="60.0,197.9 88.5,176.2 116.9,137.1 145.4,89.2 173.8,56.1 188.1,52.6 202.3,59.3 230.8,96.6 259.2,144.4 287.7,180.8 316.2,200.0 344.6,207.4 373.1,209.5 401.5,209.9 430.0,210.0"/>
+          <text x="86" y="60" font-size="9.5" fill="var(--purple-800)">BIM effort (earlier)</text>
+        </svg>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>The BIM effort curve <b>peaks early</b>; the conventional one peaks late. Because <b>influence on cost/function is high early and the cost of changes rises over time</b>, front-loading effort (BIM) saves cost &amp; time.</div>
+      </div>
+    </div>
+
+    <!-- Card 7: Little/BIG/Closed/Open -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Little / BIG / Closed / Open BIM</p><div class="tagrow"><span class="roletag">Definition</span><span class="roletag exam">Exam</span><span class="tag">Card 7</span></div></div>
+      <p class="unlocks">Exam: DE-Q10 · MP-Q1 (open/closed BIM, book p.12)</p>
+      <div class="sect">
+        <table class="ref" style="margin:0;">
+          <tr><th></th><th>Meaning</th></tr>
+          <tr><td><b>little BIM</b></td><td>single discipline, isolated island solution</td></tr>
+          <tr><td><b>BIG BIM</b></td><td>cross-discipline, across the whole lifecycle</td></tr>
+          <tr><td><b>closed BIM</b></td><td>one vendor / proprietary formats</td></tr>
+          <tr><td><b>open BIM</b></td><td>vendor-neutral exchange (IFC)</td></tr>
+        </table>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>Two axes: <b>scope</b> (little vs BIG) and <b>openness</b> (closed vs open). Open BIM = IFC-based, vendor-neutral.</div>
+      </div>
+    </div>
+
+    <!-- Card 8: Digital twin -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Digital Twin</p><div class="tagrow"><span class="roletag">Definition</span><span class="roletag exam">Exam</span><span class="tag">Card 8</span></div></div>
+      <p class="unlocks">Exam: DE-Q12 — define digital twin</p>
+      <div class="sect">
+        <p class="bigpic">A <b>digital representation of a physical or immaterial object or process</b> from the real world in the digital world — continuously updated with data from multiple sources. The counterpart may already exist or exist only in the future.</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>Digital twin = live digital counterpart of a real (or future) object/process, kept in sync via data exchange.</div>
+      </div>
+    </div>
+
+    <!-- Card 9: Geometry kernel -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Geometry Kernel</p><div class="tagrow"><span class="roletag">Definition</span><span class="roletag exam">Exam</span><span class="tag">Card 9</span></div></div>
+      <p class="unlocks">Exam: DE-Q8 — what is a geometry kernel?</p>
+      <div class="sect">
+        <p class="bigpic">A <b>software component providing the data structures + operations to represent and process 3D geometry</b> inside CAD/BIM tools. Examples: <b>ACIS</b> (Spatial), <b>Parasolid</b> (Siemens).</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>The 3D-geometry engine of a CAD system (ACIS, Parasolid). Sits below the BIM UI (layers → see Ch 2).</div>
+      </div>
+    </div>
+
+    <!-- Card 10: Classification classes -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Classification systems</p><div class="tagrow"><span class="roletag">Definition</span><span class="roletag exam">Exam</span><span class="tag">Card 10</span></div></div>
+      <p class="unlocks">Exam: DE-Q13 — name two classification classes (see also Ch 7, Ch 10)</p>
+      <div class="sect">
+        <p class="bigpic">A standardized <b>taxonomy</b> giving each component a numeric code for unambiguous naming. Name two: <b>OmniClass</b> (US) and <b>Uniclass</b> (UK). Also <b>DIN 276</b> (DE).</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span><b>OmniClass, Uniclass</b> (+ DIN 276, Masterformat).</div>
+      </div>
+    </div>
+
+    <!-- Card 11: Software -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">BIM software landscape</p><div class="tagrow"><span class="roletag">Reference</span><span class="roletag exam">Exam</span><span class="tag">Card 11</span></div></div>
+      <p class="unlocks">Exam: DE-Q6 — different software used for BIM</p>
+      <div class="sect">
+        <p class="kv"><b>Authoring</b> Revit, ArchiCAD, Allplan, Tekla, Bentley</p>
+        <p class="kv"><b>Viewer/checker</b> Navisworks, Solibri</p>
+        <p class="kv"><b>CDE</b> BIM+, Trimble Connect, Autodesk Forma</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>A project needs a <b>landscape</b>: core tools (authoring, viewer, checker, CDE) + use-case-specific tools. One product can serve several use cases.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <h2 class="section">Quick reference</h2>
+  <table class="ref" style="margin-bottom:2rem;">
+    <tr><th>Concept</th><th>One-liner</th></tr>
+    <tr><td>BIM</td><td>Digital repr. of physical + functional characteristics; shared, lifecycle-wide source of truth</td></tr>
+    <tr><td>3 characteristics</td><td>3D geometry · semantics · additional linked info</td></tr>
+    <tr><td>LOD</td><td>= LOG (geometry) + LOI (information)</td></tr>
+    <tr><td>nD</td><td>3D geom · 4D time · 5D cost · 6D energy · 7D FM</td></tr>
+    <tr><td>Use case</td><td>Defines purpose → defines model content; set by employer</td></tr>
+    <tr><td>open vs closed BIM</td><td>vendor-neutral (IFC) vs one-vendor/proprietary</td></tr>
+    <tr><td>Digital twin</td><td>Live digital counterpart of a real/future object, continuously updated</td></tr>
+    <tr><td>Geometry kernel</td><td>3D geometry engine (ACIS, Parasolid)</td></tr>
+    <tr><td>Classification</td><td>OmniClass (US), Uniclass (UK), DIN 276 (DE)</td></tr>
+  </table>
+
+  <div class="checklist">
+    <h2>Exam checklist — Chapter 1</h2>
+    <p class="sub">Every past-exam question in this chapter, mapped to the card that answers it.</p>
+    <table class="ref">
+      <tr><th>Topic</th><th>Exam</th><th>Card</th></tr>
+      <tr><td>What is BIM / characteristics</td><td>DE-Q1-3</td><td>Card 1</td></tr>
+      <tr><td>Advantages of BIM</td><td>DE-Q4</td><td>Card 2</td></tr>
+      <tr><td>Drawbacks of 2D drawings</td><td>DE-Q5</td><td>Card 2</td></tr>
+      <tr><td>BIM software</td><td>DE-Q6</td><td>Card 11</td></tr>
+      <tr><td>Use cases + 4 by ministry</td><td>DE-Q7 · MP-Q17</td><td>Card 4</td></tr>
+      <tr><td>Geometry kernel</td><td>DE-Q8</td><td>Card 9</td></tr>
+      <tr><td>What is LOD</td><td>DE-Q9</td><td>Card 3</td></tr>
+      <tr><td>little/BIG/closed/open BIM</td><td>DE-Q10 · MP-Q1</td><td>Card 7</td></tr>
+      <tr><td>LOG vs LOI</td><td>DE-Q11</td><td>Card 3</td></tr>
+      <tr><td>Digital twin</td><td>DE-Q12</td><td>Card 8</td></tr>
+      <tr><td>Classification classes</td><td>DE-Q13</td><td>Card 10</td></tr>
+      <tr><td>Planning-effort chart</td><td>DE-Q22</td><td>Card 6</td></tr>
+      <tr><td>2D–7D dimensions</td><td>DE-Q23</td><td>Card 5</td></tr>
+    </table>
+  </div>
+
+  <a class="back" href="index.html">← Back to overview</a>
+</div>
+</body>
+</html>

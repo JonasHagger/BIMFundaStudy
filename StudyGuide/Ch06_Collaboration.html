@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 6 — Collaboration &amp; Data Management</title>
+<link rel="stylesheet" href="_styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="nav"><a class="home" href="../index.html">&#8962; App</a>
+    <a class="home" href="index.html">● Overview</a>
+    <a href="Ch01_Fundamentals.html">1 Fundamentals</a>
+    <a href="Ch02_GeometricModeling.html">2 Geometry</a>
+    <a href="Ch03_IFC.html">3 IFC</a>
+    <a href="Ch04_ModelChecking.html">4 Checking</a>
+    <a href="Ch05_ParametricModeling.html">5 Parametric</a>
+    <a href="Ch06_Collaboration.html">6 Collaboration</a>
+    <a href="Ch07_QuantityTakeOff.html">7 QTO</a>
+    <a href="Ch08_Documentation.html">8 Docs</a>
+    <a href="Ch09_GIS.html">9 GIS</a>
+    <a href="Ch10_ProjectExecution.html">10 Execution</a>
+    <a href="Ch11_Sustainability.html">11 Sustain.</a>
+  </div>
+
+  <p class="kicker">BIM.fundamentals · Exam prep · CORE</p>
+  <h1>Chapter 6 — Collaboration &amp; Data Management</h1>
+  <p class="lede">How many disciplines work on one model without chaos: synchronous (one model + locks) vs asynchronous (federated models + merging), the concurrency mechanics, the ISO 19650 Common Data Environment, and BCF for issues.</p>
+  <p class="lede" style="margin-top:-14px;font-size:13px;">Tags say what a card <i>is</i>. <span style="color:var(--teal-800);font-weight:600;">Green box = the direct exam answer.</span></p>
+
+  <h2 class="section">Concept cards</h2>
+  <div class="cardgrid">
+
+    <!-- Card 1: sync vs async -->
+    <div class="card wide">
+      <div class="card-head"><p class="card-title">Synchronous vs Asynchronous collaboration</p><div class="tagrow"><span class="roletag">Compare</span><span class="roletag exam">Exam</span><span class="tag">Card 1</span></div></div>
+      <p class="unlocks">Exam: DE-Q40 · MP-Q18 — compare wrt 3 aspects — asked every year</p>
+      <div class="sect">
+        <table class="ref" style="margin:0;">
+          <tr><th>Aspect</th><th>Synchronous</th><th>Asynchronous</th></tr>
+          <tr><td>Model</td><td>one-model approach</td><td>federated discipline models</td></tr>
+          <tr><td>Consistency</td><td>(almost) always consistent</td><td>accepted phase-wise inconsistency</td></tr>
+          <tr><td>Merging</td><td>none (coordination via locks)</td><td>merging needed (coordination points)</td></tr>
+          <tr><td>Ownership</td><td>shared</td><td>clear ownership &amp; responsibility</td></tr>
+          <tr><td>Scope</td><td>within one company</td><td>across companies (main AEC mode)</td></tr>
+        </table>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span><b>Synchronous</b> = simultaneous edits on one model, kept consistent by locks, shared ownership (within a firm). <b>Asynchronous</b> = separate federated models merged at coordination points, clear ownership (across firms).</div>
+      </div>
+    </div>
+
+    <!-- Card 2: concurrency control -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Concurrency control</p><div class="tagrow"><span class="roletag">Concept</span><span class="roletag exam">Exam</span><span class="tag">Card 2</span></div></div>
+      <p class="unlocks">Exam: DE-Q54 · MP-Q19 — what it is + why necessary</p>
+      <div class="sect">
+        <p class="bigpic"><b>Locking an object while it is being modified.</b> Cycle: <b>retrieve lock → modify → release lock</b>. Necessary because two users editing the same object simultaneously → conflicts / inconsistencies.</p>
+        <p class="kv" style="margin-top:6px;"><b>Key questions</b> granularity (atomic object? how long?) + dependent objects (lock all / none?)</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>Concurrency control = locking objects during edit to <b>prevent two users changing the same object at once</b> in synchronous collaboration.</div>
+      </div>
+    </div>
+
+    <!-- Card 3: locking + synchronization -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Locking &amp; synchronization: implicit vs explicit</p><div class="tagrow"><span class="roletag">Compare</span><span class="roletag exam">Exam</span><span class="tag">Card 3</span></div></div>
+      <p class="unlocks">Exam: DE-Q55 (2 approaches) · DE-Q57 (implicit vs explicit locking) · MP-Q20 (Revit)</p>
+      <div class="sect">
+        <table class="ref" style="margin:0;">
+          <tr><th></th><th>Implicit</th><th>Explicit</th></tr>
+          <tr><td>Locking</td><td>system locks/releases automatically</td><td>user requests &amp; releases the lock</td></tr>
+          <tr><td>Synchronization</td><td>automatic, background</td><td>invoked by the user</td></tr>
+        </table>
+      </div>
+      <div class="sect">
+        <p class="kv" style="margin-top:4px;"><b>Revit</b> implicit locking + explicit sync ("Synchronize with Central") + <b>worksets</b> (borrow to edit).</p>
+        <p class="kv"><b>ArchiCAD Teamwork</b> explicit locking (reserve) + explicit sync (send &amp; receive).</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>Two approaches = <b>implicit (auto) vs explicit (user-requested)</b> locking. Revit = implicit locking + explicit synchronization.</div>
+      </div>
+    </div>
+
+    <!-- Card 4: model server + data mgmt -->
+    <div class="card wide">
+      <div class="card-head"><p class="card-title">Data management: file → server → model server</p><div class="tagrow"><span class="roletag">Concept</span><span class="roletag exam">Exam</span><span class="tag">Card 4</span></div></div>
+      <p class="unlocks">Exam: DE-Q39 (past/present/future) · DE-Q53 · MP-Q8 (4 model-server benefits)</p>
+      <div class="sect">
+        <div class="chain"><div class="chain-row"><span class="pill me">Past: e-mail files</span><span class="arrow">→</span><span class="pill ju">Present: central server (whole-file blocks)</span><span class="arrow">→</span><span class="pill se">Future: model server (objects, cloud)</span></div></div>
+      </div>
+      <div class="sect">
+        <table class="ref" style="margin:0;">
+          <tr><th>Stage</th><th>Problem</th></tr>
+          <tr><td>Past — e-mail/files</td><td>concurrent copies → inconsistencies; manual merging; sequential only</td></tr>
+          <tr><td>Present — project platform</td><td>smallest entity = a <b>file</b> → whole model as one block → no simultaneous edits</td></tr>
+          <tr><td>Future — model server</td><td>manages <b>models not files</b>; per-object concurrency control; prevents inconsistencies</td></tr>
+        </table>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>4 model-server benefits: <b>manage models not files · per-object concurrency control · inconsistency prevention · change tracking/transparency.</b> (Book variant: fewer planning errors, fewer tendering errors, more transparency, better public communication.)</div>
+      </div>
+    </div>
+
+    <!-- Card 5: model federation -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Model federation</p><div class="tagrow"><span class="roletag">Definition</span><span class="roletag exam">Exam</span><span class="tag">Card 5</span></div></div>
+      <p class="unlocks">Exam: DE-Q56 — what it is + which standard</p>
+      <div class="sect">
+        <p class="bigpic">Each discipline creates its <b>own model</b> (clear authorship); models are <b>merged at regular intervals</b> into a <b>coordination/federated model</b>; a BIM coordinator checks clashes; issues go to the responsible author (BCF); <b>only the author changes their model</b>. Defined in <b>ISO 19650</b>.</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>Independent discipline models coordinated/merged periodically into a federated model. Standard: <b>ISO EN DIN 19650</b>.</div>
+      </div>
+    </div>
+
+    <!-- Card 6: CDE statuses -->
+    <div class="card wide">
+      <div class="card-head"><p class="card-title">Common Data Environment — 4 statuses (ISO 19650)</p><div class="tagrow"><span class="roletag">Process</span><span class="roletag exam">Exam</span><span class="tag">Card 6</span></div></div>
+      <p class="unlocks">Exam: DE-Q58 — the 4 main statuses of a CDE</p>
+      <div class="sect">
+        <svg viewBox="0 0 470 110" style="width:100%;height:auto;background:var(--surface-2);border-radius:10px;">
+          <rect x="15" y="40" width="90" height="34" rx="5" fill="var(--amber-600)"/><text x="60" y="61" font-size="10.5" fill="#fff" text-anchor="middle">WIP</text>
+          <rect x="140" y="40" width="90" height="34" rx="5" fill="var(--teal-600)"/><text x="185" y="61" font-size="10.5" fill="#fff" text-anchor="middle">Shared</text>
+          <rect x="265" y="40" width="90" height="34" rx="5" fill="var(--purple-600)"/><text x="310" y="61" font-size="10.5" fill="#fff" text-anchor="middle">Published</text>
+          <rect x="380" y="40" width="80" height="34" rx="5" fill="var(--border-strong)"/><text x="420" y="61" font-size="10.5" fill="#1c1b18" text-anchor="middle">Archived</text>
+          <line x1="105" y1="57" x2="140" y2="57" stroke="var(--text-mut)" stroke-width="2" marker-end="url(#a6)"/><text x="122" y="34" font-size="8" fill="var(--text-mut)" text-anchor="middle">gate</text>
+          <line x1="230" y1="57" x2="265" y2="57" stroke="var(--text-mut)" stroke-width="2" marker-end="url(#a6)"/><text x="247" y="34" font-size="8" fill="var(--text-mut)" text-anchor="middle">authorize</text>
+          <line x1="355" y1="57" x2="380" y2="57" stroke="var(--text-mut)" stroke-width="2" marker-end="url(#a6)"/>
+          <text x="60" y="90" font-size="7.5" fill="var(--text-mut)" text-anchor="middle">unapproved</text>
+          <text x="185" y="90" font-size="7.5" fill="var(--text-mut)" text-anchor="middle">reference for others</text>
+          <text x="310" y="90" font-size="7.5" fill="var(--text-mut)" text-anchor="middle">permit/tender/construction</text>
+          <text x="420" y="90" font-size="7.5" fill="var(--text-mut)" text-anchor="middle">audit trail</text>
+          <defs><marker id="a6" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="var(--text-mut)"/></marker></defs>
+        </svg>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span><b>Work-In-Progress → Shared → Published → Archived</b>, with an approval gate between each. Implemented as zones/folders in the CDE.</div>
+      </div>
+    </div>
+
+    <!-- Card 7: BCF / issue tracking -->
+    <div class="card wide">
+      <div class="card-head"><p class="card-title">Issue tracking — BCF</p><div class="tagrow"><span class="roletag">Definition</span><span class="roletag exam">Exam</span><span class="tag">Card 7</span></div></div>
+      <p class="unlocks">Exam: DE-Q59 (issue tracking + suitable format) · MP-Q6 (BCF + one technical detail)</p>
+      <div class="sect">
+        <p class="bigpic"><b>BCF = BIM Collaboration Format</b> — a vendor-independent buildingSMART standard that <b>transports issues, not models</b> (carries RFI/RFC). Used for cross-discipline coordination.</p>
+        <p class="label" style="margin-top:8px;">Technical detail (any one)</p>
+        <p class="bigpic">A <b>ZIP</b> containing an <b>XML</b> file (which elements are highlighted/hidden, camera position/direction/zoom, textual description) + a <b>screenshot</b>. Elements referenced by <b>IFC GUIDs</b>.</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>Issue tracking = track/manage/resolve model issues; the suitable format is <b>BCF</b>. Technical detail: XML + screenshot in a ZIP, elements linked by IFC GUID, plus camera viewpoint.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <h2 class="section">Quick reference</h2>
+  <table class="ref" style="margin-bottom:2rem;">
+    <tr><th>Concept</th><th>One-liner</th></tr>
+    <tr><td>Synchronous</td><td>one model + locks, always consistent, within a firm</td></tr>
+    <tr><td>Asynchronous</td><td>federated models + merging, across firms (main AEC mode)</td></tr>
+    <tr><td>Concurrency control</td><td>lock object during edit → prevent simultaneous change</td></tr>
+    <tr><td>Implicit vs explicit</td><td>automatic vs user-requested (locking &amp; synchronization)</td></tr>
+    <tr><td>Revit</td><td>implicit locking + explicit sync + worksets</td></tr>
+    <tr><td>Model federation</td><td>independent models merged periodically; ISO 19650</td></tr>
+    <tr><td>CDE statuses</td><td>WIP → Shared → Published → Archived</td></tr>
+    <tr><td>BCF</td><td>transports issues not models; XML + screenshot, IFC GUIDs</td></tr>
+  </table>
+
+  <div class="checklist">
+    <h2>Exam checklist — Chapter 6</h2>
+    <p class="sub">Every past-exam question in this chapter, mapped to its card.</p>
+    <table class="ref">
+      <tr><th>Topic</th><th>Exam</th><th>Card</th></tr>
+      <tr><td>Data management past/present/future</td><td>DE-Q39</td><td>Card 4</td></tr>
+      <tr><td>Synchronous vs asynchronous</td><td>DE-Q40 · MP-Q18</td><td>Card 1</td></tr>
+      <tr><td>Model-server benefits</td><td>DE-Q53 · MP-Q8</td><td>Card 4</td></tr>
+      <tr><td>Concurrency control</td><td>DE-Q54 · MP-Q19</td><td>Card 2</td></tr>
+      <tr><td>Two concurrency approaches</td><td>DE-Q55</td><td>Card 3</td></tr>
+      <tr><td>Model federation</td><td>DE-Q56</td><td>Card 5</td></tr>
+      <tr><td>Implicit vs explicit locking</td><td>DE-Q57 · MP-Q20</td><td>Card 3</td></tr>
+      <tr><td>4 CDE statuses</td><td>DE-Q58</td><td>Card 6</td></tr>
+      <tr><td>Issue tracking / BCF</td><td>DE-Q59 · MP-Q6</td><td>Card 7</td></tr>
+    </table>
+  </div>
+
+  <a class="back" href="index.html">← Back to overview</a>
+</div>
+</body>
+</html>

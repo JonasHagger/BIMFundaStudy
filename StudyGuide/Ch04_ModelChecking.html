@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 4 — Model Checking</title>
+<link rel="stylesheet" href="_styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="nav"><a class="home" href="../index.html">&#8962; App</a>
+    <a class="home" href="index.html">● Overview</a>
+    <a href="Ch01_Fundamentals.html">1 Fundamentals</a>
+    <a href="Ch02_GeometricModeling.html">2 Geometry</a>
+    <a href="Ch03_IFC.html">3 IFC</a>
+    <a href="Ch04_ModelChecking.html">4 Checking</a>
+    <a href="Ch05_ParametricModeling.html">5 Parametric</a>
+    <a href="Ch06_Collaboration.html">6 Collaboration</a>
+    <a href="Ch07_QuantityTakeOff.html">7 QTO</a>
+    <a href="Ch08_Documentation.html">8 Docs</a>
+    <a href="Ch09_GIS.html">9 GIS</a>
+    <a href="Ch10_ProjectExecution.html">10 Execution</a>
+    <a href="Ch11_Sustainability.html">11 Sustain.</a>
+  </div>
+
+  <p class="kicker">BIM.fundamentals · Exam prep</p>
+  <h1>Chapter 4 — BIM-based Model Checking</h1>
+  <p class="lede">Ensuring model quality and code compliance: classify the elements to check, run rules of increasing complexity, and report findings. The headline exam topic is black-box vs white-box checking systems.</p>
+  <p class="lede" style="margin-top:-14px;font-size:13px;">Tags say what a card <i>is</i>. <span style="color:var(--teal-800);font-weight:600;">Green box = the direct exam answer.</span></p>
+
+  <h2 class="section">Concept cards</h2>
+  <div class="cardgrid">
+
+    <!-- Card 1: 4 pillars -->
+    <div class="card wide">
+      <div class="card-head"><p class="card-title">The 4 pillars of model checking</p><div class="tagrow"><span class="roletag">Model</span><span class="tag">Card 1</span></div></div>
+      <p class="unlocks">Foundational — the structure behind this chapter.</p>
+      <div class="sect">
+        <div class="chain"><div class="chain-row"><span class="pill hl">Model Quality</span><span class="arrow">→</span><span class="pill se">Classification</span><span class="arrow">→</span><span class="pill ju">Code Compliance</span><span class="arrow">→</span><span class="pill me">Reporting &amp; Communication (BCF)</span></div></div>
+        <p class="bigpic" style="margin-top:8px;"><b>Model quality</b> = information quality (interpretation: correctness, relevance, integrity) + data quality (completeness, consistency, timeliness, availability). It depends on the intended use cases. Design quality is only <i>one</i> aspect.</p>
+      </div>
+    </div>
+
+    <!-- Card 2: classification -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Classification (for checking)</p><div class="tagrow"><span class="roletag">Concept</span><span class="tag">Card 2</span></div></div>
+      <p class="unlocks">Foundational — you must select the right objects before a rule runs.</p>
+      <div class="sect">
+        <p class="bigpic">A <b>filter</b> selecting a subset of elements by discipline, element type, spatial position, or property. Filters combine with Boolean <b>AND / OR / NOT</b>. Info is explicit or implicitly derived.</p>
+        <p class="bigpic" style="margin-top:6px;">Systems: <b>OmniClass, Uniclass</b> — a code per object. Fails if the model lacks semantics.</p>
+      </div>
+    </div>
+
+    <!-- Card 3: black/white box -->
+    <div class="card wide">
+      <div class="card-head"><p class="card-title">Black-box vs White-box checking</p><div class="tagrow"><span class="roletag">Compare</span><span class="roletag exam">Exam</span><span class="tag">Card 3</span></div></div>
+      <p class="unlocks">Exam: DE-Q66 — difference + major advantages/disadvantages</p>
+      <div class="sect">
+        <svg viewBox="0 0 470 130" style="width:100%;height:auto;background:var(--surface-2);border-radius:10px;">
+          <!-- black box -->
+          <text x="115" y="20" font-size="11" fill="var(--text-2)" text-anchor="middle" font-weight="bold">Black-box</text>
+          <line x1="30" y1="55" x2="70" y2="55" stroke="var(--text-mut)" stroke-width="2" marker-end="url(#a3)"/><text x="50" y="48" font-size="8" fill="var(--text-mut)" text-anchor="middle">in</text>
+          <rect x="70" y="35" width="90" height="55" rx="5" fill="#1c1b18"/><text x="115" y="66" font-size="9" fill="#fff" text-anchor="middle">? hidden ?</text>
+          <line x1="160" y1="55" x2="200" y2="55" stroke="var(--text-mut)" stroke-width="2" marker-end="url(#a3)"/><text x="180" y="48" font-size="8" fill="var(--text-mut)" text-anchor="middle">out</text>
+          <text x="115" y="108" font-size="8.5" fill="var(--teal-800)" text-anchor="middle">+ reliable · − vendor-locked</text>
+          <!-- white box -->
+          <text x="355" y="20" font-size="11" fill="var(--text-2)" text-anchor="middle" font-weight="bold">White-box</text>
+          <line x1="270" y1="55" x2="310" y2="55" stroke="var(--text-mut)" stroke-width="2" marker-end="url(#a3)"/>
+          <rect x="310" y="35" width="90" height="55" rx="5" fill="none" stroke="var(--teal-600)" stroke-width="2"/>
+          <line x1="318" y1="48" x2="392" y2="48" stroke="var(--teal-600)" stroke-width="1.5"/><line x1="318" y1="62" x2="392" y2="62" stroke="var(--teal-600)" stroke-width="1.5"/><line x1="318" y1="76" x2="392" y2="76" stroke="var(--teal-600)" stroke-width="1.5"/>
+          <line x1="400" y1="55" x2="440" y2="55" stroke="var(--text-mut)" stroke-width="2" marker-end="url(#a3)"/>
+          <text x="355" y="108" font-size="8.5" fill="var(--coral-800)" text-anchor="middle">+ flexible · − costly &amp; error-prone</text>
+          <defs><marker id="a3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="var(--text-mut)"/></marker></defs>
+        </svg>
+      </div>
+      <div class="sect">
+        <table class="ref" style="margin:0;">
+          <tr><th>Black-box</th><th>White-box</th></tr>
+          <tr><td>only input &amp; output visible; procedure hidden</td><td>checking procedure visible &amp; modifiable</td></tr>
+          <tr><td>customization limited to input params</td><td>further customization possible</td></tr>
+          <tr><td><b>+ more reliable / lower error rate</b></td><td>+ flexible for a specific task</td></tr>
+          <tr><td>− extensions only via the software vendor</td><td>− high effort to build; risk of wrong edits</td></tr>
+        </table>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span><b>Black-box:</b> only in/out visible → reliable but extensions need the vendor. <b>White-box:</b> internal steps transparent → flexible but costly to develop and error-prone.</div>
+      </div>
+    </div>
+
+    <!-- Card 4: rule complexity -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Rule complexity classes (Solihin &amp; Eastman)</p><div class="tagrow"><span class="roletag">Model</span><span class="tag">Card 4</span></div></div>
+      <p class="unlocks">Foundational — supports the code-compliance answer.</p>
+      <div class="sect">
+        <p class="kv"><b>Class 1</b> explicit data (fire rating, door type)</p>
+        <p class="kv"><b>Class 2</b> derived values / implicit relationships</p>
+        <p class="kv"><b>Class 3</b> complex info not in model (clash, clearance — geometry processing)</p>
+        <p class="kv"><b>Class 4</b> needs extra data temporarily inserted</p>
+      </div>
+    </div>
+
+    <!-- Card 5: semi vs full auto -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Why semi-automated checking?</p><div class="tagrow"><span class="roletag">Concept</span><span class="roletag exam">Exam</span><span class="tag">Card 5</span></div></div>
+      <p class="unlocks">Exam: DE-Q67 — semi- vs fully-automated</p>
+      <div class="sect">
+        <p class="bigpic">Regulations contain <b>ambiguous, natural-language rules</b> needing human interpretation; translating every code into machine rules is hard (very few codes are computable). So a <b>human-in-the-loop</b> stays necessary → semi-automated.</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>Full automation is unreliable because codes are ambiguous / not fully computable → keep a human for interpretation.</div>
+      </div>
+    </div>
+
+    <!-- Card 6: software + IDS/BCF -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Software · IDS · BCF</p><div class="tagrow"><span class="roletag">Reference</span><span class="roletag exam">Exam</span><span class="tag">Card 6</span></div></div>
+      <p class="unlocks">Exam: DE-Q68 — software for code compliance checking</p>
+      <div class="sect">
+        <p class="kv"><b>Checkers</b> Solibri Model Checker, Autodesk Navisworks</p>
+        <p class="kv"><b>IDS</b> Information Delivery Specification — machine-checkable requirements (object types → properties), interlinked with IFC</p>
+        <p class="kv"><b>BCF</b> reports issues (XML, IFC-GUID links) — full detail in Ch 6</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>Code-compliance software: <b>Solibri</b>, Navisworks. Report findings via <b>BCF</b>.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <h2 class="section">Quick reference</h2>
+  <table class="ref" style="margin-bottom:2rem;">
+    <tr><th>Concept</th><th>One-liner</th></tr>
+    <tr><td>4 pillars</td><td>Model Quality · Classification · Code Compliance · Reporting (BCF)</td></tr>
+    <tr><td>Black-box</td><td>in/out only, hidden procedure → reliable, vendor-locked</td></tr>
+    <tr><td>White-box</td><td>transparent procedure → flexible, costly &amp; error-prone</td></tr>
+    <tr><td>Rule classes 1–4</td><td>explicit → derived → complex/geometry → needs extra data</td></tr>
+    <tr><td>Semi-automated</td><td>codes ambiguous → human interpretation needed</td></tr>
+    <tr><td>Software</td><td>Solibri, Navisworks; IDS = requirements; BCF = issues</td></tr>
+  </table>
+
+  <div class="checklist">
+    <h2>Exam checklist — Chapter 4</h2>
+    <p class="sub">Every past-exam question in this chapter, mapped to its card.</p>
+    <table class="ref">
+      <tr><th>Topic</th><th>Exam</th><th>Card</th></tr>
+      <tr><td>Black-box vs white-box</td><td>DE-Q66</td><td>Card 3</td></tr>
+      <tr><td>Semi- vs fully-automated checking</td><td>DE-Q67</td><td>Card 5</td></tr>
+      <tr><td>Code-compliance software</td><td>DE-Q68</td><td>Card 6</td></tr>
+    </table>
+  </div>
+
+  <a class="back" href="index.html">← Back to overview</a>
+</div>
+</body>
+</html>

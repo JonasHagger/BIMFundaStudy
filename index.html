@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>BIM Fundamentals — Study App</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="BIM Studium">
+<meta name="theme-color" content="#2563eb">
+<style>
+  :root {
+    --bg: #f0f2f5; --card: #fff; --text: #1c1e21; --muted: #65676b;
+    --accent: #2563eb; --radius: 14px; --shadow: 0 2px 8px rgba(0,0,0,0.10);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg); color: var(--text);
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  .app { max-width: 560px; margin: 0 auto; padding: 16px; }
+  header { text-align: center; padding: 18px 0 22px; }
+  header h1 { font-size: 1.45rem; }
+  header p { color: var(--muted); font-size: 0.85rem; margin-top: 5px; }
+  .hero {
+    display: block; text-decoration: none; color: #fff;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 20px; margin-bottom: 22px;
+  }
+  .hero .big { font-size: 1.15rem; font-weight: 700; }
+  .hero .sub { font-size: 0.85rem; opacity: 0.9; margin-top: 4px; }
+  h2 {
+    font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em;
+    color: var(--muted); margin: 0 0 10px 4px;
+  }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+  .tile {
+    background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 14px; text-decoration: none; color: var(--text);
+    display: flex; flex-direction: column; gap: 4px; min-height: 74px;
+  }
+  .tile:active { opacity: 0.7; }
+  .tile .num { font-size: 0.72rem; font-weight: 700; color: var(--accent); }
+  .tile .name { font-size: 0.9rem; font-weight: 600; line-height: 1.25; }
+  .tile.star .num { color: #d97706; }
+  .tile.wide { grid-column: 1 / -1; flex-direction: row; align-items: center; justify-content: space-between; min-height: 0; }
+  footer { text-align: center; color: var(--muted); font-size: 0.75rem; padding: 8px 0 24px; }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>&#127891; BIM Fundamentals</h1>
+    <p>TUM &middot; Klausurvorbereitung &middot; offline verf&uuml;gbar</p>
+  </header>
+
+  <a class="hero" href="Lernkarten_BIM_Fundamentals.html">
+    <div class="big">&#128218; Lernkarten (94 Karten)</div>
+    <div class="sub">Leitner-System &middot; offene Fragen wie in der Klausur</div>
+  </a>
+
+  <h2>Study Guide</h2>
+  <div class="grid">
+    <a class="tile wide star" href="StudyGuide/Ch00_ExamGuide.html">
+      <span class="name">&#11088; Exam Guide — Format, Diagramme &amp; CSG-Drill</span>
+    </a>
+    <a class="tile" href="StudyGuide/Ch01_Fundamentals.html"><span class="num">Kapitel 1</span><span class="name">Fundamentals</span></a>
+    <a class="tile" href="StudyGuide/Ch02_GeometricModeling.html"><span class="num">Kapitel 2</span><span class="name">Geometric Modeling</span></a>
+    <a class="tile" href="StudyGuide/Ch03_IFC.html"><span class="num">Kapitel 3</span><span class="name">IFC &amp; Datenaustausch</span></a>
+    <a class="tile" href="StudyGuide/Ch04_ModelChecking.html"><span class="num">Kapitel 4</span><span class="name">Model Checking</span></a>
+    <a class="tile" href="StudyGuide/Ch05_ParametricModeling.html"><span class="num">Kapitel 5</span><span class="name">Parametric Modeling</span></a>
+    <a class="tile" href="StudyGuide/Ch06_Collaboration.html"><span class="num">Kapitel 6</span><span class="name">Collaboration &amp; CDE</span></a>
+    <a class="tile" href="StudyGuide/Ch07_QuantityTakeOff.html"><span class="num">Kapitel 7</span><span class="name">Quantity Take-Off</span></a>
+    <a class="tile" href="StudyGuide/Ch08_Documentation.html"><span class="num">Kapitel 8</span><span class="name">Documentation &amp; Visualisierung</span></a>
+    <a class="tile" href="StudyGuide/Ch09_GIS.html"><span class="num">Kapitel 9</span><span class="name">BIM &amp; GIS</span></a>
+    <a class="tile" href="StudyGuide/Ch10_ProjectExecution.html"><span class="num">Kapitel 10</span><span class="name">Project Execution</span></a>
+    <a class="tile" href="StudyGuide/Ch11_Sustainability.html"><span class="num">Kapitel 11</span><span class="name">Sustainability</span></a>
+    <a class="tile wide" href="StudyGuide/index.html"><span class="name">&#128278; StudyGuide-&Uuml;bersicht</span></a>
+  </div>
+
+  <footer id="swStatus">BIM Fundamentals Study App</footer>
+</div>
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').then(reg => {
+    document.getElementById('swStatus').textContent =
+      'Offline-Modus aktiv – Inhalte sind gespeichert.';
+  }).catch(() => {});
+}
+</script>
+</body>
+</html>

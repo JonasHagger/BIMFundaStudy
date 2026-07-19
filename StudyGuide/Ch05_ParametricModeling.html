@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 5 — Parametric Modeling</title>
+<link rel="stylesheet" href="_styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="nav"><a class="home" href="../index.html">&#8962; App</a>
+    <a class="home" href="index.html">● Overview</a>
+    <a href="Ch01_Fundamentals.html">1 Fundamentals</a>
+    <a href="Ch02_GeometricModeling.html">2 Geometry</a>
+    <a href="Ch03_IFC.html">3 IFC</a>
+    <a href="Ch04_ModelChecking.html">4 Checking</a>
+    <a href="Ch05_ParametricModeling.html">5 Parametric</a>
+    <a href="Ch06_Collaboration.html">6 Collaboration</a>
+    <a href="Ch07_QuantityTakeOff.html">7 QTO</a>
+    <a href="Ch08_Documentation.html">8 Docs</a>
+    <a href="Ch09_GIS.html">9 GIS</a>
+    <a href="Ch10_ProjectExecution.html">10 Execution</a>
+    <a href="Ch11_Sustainability.html">11 Sustain.</a>
+  </div>
+
+  <p class="kicker">BIM.fundamentals · Exam prep</p>
+  <h1>Chapter 5 — Parametric Modeling</h1>
+  <p class="lede">Flexible, rule-based models instead of fixed shapes: parameters + constraints + dependencies let the whole model update consistently. The exam focuses on the constraint types and the three modeling approaches.</p>
+  <p class="lede" style="margin-top:-14px;font-size:13px;">Tags say what a card <i>is</i>. <span style="color:var(--teal-800);font-weight:600;">Green box = the direct exam answer.</span></p>
+
+  <h2 class="section">Concept cards</h2>
+  <div class="cardgrid">
+
+    <!-- Card 1: definition -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">What is parametric modeling?</p><div class="tagrow"><span class="roletag">Definition</span><span class="tag">Card 1</span></div></div>
+      <p class="unlocks">Foundational — the idea behind the constraint cards.</p>
+      <div class="sect">
+        <p class="bigpic">Shifts from <b>fixed-shape</b> to <b>flexible, rule-based</b> models by defining <b>parameters, constraints and dependencies</b>, so the entire model updates consistently. Parameters = dimensions + geometric attributes (shape/location).</p>
+      </div>
+    </div>
+
+    <!-- Card 2: three approaches -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Three approaches</p><div class="tagrow"><span class="roletag">Model</span><span class="roletag exam">Exam</span><span class="tag">Card 2</span></div></div>
+      <p class="unlocks">Exam: DE-Q50 — the three main types</p>
+      <div class="sect">
+        <svg viewBox="0 0 320 150" style="width:100%;height:auto;background:var(--surface-2);border-radius:10px;">
+          <rect x="20" y="15" width="130" height="30" rx="5" fill="var(--teal-600)"/><text x="85" y="34" font-size="10" fill="#fff" text-anchor="middle">Object-based</text>
+          <rect x="170" y="15" width="130" height="30" rx="5" fill="var(--amber-600)"/><text x="235" y="34" font-size="10" fill="#fff" text-anchor="middle">Geometry-based</text>
+          <rect x="185" y="60" width="45" height="24" rx="4" fill="var(--amber-800)"/><text x="207" y="76" font-size="8.5" fill="#fff" text-anchor="middle">Sketch</text>
+          <rect x="240" y="60" width="45" height="24" rx="4" fill="var(--amber-800)"/><text x="262" y="76" font-size="8.5" fill="#fff" text-anchor="middle">Graph</text>
+          <line x1="220" y1="45" x2="207" y2="60" stroke="var(--text-mut)"/><line x1="250" y1="45" x2="262" y2="60" stroke="var(--text-mut)"/>
+          <rect x="95" y="105" width="130" height="30" rx="5" fill="var(--purple-600)"/><text x="160" y="124" font-size="10" fill="#fff" text-anchor="middle">Parametric BIM</text>
+          <text x="85" y="60" font-size="8" fill="var(--text-mut)" text-anchor="middle">Revit-family style</text>
+          <text x="160" y="99" font-size="8" fill="var(--text-mut)" text-anchor="middle">Revit · ArchiCAD · Tekla</text>
+        </svg>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span><b>Object-based · Geometry-based (sketch + graph) · Parametric BIM.</b> Object-based &amp; BIM keep semantics; geometry-based (Grasshopper) has none.</div>
+      </div>
+    </div>
+
+    <!-- Card 3: constraints -->
+    <div class="card wide">
+      <div class="card-head"><p class="card-title">Geometric vs Dimensional constraints</p><div class="tagrow"><span class="roletag">Compare</span><span class="roletag exam">Exam</span><span class="tag">Card 3</span></div></div>
+      <p class="unlocks">Exam: DE-Q51 — the difference — asked repeatedly</p>
+      <div class="sect">
+        <table class="ref" style="margin:0;">
+          <tr><th>Dimensional constraints</th><th>Geometric constraints</th></tr>
+          <tr><td>define the <b>span/extension</b> of an object</td><td>define the <b>relation to other objects</b></td></tr>
+          <tr><td>lengths, angles, radius, horizontal/vertical</td><td>parallel, perpendicular, coincident, concentric…</td></tr>
+        </table>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span><b>Dimensional = the size/extent of a component; geometric = its relationship to other components</b> (not sizes).</div>
+      </div>
+    </div>
+
+    <!-- Card 4: 3 geometric constraints -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Name three geometric constraints</p><div class="tagrow"><span class="roletag">Definition</span><span class="roletag exam">Exam</span><span class="tag">Card 4</span></div></div>
+      <p class="unlocks">Exam: DE-Q52 — name three</p>
+      <div class="sect">
+        <div class="chain"><div class="chain-row"><span class="pill se">coincident</span><span class="pill se">collinear</span><span class="pill se">concentric</span></div><div class="chain-row"><span class="pill se">parallel</span><span class="pill se">perpendicular</span><span class="pill se">tangent</span></div></div>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>Any three of: <b>coincidence, collinearity, concentricity, parallelism, perpendicularity, tangency.</b></div>
+      </div>
+    </div>
+
+    <!-- Card 5: families -->
+    <div class="card wide">
+      <div class="card-head"><p class="card-title">Parametric BIM modelers &amp; families</p><div class="tagrow"><span class="roletag">Concept</span><span class="tag">Card 5</span></div></div>
+      <p class="unlocks">Foundational — how object-based + parametric geometry combine.</p>
+      <div class="sect">
+        <p class="bigpic">Combine <b>object-based modeling + parametric geometry</b>: user-defined reference axes/planes (grids, floor levels), user-defined object types (<b>"families"</b>), and predefined constraints (alignment, orthogonal, parallel, coincidence, equal distance). A <b>family</b> = a class defined by relations &amp; rules controlling the parameters by which instances are generated — no programming needed (Eastman 2008). Extend via <b>Revit + Dynamo</b>, Grasshopper, Allplan Visual Scripting.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <h2 class="section">Quick reference</h2>
+  <table class="ref" style="margin-bottom:2rem;">
+    <tr><th>Concept</th><th>One-liner</th></tr>
+    <tr><td>Parametric modeling</td><td>rule-based flexible model; parameters + constraints → consistent update</td></tr>
+    <tr><td>Three approaches</td><td>object-based · geometry-based (sketch/graph) · parametric BIM</td></tr>
+    <tr><td>Dimensional constraint</td><td>size/extension of an object</td></tr>
+    <tr><td>Geometric constraint</td><td>relation to other objects (parallel, perpendicular…)</td></tr>
+    <tr><td>Family</td><td>user-defined intelligent object type generating instances by rules</td></tr>
+  </table>
+
+  <div class="checklist">
+    <h2>Exam checklist — Chapter 5</h2>
+    <p class="sub">Every past-exam question in this chapter, mapped to its card.</p>
+    <table class="ref">
+      <tr><th>Topic</th><th>Exam</th><th>Card</th></tr>
+      <tr><td>Three types of parametric modeling</td><td>DE-Q50</td><td>Card 2</td></tr>
+      <tr><td>Geometric vs dimensional constraints</td><td>DE-Q51</td><td>Card 3</td></tr>
+      <tr><td>Three geometric constraints</td><td>DE-Q52</td><td>Card 4</td></tr>
+    </table>
+  </div>
+
+  <a class="back" href="index.html">← Back to overview</a>
+</div>
+</body>
+</html>

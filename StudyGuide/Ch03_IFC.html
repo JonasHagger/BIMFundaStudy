@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 3 — Data Exchange &amp; IFC</title>
+<link rel="stylesheet" href="_styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="nav"><a class="home" href="../index.html">&#8962; App</a>
+    <a class="home" href="index.html">● Overview</a>
+    <a href="Ch01_Fundamentals.html">1 Fundamentals</a>
+    <a href="Ch02_GeometricModeling.html">2 Geometry</a>
+    <a href="Ch03_IFC.html">3 IFC</a>
+    <a href="Ch04_ModelChecking.html">4 Checking</a>
+    <a href="Ch05_ParametricModeling.html">5 Parametric</a>
+    <a href="Ch06_Collaboration.html">6 Collaboration</a>
+    <a href="Ch07_QuantityTakeOff.html">7 QTO</a>
+    <a href="Ch08_Documentation.html">8 Docs</a>
+    <a href="Ch09_GIS.html">9 GIS</a>
+    <a href="Ch10_ProjectExecution.html">10 Execution</a>
+    <a href="Ch11_Sustainability.html">11 Sustain.</a>
+  </div>
+
+  <p class="kicker">BIM.fundamentals · Exam prep · CORE</p>
+  <h1>Chapter 3 — Data Exchange &amp; IFC</h1>
+  <p class="lede">The vendor-neutral exchange standard. IFC carries geometry <i>and</i> semantics in a layered, object-oriented schema (built on STEP/EXPRESS), with objectified relationships and multiple geometry representations. This is the single heaviest exam topic.</p>
+  <p class="lede" style="margin-top:-14px;font-size:13px;">Tags say what a card <i>is</i>. <span style="color:var(--teal-800);font-weight:600;">Green box = the direct exam answer.</span></p>
+
+  <h2 class="section">Concept cards</h2>
+  <div class="cardgrid">
+
+    <!-- Card 1: IFC core -->
+    <div class="card wide">
+      <div class="card-head"><p class="card-title">IFC — the core facts</p><div class="tagrow"><span class="roletag">Definition</span><span class="roletag exam">Exam</span><span class="tag">Card 1</span></div></div>
+      <p class="unlocks">Exam: DE-Q24 (ISO standard) · DE-Q27 (IFC model) · DE-Q29 (why vendor-neutral) · DE-Q30 (purpose)</p>
+      <div class="sect">
+        <p class="bigpic"><b>IFC = Industry Foundation Classes</b> — the standardized data model for exchanging BIM, carrying <b>geometry AND semantics</b>. Developed by <b>buildingSMART</b> (non-profit, 1995).</p>
+        <p class="kv"><b>IFC's own standard</b> ISO 16739</p>
+        <p class="kv"><b>Built on</b> STEP = ISO 10303 (inherits EXPRESS + P21 file)</p>
+      </div>
+      <div class="sect">
+        <p class="label">Why vendor-neutral? / purpose of exchange</p>
+        <p class="bigpic">Fair vendor competition, no lock-in, public bodies can't demand one vendor. Purpose: <b>handover to client · coordinate disciplines · hand model to next phase</b>.</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>"IFC based on which ISO standard?" → <b>STEP, ISO 10303</b> (IFC itself is ISO 16739). IFC = vendor-neutral model for geometry + semantics by buildingSMART.</div>
+      </div>
+    </div>
+
+    <!-- Card 2: EXPRESS/STEP/formats -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">EXPRESS, STEP &amp; geometry-only formats</p><div class="tagrow"><span class="roletag">Definition</span><span class="roletag exam">Exam</span><span class="tag">Card 2</span></div></div>
+      <p class="unlocks">Exam: DE-Q25 (schema language) · DE-Q26 (geometry-only formats)</p>
+      <div class="sect">
+        <p class="kv"><b>EXPRESS</b> the data-modeling language that defines the IFC schema (EXPRESS-G = graphical).</p>
+        <p class="kv"><b>STEP</b> ISO 10303, "Exchange of Product model data" = geometry + semantics; file = STEP-P21 (.ifc).</p>
+      </div>
+      <div class="sect">
+        <p class="label">Geometry-only formats (no semantics)</p>
+        <div class="chain"><div class="chain-row"><span class="pill me">STL</span><span class="pill me">VRML</span><span class="pill me">OBJ</span><span class="pill me">DXF/IGES</span></div></div>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>Schema language = <b>EXPRESS</b>. Geometry-only = <b>STL, VRML, OBJ, IGES</b> → no downstream use.</div>
+      </div>
+    </div>
+
+    <!-- Card 3: IFC layers -->
+    <div class="card wide">
+      <div class="card-head"><p class="card-title">IFC layered architecture + IfcRoot</p><div class="tagrow"><span class="roletag">Model</span><span class="roletag exam">Exam</span><span class="tag">Card 3</span></div></div>
+      <p class="unlocks">Exam: DE-Q32, DE-Q33 · MP-Q2 (order) · MP-Q3 (which layer ≠ IfcRoot) — asked every year</p>
+      <div class="sect">
+        <p class="label">Most general (bottom) → most specific (top)</p>
+        <svg viewBox="0 0 460 200" style="width:100%;height:auto;background:var(--surface-2);border-radius:10px;">
+          <g font-size="11" fill="#fff">
+            <rect x="60" y="16" width="300" height="34" rx="5" fill="var(--purple-600)"/><text x="210" y="32" text-anchor="middle">④ Domain layer</text><text x="210" y="45" text-anchor="middle" font-size="9">HVAC, Structural, Architecture… (specific)</text>
+            <rect x="60" y="56" width="300" height="34" rx="5" fill="var(--teal-600)"/><text x="210" y="72" text-anchor="middle">③ Interoperability (shared)</text><text x="210" y="85" text-anchor="middle" font-size="9">IfcSharedBldgElements: IfcWall, IfcBeam…</text>
+            <rect x="60" y="96" width="300" height="34" rx="5" fill="var(--amber-600)"/><text x="210" y="112" text-anchor="middle">② Core layer — IfcRoot lives here</text><text x="210" y="125" text-anchor="middle" font-size="9">IfcObject, IfcProduct, IfcRelationship</text>
+            <rect x="60" y="136" width="300" height="40" rx="5" fill="var(--border-strong)"/><text x="210" y="152" text-anchor="middle" fill="#1c1b18">① Resource layer (most general)</text><text x="210" y="166" text-anchor="middle" font-size="9" fill="#1c1b18">geometry, materials, properties — NO IfcRoot / no GUID</text>
+          </g>
+          <text x="20" y="30" font-size="9.5" fill="var(--text-2)" transform="rotate(-90 20 100)" text-anchor="middle">specific → general</text>
+        </svg>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>Order general→specific: <b>Resource → Core → Interoperability → Domain.</b> The <b>Resource layer does NOT inherit from IfcRoot</b> (no GUID/identity). Most entities derive from <b>IfcRoot, which sits in the Core layer</b>.</div>
+      </div>
+    </div>
+
+    <!-- Card 4: schema vs instance -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Schema vs Instance</p><div class="tagrow"><span class="roletag">Definition</span><span class="roletag exam">Exam</span><span class="tag">Card 4</span></div></div>
+      <p class="unlocks">Exam: DE-Q31 · MP-Q10 — schema vs instance in IFC &amp; OOP</p>
+      <div class="sect">
+        <p class="kv"><b>Schema</b> the data model: class hierarchy + properties (defined in EXPRESS). The "blueprint".</p>
+        <p class="kv"><b>Instance</b> an actual object of a class = the concrete building model = the <b>.ifc file</b> (STEP-P21).</p>
+        <p class="bigpic" style="margin-top:6px;">In Revit/ArchiCAD: implemented as a <b>catalogue of parametric object types</b> with geometric + semantic attributes.</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span><b>Schema = class definitions (blueprint); instance = a concrete object of that class (the .ifc file).</b></div>
+      </div>
+    </div>
+
+    <!-- Card 5: MVD -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Model View Definition (MVD)</p><div class="tagrow"><span class="roletag">Definition</span><span class="roletag exam">Exam</span><span class="tag">Card 5</span></div></div>
+      <p class="unlocks">Exam: DE-Q36, DE-Q65 (MVD) · MP-Q14 (mvdXML true/false)</p>
+      <div class="sect">
+        <p class="bigpic">A <b>subset of the full IFC schema</b> defining <b>mandatory + optional objects/attributes</b> for a specific exchange/use case. Enables software certification. <b>mvdXML</b> = its machine-readable definition.</p>
+        <p class="kv"><b>IFC2x3</b> Coordination View, Structural Analysis View, FM Handover</p>
+        <p class="kv"><b>IFC4</b> Reference View, Design Transfer View</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>MVD = <b>subset of the IFC schema for a specific exchange scenario</b> (e.g. IFC4 Reference View). Comes from the IDM (Ch 10).</div>
+      </div>
+    </div>
+
+    <!-- Card 6: objectified relationships -->
+    <div class="card wide">
+      <div class="card-head"><p class="card-title">Objectified relationships (wall · opening · window)</p><div class="tagrow"><span class="roletag">Sketch</span><span class="roletag exam">Exam</span><span class="tag">Card 6</span></div></div>
+      <p class="unlocks">Exam: DE-Q37 — explain with a wall, window, opening — asked repeatedly</p>
+      <div class="sect">
+        <p class="label">Relationships are their OWN objects (reified), not just attributes</p>
+        <svg viewBox="0 0 470 130" style="width:100%;height:auto;background:var(--surface-2);border-radius:10px;">
+          <rect x="20" y="50" width="80" height="34" rx="5" fill="var(--teal-600)"/><text x="60" y="71" font-size="11" fill="#fff" text-anchor="middle">Wall</text>
+          <rect x="185" y="50" width="95" height="34" rx="5" fill="var(--amber-600)"/><text x="232" y="66" font-size="10.5" fill="#fff" text-anchor="middle">Opening</text><text x="232" y="78" font-size="8" fill="#fff" text-anchor="middle">IfcOpeningElement</text>
+          <rect x="370" y="50" width="80" height="34" rx="5" fill="var(--purple-600)"/><text x="410" y="71" font-size="11" fill="#fff" text-anchor="middle">Window</text>
+          <!-- relationship diamonds -->
+          <text x="142" y="40" font-size="9" fill="var(--coral-800)" text-anchor="middle">IfcRelVoidsElement</text>
+          <line x1="100" y1="67" x2="185" y2="67" stroke="var(--coral-600)" stroke-width="2" marker-end="url(#a2)"/>
+          <text x="325" y="40" font-size="9" fill="var(--coral-800)" text-anchor="middle">IfcRelFillsElement</text>
+          <line x1="280" y1="67" x2="370" y2="67" stroke="var(--coral-600)" stroke-width="2" marker-end="url(#a2)"/>
+          <text x="142" y="100" font-size="8.5" fill="var(--text-mut)" text-anchor="middle">wall hasOpenings (void)</text>
+          <text x="325" y="100" font-size="8.5" fill="var(--text-mut)" text-anchor="middle">opening hasFillings</text>
+          <defs><marker id="a2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="var(--coral-600)"/></marker></defs>
+        </svg>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>The wall is <b>voided</b> by an opening via <b>IfcRelVoidsElement</b>; the opening is <b>filled</b> by the window via <b>IfcRelFillsElement</b>. Reifying the relationship lets it carry its own attributes and n-ary links.</div>
+      </div>
+    </div>
+
+    <!-- Card 7: geometry representations -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">IFC geometry representations</p><div class="tagrow"><span class="roletag">Definition</span><span class="roletag exam">Exam</span><span class="tag">Card 7</span></div></div>
+      <p class="unlocks">Exam: DE-Q35 (name three) · MP-Q16 (two from figure)</p>
+      <div class="sect">
+        <div class="chain"><div class="chain-row"><span class="pill se">Tessellated B-rep</span><span class="pill se">B-rep</span></div><div class="chain-row"><span class="pill se">Swept Solid</span><span class="pill se">CSG primitive</span></div></div>
+        <p class="bigpic" style="margin-top:8px;">Because IFC <b>strictly separates semantics from geometry</b>, one semantic object can have <b>several geometry representations</b>.</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>Three of: <b>Tessellated B-rep, B-rep, Swept Solid, CSG primitive.</b> From figure typically B-rep + Tessellated B-rep.</div>
+      </div>
+    </div>
+
+    <!-- Card 8: proxy -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">IfcBuildingElementProxy</p><div class="tagrow"><span class="roletag">Definition</span><span class="roletag exam">Exam</span><span class="tag">Card 8</span></div></div>
+      <p class="unlocks">Exam: DE-Q34 — what it is + one example</p>
+      <div class="sect">
+        <p class="bigpic">A <b>proxy</b> with the same function as any IfcBuiltElement subtype, but <b>without a predefined element meaning</b>. Used for elements <b>not (yet) defined in IFC</b>. <b>Example: bridge bearing</b>; heavily used in infrastructure.</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>Placeholder for undefined element types (e.g. bridge bearing). Note: unknown Revit families export as proxies by default.</div>
+      </div>
+    </div>
+
+    <!-- Card 9: IFC facts wrong / unique features -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">IFC: unique features &amp; the "wrong" statement</p><div class="tagrow"><span class="roletag calc">MC trap</span><span class="roletag exam">Exam</span><span class="tag">Card 9</span></div></div>
+      <p class="unlocks">Exam: DE-Q28 (which fact is wrong) · DE-Q31 (unique features)</p>
+      <div class="sect">
+        <p class="label">Unique features (vs STL/DWG/OBJ)</p>
+        <p class="bigpic">Exchanges <b>both semantics + geometry</b>; allows <b>several geometry representations per semantic object</b>.</p>
+      </div>
+      <div class="sect">
+        <p class="watch"><b>Watch out — the FALSE statement:</b> "Property Sets can only store info that is part of the standardized IFC schema." That's wrong — <b>Psets store info OUTSIDE the schema</b> (name-value pairs, no schema extension needed).</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>Wrong statement = the one restricting Property Sets to the standardized schema. True: geometry/semantics separated, IFC works for infrastructure, several geometry reps allowed.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <h2 class="section">Quick reference</h2>
+  <table class="ref" style="margin-bottom:2rem;">
+    <tr><th>Concept</th><th>One-liner</th></tr>
+    <tr><td>IFC</td><td>vendor-neutral BIM exchange (geometry+semantics), buildingSMART, ISO 16739, based on STEP/ISO 10303</td></tr>
+    <tr><td>EXPRESS</td><td>language defining the IFC schema</td></tr>
+    <tr><td>Layers (general→specific)</td><td>Resource → Core → Interoperability → Domain</td></tr>
+    <tr><td>IfcRoot</td><td>root of entities with identity; in Core layer; Resource layer excluded</td></tr>
+    <tr><td>Schema vs instance</td><td>class blueprint vs concrete .ifc object</td></tr>
+    <tr><td>MVD</td><td>subset of IFC schema for one exchange scenario (mvdXML)</td></tr>
+    <tr><td>Objectified relationship</td><td>RelVoidsElement (wall–opening) + RelFillsElement (opening–window)</td></tr>
+    <tr><td>Geometry reps</td><td>Tessellated B-rep, B-rep, Swept Solid, CSG</td></tr>
+    <tr><td>IfcBuildingElementProxy</td><td>placeholder for undefined element types (bridge bearing)</td></tr>
+    <tr><td>Property Set</td><td>name-value info OUTSIDE the standard schema</td></tr>
+  </table>
+
+  <div class="checklist">
+    <h2>Exam checklist — Chapter 3</h2>
+    <p class="sub">Every past-exam question in this chapter, mapped to its card.</p>
+    <table class="ref">
+      <tr><th>Topic</th><th>Exam</th><th>Card</th></tr>
+      <tr><td>IFC ISO standard</td><td>DE-Q24</td><td>Card 1</td></tr>
+      <tr><td>Schema language (EXPRESS)</td><td>DE-Q25</td><td>Card 2</td></tr>
+      <tr><td>Geometry-only formats</td><td>DE-Q26</td><td>Card 2</td></tr>
+      <tr><td>What is the IFC model</td><td>DE-Q27</td><td>Card 1</td></tr>
+      <tr><td>Which IFC fact is wrong</td><td>DE-Q28</td><td>Card 9</td></tr>
+      <tr><td>Why vendor-neutral</td><td>DE-Q29</td><td>Card 1</td></tr>
+      <tr><td>Purpose of data exchange</td><td>DE-Q30</td><td>Card 1</td></tr>
+      <tr><td>Unique features / schema+instance</td><td>DE-Q31 · MP-Q10</td><td>Card 9 · 4</td></tr>
+      <tr><td>Order layers / IfcRoot</td><td>DE-Q32,33 · MP-Q2,3</td><td>Card 3</td></tr>
+      <tr><td>IfcBuildingElementProxy</td><td>DE-Q34</td><td>Card 8</td></tr>
+      <tr><td>Geometry representations</td><td>DE-Q35 · MP-Q16</td><td>Card 7</td></tr>
+      <tr><td>MVD (+ mvdXML)</td><td>DE-Q36,65 · MP-Q14</td><td>Card 5</td></tr>
+      <tr><td>Objectified relationships</td><td>DE-Q37</td><td>Card 6</td></tr>
+    </table>
+  </div>
+
+  <a class="back" href="index.html">← Back to overview</a>
+</div>
+</body>
+</html>

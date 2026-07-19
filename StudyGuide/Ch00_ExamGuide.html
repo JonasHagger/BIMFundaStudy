@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exam Guide — format, must-draw diagrams &amp; CSG</title>
+<link rel="stylesheet" href="_styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="nav"><a class="home" href="../index.html">&#8962; App</a>
+    <a class="home" href="index.html">● Overview</a>
+    <a href="Ch00_ExamGuide.html">★ Exam Guide</a>
+    <a href="Ch01_Fundamentals.html">1 Fundamentals</a>
+    <a href="Ch02_GeometricModeling.html">2 Geometry</a>
+    <a href="Ch03_IFC.html">3 IFC</a>
+    <a href="Ch04_ModelChecking.html">4 Checking</a>
+    <a href="Ch05_ParametricModeling.html">5 Parametric</a>
+    <a href="Ch06_Collaboration.html">6 Collaboration</a>
+    <a href="Ch07_QuantityTakeOff.html">7 QTO</a>
+    <a href="Ch08_Documentation.html">8 Docs</a>
+    <a href="Ch09_GIS.html">9 GIS</a>
+    <a href="Ch10_ProjectExecution.html">10 Execution</a>
+    <a href="Ch11_Sustainability.html">11 Sustain.</a>
+  </div>
+
+  <p class="kicker">BIM.fundamentals · Exam prep · what the prof said</p>
+  <h1>★ Exam Guide — format, must-draw diagrams &amp; CSG</h1>
+  <p class="lede">Built straight from the professor's indicative exam description. The format tells you <i>how</i> to answer; the "review important diagrams — practice redrawing them from memory" instruction tells you <i>what to draw</i>; and CSG was explicitly emphasized, so it gets its own drill.</p>
+  <p class="lede" style="margin-top:-14px;font-size:13px;">Tags say what a card <i>is</i>. <span style="color:var(--teal-800);font-weight:600;">Green box = the direct exam answer.</span> <span style="color:var(--amber-800);font-weight:600;">Amber = the prof's own emphasis.</span></p>
+
+  <h2 class="section">Concept cards</h2>
+  <div class="cardgrid">
+
+    <!-- Card 1: format -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Exam format &amp; question types</p><div class="tagrow"><span class="roletag">Reference</span><span class="tag">Card 1</span></div></div>
+      <p class="unlocks">Source: ExamContent_indicative.md — how the paper is structured.</p>
+      <div class="sect">
+        <div class="chain"><div class="chain-row"><span class="pill hl">60 minutes</span><span class="pill hl">60 points</span><span class="pill hl">6 problems × 10 pts</span><span class="pill se">+20 bonus (assignments)</span></div></div>
+      </div>
+      <div class="sect">
+        <p class="label">Question types</p>
+        <p class="kv"><b>Mostly textual</b> — short written answers; know definitions cold.</p>
+        <p class="kv"><b>Some sketches required</b> — you must draw (see Card 3 + CSG drill).</p>
+        <p class="kv"><b>A few single-choice</b> — e.g. the "which IFC statement is wrong", UML/BPMN, energy formats.</p>
+        <p class="watch" style="margin-top:8px;"><b>Time math:</b> 60 pts / 60 min = <b>1 point ≈ 1 minute</b>. Many 1-pt items → answer fast, don't over-write. 10 pts per problem, ~10 min each.</p>
+      </div>
+    </div>
+
+    <!-- Card 2: prep strategy -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">The prof's preparation instructions</p><div class="tagrow"><span class="roletag law">Emphasis</span><span class="tag">Card 2</span></div></div>
+      <p class="unlocks">Source: ExamContent_indicative.md — exactly what they told you to do.</p>
+      <div class="sect">
+        <p class="kv"><b>Coverage</b> ALL lecture content <b>+ the BIM Book</b> (Borrmann et al. 2018) "further reading" on Moodle. Some questions come only from the book (e.g. open/closed BIM diagram p.12, CSG tree p.33, IFC layers).</p>
+        <p class="kv"><b>Focus on</b> main topics + subtopics, examples discussed in class, and repeated / emphasized themes.</p>
+        <p class="kv"><b>Refresh core definitions</b> BIM, IFC, LOD, … (Card 5).</p>
+        <p class="kv"><b>Review important diagrams</b> and <b>practice redrawing them from memory</b> → Card 3.</p>
+      </div>
+    </div>
+
+    <!-- Card 3: diagrams to redraw -->
+    <div class="card wide">
+      <div class="card-head"><p class="card-title">Diagrams to redraw from memory</p><div class="tagrow"><span class="roletag law">Emphasis</span><span class="roletag exam">Exam</span><span class="tag">Card 3</span></div></div>
+      <p class="unlocks">The prof named three diagram families: <b>Processes · Structures · Relationships</b>. Redraw each until automatic.</p>
+      <div class="sect">
+        <p class="label">① Processes (flows over time / stages)</p>
+        <table class="ref" style="margin:0;">
+          <tr><th>Diagram</th><th>Draw</th><th>Where</th></tr>
+          <tr><td>MacLeamy planning-effort curve</td><td>2 effort bells (BIM early, conv. late) + impact↓ &amp; cost↑ lines</td><td>Ch 1 · Card 6</td></tr>
+          <tr><td>CDE status workflow</td><td>WIP → Shared → Published → Archived (+ gates)</td><td>Ch 6 · Card 6</td></tr>
+          <tr><td>EIR → BEP cycle</td><td>EIR(client) → tender → BEP(bidder) → award → models</td><td>Ch 10 · Card 1</td></tr>
+          <tr><td>IDM → MVD</td><td>process map (BPMN) + exchange req. → IFC subset</td><td>Ch 10 · Card 5</td></tr>
+        </table>
+      </div>
+      <div class="sect">
+        <p class="label">② Structures (data models / layer stacks)</p>
+        <table class="ref" style="margin:0;">
+          <tr><th>Diagram</th><th>Draw</th><th>Where</th></tr>
+          <tr><td>IFC layered architecture</td><td>Resource → Core → Interoperability → Domain (+ IfcRoot in Core)</td><td>Ch 3 · Card 3</td></tr>
+          <tr><td>CAD/BIM system layers</td><td>HW → graphics → geometry kernel → general CAD → domain CAD</td><td>Ch 2 · Card 2</td></tr>
+          <tr><td>B-rep hierarchy</td><td>Solid → Faces → Edges → Vertices (+ vef graph)</td><td>Ch 2 · Card 5</td></tr>
+          <tr><td><b>CSG tree</b></td><td>boolean ops at nodes, primitives at leaves → <b>Card 4 below</b></td><td>Ch 2 · Card 6</td></tr>
+        </table>
+      </div>
+      <div class="sect">
+        <p class="label">③ Relationships (who/what links to what)</p>
+        <table class="ref" style="margin:0;">
+          <tr><th>Diagram</th><th>Draw</th><th>Where</th></tr>
+          <tr><td>Objectified relationships</td><td>Wall –RelVoidsElement→ Opening –RelFillsElement→ Window</td><td>Ch 3 · Card 6</td></tr>
+          <tr><td>Stakeholder roles</td><td>Client · Architect · Structural · MEP/HVAC · Construction · FM</td><td>Ch 1 (intro)</td></tr>
+          <tr><td>CAD ↔ LV quantities</td><td>m-to-n crossing links: components ↔ tasks</td><td>Ch 7 · Card 1</td></tr>
+        </table>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam tip</span>If a question says "draw / sketch / complete the figure", it is almost always one of the diagrams above. Practice each on blank paper until you can reproduce it in under a minute.</div>
+      </div>
+    </div>
+
+    <!-- Card 4: CSG drill (emphasized) -->
+    <div class="card wide">
+      <div class="card-head"><p class="card-title">CSG drill — the emphasized one</p><div class="tagrow"><span class="roletag law">Emphasis</span><span class="roletag exam">Exam</span><span class="tag">Card 4</span></div></div>
+      <p class="unlocks">Exam: DE-Q44 · MP-Q4 — "complete the CSG operation" — the prof stressed this (book p.33).</p>
+      <div class="sect">
+        <p class="label">① Read the boolean from the result (two squares A &amp; B)</p>
+        <svg viewBox="0 0 340 120" style="width:100%;height:auto;background:var(--surface-2);border-radius:10px;">
+          <rect x="20" y="25" width="45" height="45" fill="var(--teal-600)" opacity="0.85"/><rect x="45" y="45" width="45" height="45" fill="var(--teal-600)" opacity="0.85"/>
+          <text x="57" y="108" font-size="10" text-anchor="middle" fill="var(--text-2)">Union  A ∪ B</text>
+          <rect x="135" y="25" width="45" height="45" fill="none" stroke="var(--border-strong)" stroke-width="1.5"/><rect x="160" y="45" width="45" height="45" fill="none" stroke="var(--border-strong)" stroke-width="1.5"/><rect x="160" y="45" width="20" height="25" fill="var(--amber-600)"/>
+          <text x="170" y="108" font-size="10" text-anchor="middle" fill="var(--text-2)">Intersection  A ∩ B</text>
+          <rect x="250" y="25" width="45" height="45" fill="var(--coral-600)"/><rect x="275" y="45" width="45" height="45" fill="var(--surface-2)" stroke="var(--border-strong)" stroke-width="1.5"/>
+          <text x="285" y="108" font-size="10" text-anchor="middle" fill="var(--text-2)">Difference  A − B</text>
+        </svg>
+      </div>
+      <div class="sect">
+        <p class="label">② Redraw the CSG tree: booleans at nodes, primitives at leaves</p>
+        <svg viewBox="0 0 430 185" style="width:100%;height:auto;background:var(--surface-2);border-radius:10px;">
+          <!-- edges -->
+          <line x1="170" y1="42" x2="100" y2="70" stroke="var(--text-mut)" stroke-width="1.5"/>
+          <line x1="170" y1="42" x2="245" y2="72" stroke="var(--text-mut)" stroke-width="1.5"/>
+          <line x1="95" y1="97" x2="60" y2="130" stroke="var(--text-mut)" stroke-width="1.5"/>
+          <line x1="95" y1="97" x2="130" y2="130" stroke="var(--text-mut)" stroke-width="1.5"/>
+          <!-- root union -->
+          <circle cx="170" cy="28" r="16" fill="var(--teal-600)"/><text x="170" y="34" font-size="16" fill="#fff" text-anchor="middle">∪</text>
+          <text x="170" y="12" font-size="9" fill="var(--text-mut)" text-anchor="middle">final solid</text>
+          <!-- difference node -->
+          <circle cx="95" cy="83" r="16" fill="var(--amber-600)"/><text x="95" y="89" font-size="16" fill="#fff" text-anchor="middle">−</text>
+          <!-- right primitive: box -->
+          <rect x="228" y="74" width="34" height="34" fill="var(--purple-600)"/><text x="245" y="124" font-size="9" fill="var(--text-mut)" text-anchor="middle">box</text>
+          <!-- diff children: box + cylinder -->
+          <rect x="43" y="132" width="32" height="32" fill="var(--purple-600)"/><text x="59" y="177" font-size="9" fill="var(--text-mut)" text-anchor="middle">box</text>
+          <ellipse cx="130" cy="136" rx="16" ry="6" fill="var(--coral-600)"/><rect x="114" y="136" width="32" height="26" fill="var(--coral-600)"/><ellipse cx="130" cy="162" rx="16" ry="6" fill="var(--coral-800)"/><text x="130" y="177" font-size="9" fill="var(--text-mut)" text-anchor="middle">cylinder</text>
+          <text x="300" y="28" font-size="9" fill="var(--text-mut)">= (box − cyl) ∪ box</text>
+        </svg>
+      </div>
+      <div class="sect">
+        <p class="kv"><b>What CSG is</b> the <b>implicit</b> solid-modeling approach: a set of <b>primitives</b> (box, cylinder, sphere, cone…) combined by <b>Boolean operations (union, intersection, difference)</b>, stored as a <b>binary tree</b> (procedural construction history).</p>
+        <p class="kv"><b>Why it matters</b> implicit → traceable + easy to modify + small files, but the receiver must re-evaluate it (contrast: explicit B-rep). Modern CAD applies booleans to any volume, not just primitives.</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>Given a figure: <b>merged = Union, overlap-only = Intersection, A-with-B-removed = Difference.</b> Given a tree: internal nodes are boolean operators, leaves are primitives; evaluate bottom-up. CSG belongs to the <b>implicit</b> approach (Ch 2).</div>
+        <p class="watch" style="margin-top:8px;"><b>Prof emphasis:</b> the exact CSG tree from the BIM Book (p.33) has appeared <b>without the operators</b>, asking you to fill in ∪ / ∩ / −. Practice filling operators into a blank tree.</p>
+      </div>
+    </div>
+
+    <!-- Card 5: core definitions -->
+    <div class="card wide">
+      <div class="card-head"><p class="card-title">Core definitions — rapid-fire (know these cold)</p><div class="tagrow"><span class="roletag">Reference</span><span class="roletag exam">Exam</span><span class="tag">Card 5</span></div></div>
+      <p class="unlocks">The prof said "refresh key concepts &amp; definitions (BIM, IFC, LOD, …)". One-line each; full cards linked.</p>
+      <div class="sect">
+        <table class="ref" style="margin:0;">
+          <tr><th>Term</th><th>One-line definition</th><th>Ch</th></tr>
+          <tr><td><b>BIM</b></td><td>digital repr. of physical + functional characteristics; shared lifecycle source of truth</td><td>1</td></tr>
+          <tr><td><b>IFC</b></td><td>vendor-neutral BIM exchange (geometry + semantics), buildingSMART, ISO 16739, on STEP</td><td>3</td></tr>
+          <tr><td><b>EXPRESS</b></td><td>the language that defines the IFC schema</td><td>3</td></tr>
+          <tr><td><b>MVD</b></td><td>subset of the IFC schema for one exchange scenario</td><td>3</td></tr>
+          <tr><td><b>LOD</b></td><td>model maturity = LOG (geometry) + LOI (information)</td><td>1 / 10</td></tr>
+          <tr><td><b>LOIN</b></td><td>Level of Information Need = LOG + LOI + documentation (ISO 7817)</td><td>10</td></tr>
+          <tr><td><b>EIR / BEP</b></td><td>client's requirements / bidder's response (how)</td><td>10</td></tr>
+          <tr><td><b>OIR / PIR</b></td><td>organisation-level / one-project requirements (OIR → PIR)</td><td>10</td></tr>
+          <tr><td><b>IDM</b></td><td>process map (BPMN) + exchange requirements → basis for MVD (ISO 29481)</td><td>10</td></tr>
+          <tr><td><b>CDE</b></td><td>Common Data Environment; statuses WIP → Shared → Published → Archived</td><td>6</td></tr>
+          <tr><td><b>BCF</b></td><td>BIM Collaboration Format — transports issues, not models (XML + screenshot)</td><td>6</td></tr>
+          <tr><td><b>CSG</b></td><td>implicit solids: primitives + booleans in a tree (emphasized!)</td><td>2</td></tr>
+          <tr><td><b>B-rep</b></td><td>explicit solids: boundary = faces/edges/vertices</td><td>2</td></tr>
+          <tr><td><b>CityGML</b></td><td>open 3D-city standard, surface model (vs IFC volume); LOD 0–4</td><td>9</td></tr>
+          <tr><td><b>Digital twin</b></td><td>live digital counterpart of a real/future object, continuously updated</td><td>1 / 9</td></tr>
+          <tr><td><b>Sync / Async</b></td><td>one model + locks / federated models + merging</td><td>6</td></tr>
+          <tr><td><b>CAD vs LV qty</b></td><td>component-oriented vs task-oriented (m-to-n)</td><td>7</td></tr>
+          <tr><td><b>AR / VR</b></td><td>overlay on real / fully virtual world</td><td>8</td></tr>
+        </table>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>These 18 terms cover the bulk of the "mostly textual" 1-point items. If you can define each in one sentence, you can bank most of the paper fast.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="checklist">
+    <h2>Exam-day checklist</h2>
+    <table class="ref">
+      <tr><td>1</td><td><b>Pace:</b> ~1 pt/min. Do the definitions and single-choice first (fast points), then the sketch/long ones.</td></tr>
+      <tr><td>2</td><td><b>Sketches:</b> if asked to draw, it's a Processes / Structures / Relationships diagram (Card 3) — or a CSG figure (Card 4).</td></tr>
+      <tr><td>3</td><td><b>Single-choice traps:</b> IFC "wrong statement" = Property Sets restricted to schema (false); energy formats = gbXML + IFC4; UML vs BPMN.</td></tr>
+      <tr><td>4</td><td><b>Two different LODs:</b> building LOD 100–500 (Ch 10) vs CityGML LOD 0–4 (Ch 9) — don't mix.</td></tr>
+      <tr><td>5</td><td><b>BIM Book:</b> a few items are book-only (open/closed BIM p.12, CSG tree p.33, IFC layers) — covered in Ch 1 / 2 / 3.</td></tr>
+    </table>
+  </div>
+
+  <a class="back" href="index.html">← Back to overview</a>
+</div>
+</body>
+</html>

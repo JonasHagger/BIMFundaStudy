@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 2 — Geometric Modeling</title>
+<link rel="stylesheet" href="_styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="nav"><a class="home" href="../index.html">&#8962; App</a>
+    <a class="home" href="index.html">● Overview</a>
+    <a href="Ch01_Fundamentals.html">1 Fundamentals</a>
+    <a href="Ch02_GeometricModeling.html">2 Geometry</a>
+    <a href="Ch03_IFC.html">3 IFC</a>
+    <a href="Ch04_ModelChecking.html">4 Checking</a>
+    <a href="Ch05_ParametricModeling.html">5 Parametric</a>
+    <a href="Ch06_Collaboration.html">6 Collaboration</a>
+    <a href="Ch07_QuantityTakeOff.html">7 QTO</a>
+    <a href="Ch08_Documentation.html">8 Docs</a>
+    <a href="Ch09_GIS.html">9 GIS</a>
+    <a href="Ch10_ProjectExecution.html">10 Execution</a>
+    <a href="Ch11_Sustainability.html">11 Sustain.</a>
+  </div>
+
+  <p class="kicker">BIM.fundamentals · Exam prep</p>
+  <h1>Chapter 2 — Geometric Modeling</h1>
+  <p class="lede">How solids are represented: the explicit way (boundary representation — faces/edges/vertices) vs the implicit way (procedural construction history — sweeps + CSG booleans), plus free-form curves. This is the most sketch-heavy chapter.</p>
+  <p class="lede" style="margin-top:-14px;font-size:13px;">Tags say what a card <i>is</i>. <span style="color:var(--teal-800);font-weight:600;">Green box = the direct exam answer.</span></p>
+
+  <h2 class="section">Concept cards</h2>
+  <div class="cardgrid">
+
+    <!-- Card 1: Geometry vs Topology -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Geometry vs Topology</p><div class="tagrow"><span class="roletag">Definition</span><span class="roletag exam">Exam</span><span class="tag">Card 1</span></div></div>
+      <p class="unlocks">Exam: DE-Q42 — the difference</p>
+      <div class="sect">
+        <p class="kv"><b>Geometry</b> location, curvature, shape — vertex coordinates + surface/edge formulas.</p>
+        <p class="kv"><b>Topology</b> relationships between vertices, edges, faces (how they connect).</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span><b>Geometry = shape/position; Topology = connectivity.</b> Two cubes can share topology but differ in geometry.</div>
+      </div>
+    </div>
+
+    <!-- Card 2: CAD layers -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Structure of a CAD/BIM system</p><div class="tagrow"><span class="roletag">Model</span><span class="roletag exam">Exam</span><span class="tag">Card 2</span></div></div>
+      <p class="unlocks">Exam: DE-Q43 — order the layers (most general at bottom)</p>
+      <div class="sect">
+        <p class="label">Specific (top) → general (bottom)</p>
+        <svg viewBox="0 0 320 190" style="width:100%;height:auto;background:var(--surface-2);border-radius:10px;">
+          <g font-size="10.5" fill="#fff" text-anchor="middle">
+            <rect x="40" y="12" width="240" height="26" rx="4" fill="var(--purple-600)"/><text x="160" y="29">Domain-specific CAD/BIM (Revit…)</text>
+            <rect x="55" y="44" width="210" height="26" rx="4" fill="var(--teal-600)"/><text x="160" y="61">General-purpose CAD system</text>
+            <rect x="70" y="76" width="180" height="26" rx="4" fill="var(--amber-600)"/><text x="160" y="93">Geometry kernel (ACIS…)</text>
+            <rect x="85" y="108" width="150" height="26" rx="4" fill="var(--coral-600)"/><text x="160" y="125">Low-level graphics routines</text>
+            <rect x="100" y="140" width="120" height="26" rx="4" fill="var(--border-strong)"/><text x="160" y="157" fill="#1c1b18">Hardware</text>
+          </g>
+        </svg>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>Bottom→top: <b>Hardware → Low-level graphics → Geometry kernel → General-purpose CAD → Domain-specific CAD/BIM.</b></div>
+      </div>
+    </div>
+
+    <!-- Card 3: explicit vs implicit -->
+    <div class="card wide">
+      <div class="card-head"><p class="card-title">Solid modeling: Explicit (B-rep) vs Implicit (procedural/CSG)</p><div class="tagrow"><span class="roletag">Compare</span><span class="roletag exam">Exam</span><span class="tag">Card 3</span></div></div>
+      <p class="unlocks">Exam: DE-Q47 — general difference + 4 adv/disadv of one method</p>
+      <div class="sect">
+        <div class="chain"><div class="chain-row"><span class="pill hl">Solid modeling</span><span class="arrow">→</span><span class="pill se">Explicit = Boundary Representation</span><span class="arrow">/</span><span class="pill ju">Implicit = Procedural (construction history)</span></div></div>
+      </div>
+      <div class="sect">
+        <table class="ref" style="margin:0;">
+          <tr><th></th><th>Implicit (CSG / procedural)</th><th>Explicit (B-rep)</th></tr>
+          <tr><td>Describes</td><td>construction history (sweeps, booleans)</td><td>the boundary (faces, edges, vertices)</td></tr>
+          <tr><td>Traceability</td><td><b>operations traceable</b></td><td>generation process unknown</td></tr>
+          <tr><td>Modify</td><td><b>easy</b> (alter steps)</td><td>hard to modify</td></tr>
+          <tr><td>File size</td><td>smaller</td><td>larger</td></tr>
+          <tr><td>Interpretation</td><td>receiver must re-evaluate</td><td><b>directly interpretable</b></td></tr>
+        </table>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span><b>Explicit describes an object by its boundaries; implicit describes it by its procedural construction history.</b> Implicit → easy to modify, small files, but must be interpreted; explicit → easy to interpret, but hard to modify and larger. (Triangle meshes → clash detection/QTO; procedural → modification.)</div>
+      </div>
+    </div>
+
+    <!-- Card 4: face sets -->
+    <div class="card wide">
+      <div class="card-head"><p class="card-title">B-rep face sets: Triangulated vs Indexed</p><div class="tagrow"><span class="roletag">Compare</span><span class="roletag exam">Exam</span><span class="tag">Card 4</span></div></div>
+      <p class="unlocks">Exam: DE-Q46 (which is more memory-efficient) · DE-Q48 (problem with triangulated surfaces)</p>
+      <div class="sect">
+        <table class="ref" style="margin:0;">
+          <tr><th>Triangulated Face Set</th><th>Indexed Face Set</th></tr>
+          <tr><td>each triangle stores its 3 vertices → <b>vertices repeated</b> (redundancy)</td><td>vertices stored <b>once</b>, each gets an ID; faces reference indices</td></tr>
+          <tr><td>simple; STL, PLY, OBJ, glTF</td><td><b>more memory-efficient</b>; OBJ/PLY/X3D/IFC "IndexedFaceSet"</td></tr>
+        </table>
+      </div>
+      <div class="sect">
+        <p class="label">Problems with the triangulated surface approach</p>
+        <p class="bigpic">Only planar faces; curved surfaces → <b>many triangles</b>; vertices stored multiple times; <b>neighbourhood relationships not stored → gaps &amp; overlaps hard to detect</b>.</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span><b>Indexed is more memory-efficient</b> because each vertex is stored only once and referenced by index (triangulated repeats shared vertices).</div>
+      </div>
+    </div>
+
+    <!-- Card 5: vef tetrahedron -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">B-rep hierarchy + v-e-f graph (tetrahedron)</p><div class="tagrow"><span class="roletag">Sketch</span><span class="roletag exam">Exam</span><span class="tag">Card 5</span></div></div>
+      <p class="unlocks">Exam: MP-Q9 — connect vertices/edges/faces for a tetrahedron</p>
+      <div class="sect">
+        <p class="label">Solid —boundedBy→ Faces →Edges →Vertices</p>
+        <div class="chain"><div class="chain-row"><span class="pill hl">Solid</span><span class="arrow">→</span><span class="pill se">Faces</span><span class="arrow">→</span><span class="pill ju">Edges</span><span class="arrow">→</span><span class="pill me">Vertices</span></div></div>
+      </div>
+      <div class="sect">
+        <p class="label">Tetrahedron: 4 vertices · 6 edges · 4 faces</p>
+        <svg viewBox="0 0 330 170" style="width:100%;height:auto;background:var(--surface-2);border-radius:10px;">
+          <!-- vertices: apex v1 top, base v2 v3 v4 -->
+          <!-- visible edges -->
+          <polygon points="130,25 55,140 205,140" fill="none" stroke="var(--teal-600)" stroke-width="2"/>
+          <line x1="130" y1="25" x2="120" y2="105" stroke="var(--teal-600)" stroke-width="2"/>
+          <line x1="55" y1="140" x2="120" y2="105" stroke="var(--teal-600)" stroke-width="2"/>
+          <line x1="205" y1="140" x2="120" y2="105" stroke="var(--teal-600)" stroke-width="2"/>
+          <!-- back edges dashed -->
+          <circle cx="130" cy="25" r="4" fill="var(--purple-600)"/><text x="130" y="18" font-size="10" text-anchor="middle" fill="var(--text-2)">v1</text>
+          <circle cx="55" cy="140" r="4" fill="var(--purple-600)"/><text x="45" y="153" font-size="10" fill="var(--text-2)">v2</text>
+          <circle cx="205" cy="140" r="4" fill="var(--purple-600)"/><text x="210" y="153" font-size="10" fill="var(--text-2)">v3</text>
+          <circle cx="120" cy="105" r="4" fill="var(--purple-600)"/><text x="126" y="103" font-size="10" fill="var(--text-2)">v4</text>
+          <text x="230" y="90" font-size="9.5" fill="var(--text-mut)">each edge↔2 v</text><text x="230" y="103" font-size="9.5" fill="var(--text-mut)">each face↔3 e</text>
+        </svg>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>Tetra: <b>V=4, E=6, F=4</b>. Every edge is bounded by 2 vertices; every triangular face by 3 edges. (Euler: V−E+F = 4−6+4 = 2. ✓)</div>
+      </div>
+    </div>
+
+    <!-- Card 6: CSG booleans -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">CSG boolean operations</p><div class="tagrow"><span class="roletag">Sketch</span><span class="roletag exam">Exam</span><span class="tag">Card 6</span></div></div>
+      <p class="unlocks">Exam: DE-Q44 · MP-Q4 — read/complete union / intersection / difference from figures</p>
+      <div class="sect">
+        <p class="label">Two overlapping squares A (left) &amp; B (right)</p>
+        <svg viewBox="0 0 320 120" style="width:100%;height:auto;background:var(--surface-2);border-radius:10px;">
+          <!-- Union -->
+          <rect x="15" y="25" width="45" height="45" fill="var(--teal-600)" opacity="0.85"/><rect x="40" y="45" width="45" height="45" fill="var(--teal-600)" opacity="0.85"/>
+          <text x="52" y="108" font-size="10" text-anchor="middle" fill="var(--text-2)">Union (A∪B)</text>
+          <!-- Intersection -->
+          <rect x="125" y="25" width="45" height="45" fill="none" stroke="var(--border-strong)" stroke-width="1.5"/><rect x="150" y="45" width="45" height="45" fill="none" stroke="var(--border-strong)" stroke-width="1.5"/>
+          <rect x="150" y="45" width="20" height="25" fill="var(--amber-600)"/>
+          <text x="160" y="108" font-size="10" text-anchor="middle" fill="var(--text-2)">Intersection (A∩B)</text>
+          <!-- Difference -->
+          <rect x="235" y="25" width="45" height="45" fill="var(--coral-600)"/><rect x="260" y="45" width="45" height="45" fill="var(--surface-2)" stroke="var(--border-strong)" stroke-width="1.5"/>
+          <text x="270" y="108" font-size="10" text-anchor="middle" fill="var(--text-2)">Difference (A−B)</text>
+        </svg>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>Read the result: <b>merged = Union, overlap-only = Intersection, A with B bitten out = Difference.</b> CSG = primitives combined by booleans in a <b>tree</b>.</div>
+      </div>
+    </div>
+
+    <!-- Card 7: curves -->
+    <div class="card wide">
+      <div class="card-head"><p class="card-title">Free-form curves: Bézier → B-Spline → NURBS</p><div class="tagrow"><span class="roletag">Sketch</span><span class="roletag exam">Exam</span><span class="tag">Card 7</span></div></div>
+      <p class="unlocks">Exam: DE-Q49 (surface-modeling curves) · MP-Q21 (explain/draw Bézier)</p>
+      <div class="sect">
+        <p class="label">Bézier: passes through first &amp; last control point, approximates the rest</p>
+        <svg viewBox="0 0 320 180" style="width:100%;height:auto;background:var(--surface-2);border-radius:10px;">
+          <!-- control polygon -->
+          <polyline points="30,150 90,35 230,35 295,150" fill="none" stroke="var(--border-strong)" stroke-width="1.3" stroke-dasharray="4 3"/>
+          <!-- cubic bezier curve (native SVG, exact) -->
+          <path d="M30 150 C 90 35, 230 35, 295 150" fill="none" stroke="var(--purple-600)" stroke-width="2.5"/>
+          <!-- control points -->
+          <circle cx="30" cy="150" r="4" fill="var(--teal-600)"/><text x="20" y="165" font-size="9" fill="var(--text-2)">P0</text>
+          <circle cx="90" cy="35" r="4" fill="var(--amber-600)"/><text x="82" y="28" font-size="9" fill="var(--text-2)">P1</text>
+          <circle cx="230" cy="35" r="4" fill="var(--amber-600)"/><text x="228" y="28" font-size="9" fill="var(--text-2)">P2</text>
+          <circle cx="295" cy="150" r="4" fill="var(--teal-600)"/><text x="292" y="165" font-size="9" fill="var(--text-2)">P3</text>
+        </svg>
+      </div>
+      <div class="sect">
+        <table class="ref" style="margin:0;">
+          <tr><th></th><th>Key idea</th></tr>
+          <tr><td><b>Bézier</b></td><td>degree = n−1 control points; Bernstein basis; moving 1 point → <b>global</b> change; more points → higher degree → oscillations</td></tr>
+          <tr><td><b>B-Spline</b></td><td>joins segments; <b>local</b> control; degree independent of #control points (smoothness of low degree + many points)</td></tr>
+          <tr><td><b>NURBS</b></td><td>B-Spline + <b>weight per control point</b> (extra coordinate) → exact <b>circles/ellipses/conics</b></td></tr>
+        </table>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>Three curves: <b>Bézier, B-Spline, NURBS</b>. B-Splines add local control + decoupled degree; NURBS add weights to represent conic sections (circles) that B-Splines can't.</div>
+      </div>
+    </div>
+
+    <!-- Card 8: 3D from 2D -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Creating 3D from 2D shapes</p><div class="tagrow"><span class="roletag">Process</span><span class="roletag exam">Exam</span><span class="tag">Card 8</span></div></div>
+      <p class="unlocks">Exam: MP-Q5 — name two/three operations</p>
+      <div class="sect">
+        <div class="chain"><div class="chain-row"><span class="pill se">Extrusion</span><span class="pill se">Rotation (revolve)</span><span class="pill se">Sweeping</span><span class="pill se">Lofting</span></div></div>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span><b>Extrusion, Rotation, Sweeping, Lofting</b> — all part of the implicit/procedural approach.</div>
+      </div>
+    </div>
+
+    <!-- Card 9: continuity -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Curve continuity (joining curves)</p><div class="tagrow"><span class="roletag">Concept</span><span class="roletag exam">Exam</span><span class="tag">Card 9</span></div></div>
+      <p class="unlocks">Exam: DE-Q45 — 3 types of continuity</p>
+      <div class="sect">
+        <p class="kv"><b>C0</b> positional — curves touch (same endpoint).</p>
+        <p class="kv"><b>C1</b> tangential — same tangent direction (slope).</p>
+        <p class="kv"><b>C2</b> curvature — same curvature (smoothest).</p>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span><b>C0 (position), C1 (tangent), C2 (curvature)</b> continuity.</div>
+      </div>
+    </div>
+
+    <!-- Card 10: advantages 3D -->
+    <div class="card">
+      <div class="card-head"><p class="card-title">Advantages of 3D modeling</p><div class="tagrow"><span class="roletag">Definition</span><span class="roletag exam">Exam</span><span class="tag">Card 10</span></div></div>
+      <p class="unlocks">Exam: DE-Q38 — advantages over drawing-based design</p>
+      <div class="sect">
+        <div class="chain"><div class="chain-row"><span class="pill hl">Consistency</span><span class="pill hl">Clash detection</span><span class="pill hl">Quantity take-off</span></div><div class="chain-row"><span class="pill hl">Simulation basis</span><span class="pill hl">Rendering</span></div></div>
+      </div>
+      <div class="sect">
+        <div class="exam"><span class="qs">Exam answer</span>All drawings derived from one model (consistency), 3D clash detection, precise QTO, direct simulation input, photorealistic rendering.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <h2 class="section">Quick reference</h2>
+  <table class="ref" style="margin-bottom:2rem;">
+    <tr><th>Concept</th><th>One-liner</th></tr>
+    <tr><td>Geometry vs topology</td><td>shape/position vs connectivity</td></tr>
+    <tr><td>CAD layers</td><td>HW → graphics → geometry kernel → general CAD → domain CAD/BIM</td></tr>
+    <tr><td>Explicit (B-rep)</td><td>boundary: faces/edges/vertices; hard to modify, easy to read</td></tr>
+    <tr><td>Implicit (CSG)</td><td>construction history + booleans; easy to modify, small, must interpret</td></tr>
+    <tr><td>Indexed vs triangulated</td><td>indexed stores vertices once → more efficient</td></tr>
+    <tr><td>CSG booleans</td><td>union · intersection · difference (tree of primitives)</td></tr>
+    <tr><td>Bézier</td><td>degree n−1; global control; through first/last point</td></tr>
+    <tr><td>B-Spline / NURBS</td><td>local control / + weights → conics (circles)</td></tr>
+    <tr><td>3D from 2D</td><td>extrusion, rotation, sweeping, lofting</td></tr>
+    <tr><td>Continuity</td><td>C0 position · C1 tangent · C2 curvature</td></tr>
+  </table>
+
+  <div class="checklist">
+    <h2>Exam checklist — Chapter 2</h2>
+    <p class="sub">Every past-exam question in this chapter, mapped to its card.</p>
+    <table class="ref">
+      <tr><th>Topic</th><th>Exam</th><th>Card</th></tr>
+      <tr><td>Advantages of 3D modeling</td><td>DE-Q38</td><td>Card 10</td></tr>
+      <tr><td>Geometry vs topology</td><td>DE-Q42</td><td>Card 1</td></tr>
+      <tr><td>CAD system layers order</td><td>DE-Q43</td><td>Card 2</td></tr>
+      <tr><td>CSG operations</td><td>DE-Q44 · MP-Q4</td><td>Card 6</td></tr>
+      <tr><td>Curve continuity</td><td>DE-Q45</td><td>Card 9</td></tr>
+      <tr><td>Indexed vs triangulated</td><td>DE-Q46</td><td>Card 4</td></tr>
+      <tr><td>Explicit vs implicit</td><td>DE-Q47</td><td>Card 3</td></tr>
+      <tr><td>Triangulated surface problems</td><td>DE-Q48</td><td>Card 4</td></tr>
+      <tr><td>Surface-modeling curves</td><td>DE-Q49</td><td>Card 7</td></tr>
+      <tr><td>3D from 2D operations</td><td>MP-Q5</td><td>Card 8</td></tr>
+      <tr><td>v-e-f graph (tetrahedron)</td><td>MP-Q9</td><td>Card 5</td></tr>
+      <tr><td>Bézier curve</td><td>MP-Q21</td><td>Card 7</td></tr>
+    </table>
+  </div>
+
+  <a class="back" href="index.html">← Back to overview</a>
+</div>
+</body>
+</html>
